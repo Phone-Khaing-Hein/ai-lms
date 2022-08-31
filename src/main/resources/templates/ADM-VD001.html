@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layouts/AUTHENTICATED.html}">
+<head>
+  <meta charset="UTF-8">
+  <title>Course List</title>
+</head>
+<body class="bg-light">
+<div layout:fragment="content">
+  <div class="container p-3">
+    <div class="mb-3">
+      <h3 class="text-decoration-none text-center">
+        <span th:text="${moduleName}"></span>
+        Resources
+      </h3>
+    </div>
+    <div class="add-schedule d-flex justify-content-end mb-2">
+      <a th:href="@{/admin/course-detail?courseId=}+${course.id}" class="btn btn-outline-secondary me-2">
+        <i class="bi bi-list me-2"></i>Back to Modules
+      </a>
+      <button type="button" class="btn btn-primary" id="videoCreateBtn">
+        <i class="bi bi-camera-reels me-2"></i>Add Video
+      </button>
+      <form th:action="@{/admin/video-create}" class="d-none" id="videoUploadForm" method="post" enctype="multipart/form-data">
+        <input type="hidden" th:value="${param.moduleId}" name="moduleId">
+        <input type="file" class="d-none" accept="video/*" name="video" id="videoInput">
+      </form>
+      <div th:replace="fragments/COM-FG001 :: module-create"></div>
+    </div>
+    <div class="card">
+      <p th:text="${message}" th:if="${message != null}" class="d-none" id="message"></p>
+      <div class="card-body shadow p-3">
+        <table id="moduleTable" class="table table-striped table-hovered">
+          <thead>
+          <tr>
+            <th>No</th>
+            <th>Name</th>
+            <th>Video</th>
+            <th class="text-end"></th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="video : ${videos}" style="vertical-align: middle">
+            <td th:text="${video.id}"></td>
+            <td th:text="${video.name}"></td>
+            <td>
+              <video width="250" controls>
+                <source th:src="@{/resources/courses/}+${course.name}+@{/}+${moduleName}+@{/videos/}+${video.name}" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
+            </td>
+            <td class="text-end">
+              <button type="button" th:attr="video-id=${video.id},id='videoDeleteBtn'+${video.id}" class="btn btn-danger"><i class="bi bi-trash-fill me-2"></i>Delete</button>
+            </td>
+            <script>
+              document.getElementById('videoDeleteBtn'+[[${video.id}]]).addEventListener('click', ()=>{
+                const swalWithBootstrapButtons = Swal.mixin({
+                  customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger me-2'
+                  },
+                  buttonsStyling: false
+                })
+
+                swalWithBootstrapButtons.fire({
+                  title: 'Are you sure?',
+                  text: "You won't be able to revert this!",
+                  icon: 'warning',
+                  showCancelButton: true,
+                  confirmButtonText: 'Yes, delete it!',
+                  cancelButtonText: 'No, cancel!',
+                  reverseButtons: true
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    var videoId = document.getElementById('videoDeleteBtn'+[[${video.id}]]).getAttribute('video-id');
+                    window.location = `http://localhost:9090/admin/video-delete?videoId=${videoId}`;
+                  } else if (
+                          /* Read more about handling dismissals below */
+                          result.dismiss === Swal.DismissReason.cancel
+                  ) {
+                    swalWithBootstrapButtons.fire(
+                            'Cancelled',
+                            'Your imaginary file is safe :)',
+                            'error'
+                    )
+                  }
+                })
+              })
+            </script>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      let message = document.getElementById('message');
+      if (message !== null || message !== "") {
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 2000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+        })
+
+        Toast.fire({
+          icon: 'success',
+          title: message.innerText
+        })
+      }
+    })
+
+    document.getElementById("videoCreateBtn").addEventListener("click",() => {
+      document.getElementById("videoInput").click();
+    })
+
+    document.getElementById("videoInput").addEventListener("change", ()=>{
+      document.getElementById("videoUploadForm").submit();
+    })
+  </script>
+</div>
+</body>
+</html>

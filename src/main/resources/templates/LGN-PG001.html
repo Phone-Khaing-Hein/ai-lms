@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layouts/ANONYMOUS.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Login In</title>
+</head>
+<body style="overflow: hidden;" class="bg-light">
+<div layout:fragment="content">
+    <div class="d-flex justify-content-center mb-2">
+        <img src="https://aceinspiration.com/wp-content/themes/acinspiration/images/logo.PNG"
+             alt="Ace Inspiration Picture" width="250">
+    </div>
+    <form th:action="@{/login}" method="post" class="card shadow">
+        <div class="card-header"><i class="bi-person-check me-2 fw-bolder fs-4"></i>Sign In</div>
+        <div class="card-body">
+            <div class="alert alert-danger" th:if="${param.error != null}">Please Check Login Information</div>
+            <div class="mb-3">
+                <label for="loginId">Login ID</label>
+                <div class="input-group mt-1">
+                    <div class="input-group-text">
+                        <i class="bi-lock fw-bold"></i>
+                    </div>
+                    <input type="text" name="username" id="loginId" placeholder="Enter Login ID" class="form-control">
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="password">Login ID</label>
+                <div class="input-group mt-1">
+                    <div class="input-group-text">
+                        <i class="bi-key fw-bold"></i>
+                    </div>
+                    <input type="password" name="password" id="password" placeholder="Enter Password"
+                           class="form-control">
+                </div>
+            </div>
+
+          <div class="mb-3">
+            <div class="form-check">
+              <input type="checkbox" class="form-check-input" id="remember-me" name="remember-me">
+              <label for="remember-me" class="form-check-label">Remember Me</label>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer d-flex justify-content-end">
+            <button class="btn btn-primary"><i class="bi-person-check fw-bold me-2"></i>Sign In</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

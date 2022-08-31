@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layouts/AUTHENTICATED.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Course List</title>
+</head>
+<body class="bg-light">
+<div layout:fragment="content">
+    <div class="container p-3 mt-5">
+        <div class="">
+            <h3 class="text-decoration-none text-center">
+                Teacher Lists
+            </h3>
+        </div>
+        <div class="add-schedule d-flex justify-content-end mb-2">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#teacherRegister">
+                <i class="bi bi-book me-2"></i>Register Teacher
+            </button>
+                  <div th:replace="fragments/COM-FG001 :: teacher-register"></div>
+        </div>
+        <p class="d-none" th:text="${cmessage}" th:if="${cmessage} != null" id="successMessage"></p>
+        <div class="card">
+            <div class="card-body shadow p-3">
+                <table id="teacherTable" class="table table-striped table-hovered">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Teacher Name</th>
+                        <th>Email</th>
+                        <th>Batch</th>
+                        <th class="text-end"></th>
+                    </tr>
+                    </thead>
+                    <tbody id="app">
+                    <tr th:each="teacher : ${teachers}" style="vertical-align: middle">
+                        <td th:text="${teacher.loginId}"></td>
+                        <td th:text="${teacher.name}"></td>
+                        <td th:text="${teacher.email}"></td>
+                        <td th:text="${teacher.email}"></td>
+                        <td class="text-end">
+                            <a class="btn btn-warning"
+                               th:attr="href='#edit-course-button' + ${teacher.loginId}"
+                               data-bs-toggle="modal">
+                                <i class="bi bi-pencil-square me-2"></i>Edit
+                            </a>
+                            <div th:replace="fragments/COM-FG001 :: teacher-edit"></div>
+                            <a class="btn btn-danger" id="deleteBtn"
+                               th:attr="onclick=|deleteAction('${teacher.loginId}')|,teacher-name=|${teacher.name}|"><i class="bi bi-trash-fill me-2"></i>Delete
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            var myModal = document.getElementById('teacherRegister');
+            var myInput = document.getElementById('name');
+            var emptyError = document.getElementById("emptyError");
+            var duplicateError = document.getElementById("duplicateError")
+
+
+            let message = document.getElementById('successMessage');
+            if (message !== null && message.innerText !== "") {
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 2000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                })
+
+                Toast.fire({
+                    icon: 'success',
+                    title: message.innerText
+                })
+            }
+
+            if (emptyError != null || duplicateError != null) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: emptyError == null ? duplicateError.innerText : emptyError.innerText
+                })
+            }
+
+            myModal.addEventListener('shown.bs.modal', () => {
+                myInput.focus()
+            })
+        })
+
+        $(document).ready(function () {
+            $('#teacherTable').DataTable();
+        });
+
+
+        const deleteAction = (courseId) => {
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger me-2'
+                },
+                buttonsStyling: false
+            })
+
+            swalWithBootstrapButtons.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'No, cancel!',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    let courseName = document.getElementById('deleteBtn').getAttribute('course-name');
+                    window.location = `http://localhost:9090/admin/course-delete?courseId=${courseId}&courseName=${courseName}`;
+                    swalWithBootstrapButtons.fire(
+                        'Deleted!',
+                        'Your file has been deleted.',
+                        'success'
+                    )
+                } else if (
+                    /* Read more about handling dismissals below */
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
+                    swalWithBootstrapButtons.fire(
+                        'Cancelled',
+                        'Your imaginary file is safe :)',
+                        'error'
+                    )
+                }
+            })
+        }
+    </script>
+</div>
+</body>
+</html>
