@@ -48,7 +48,7 @@ public class AppUserInitializer {
             student.setActive(true);
             student.setEmail("pkh2662003@gmail.com");
             student.setPassword(passwordEncoder.encode("student"));
-            student.setRole(Role.Teacher);
+            student.setRole(Role.Student);
             repo.save(student);
         }
     }
