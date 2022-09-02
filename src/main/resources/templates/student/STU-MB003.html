@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{/layouts/STU-AUTH.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Course</title>
+</head>
+<body class="bg-light">
+<div layout:fragment="content">
+    <section>
+        <div class="container" style="padding-top: 100px;">
+            <div class="row justify-content-center">
+                <div class="col-md-10 col-sm-12">
+                    <h4 class="d-flex justify-content-between text-capitalize mb-3">your classmates<span class="lead">10
+                            students</span></h4>
+
+                    <hr>
+                </div>
+                <div class="col-md-10 col-sm-12">
+                    <input type="text" name="search" id="search" class="form-control mb-2"
+                           placeholder="Search for name ..">
+                    <table class="table table-hover" id="dataTable">
+                        <tbody>
+                        <tr>
+                            <td>Tiger Nixon</td>
+                        </tr>
+                        <tr>
+                            <td>Garrett Winters</td>
+                        </tr>
+                        <tr>
+                            <td>Ashton Cox</td>
+                        </tr>
+                        <tr>
+                            <td>Cedric Kelly</td>
+                        </tr>
+                        <tr>
+                            <td>Airi Satou</td>
+                        </tr>
+                        <tr>
+                            <td>Brielle Williamson</td>
+                        </tr>
+                        <tr>
+                            <td>Herrod Chandler</td>
+                        </tr>
+                        <tr>
+                            <td>Rhona Davidson</td>
+                        </tr>
+                        <tr>
+                            <td>Colleen Hurst</td>
+                        </tr>
+                        <tr>
+                            <td>Tiger Nixon</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#search').keyup(function(){
+                var getinput=$(this).val().toLowerCase();
+                // filter for all columms
+                $('#dataTable tr').filter(function(){
+                    $(this).toggle($(this).text().toLowerCase().indexOf(getinput)>-1);
+                });
+            });
+        });
+    </script>
+</div>
+</body>
+</html>

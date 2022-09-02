@@ -23,4 +23,24 @@ public class StudentController {
         m.put("user", user);
         return "student/STU-DB001";
     }
+
+    @GetMapping("course")
+    public String course(){
+        return "student/STU-VD002";
+    }
+
+    @GetMapping("members")
+    public String members(){
+        return "student/STU-MB003";
+    }
+
+    @GetMapping("chat")
+    public String chat(){
+        return "student/STU-CH004";
+    }
+
+    @GetMapping("profile")
+    public String profile(){
+        return "student/STU-PF005";
+    }
 }

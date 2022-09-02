@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{/layouts/STU-AUTH.html}">
+<head>
+  <meta charset="UTF-8">
+  <title>Course</title>
+</head>
+<body class="bg-light">
+<div layout:fragment="content">
+  <section class="mt-5 pt-4">
+    <div class="container mt-5">
+      <div class="row justify-content-center">
+        <div class="col-md-8 col-sm-12 text-center">
+          <img src="https://nextbootstrap.netlify.app/assets/images/profiles/1.jpg"
+               class="shadow bg-body rounded-circle" width="80" height="80px" alt="">
+          <h3 class="fs-4 lead mt-2">Welcome, John</h3>
+          <p class="text-muted">Manage your info, privacy, and security to make work better for you.</p>
+
+        </div>
+        <div class="row justify-content-center mt-2">
+          <div class="col-md-8 col-sm-12 mb-2">
+            <div class="card">
+              <div class="card-body">
+                <div class="row gx-2 align-items-center">
+                  <div class="col-md-6 col-sm-12">
+                    <h4 class=""><i class="fas fa-user-check me-2"></i>User Infomation</h4>
+                    <div class="text-capitalize text-muted mt-4">
+                      <p class="mb-3"><i
+                              class="fas fa-check text-success me-2"></i>ID:</p>
+                      <p class="mb-3"><i
+                              class="fas fa-check text-success me-2"></i>Email:</p>
+                      <p class="mb-3"><i
+                              class="fas fa-check text-success me-2"></i>Role:</p>
+                    </div>
+                  </div>
+                  <div class="col-md-5 col-sm-12">
+                    <h5><i class="fas fa-key me-2"></i>Change Password</h5>
+                    <form th:action="@{/change-password}" method="post">
+                      <div class="form-group mb-2">
+                        <div class="form-label">Old Password</div>
+                        <input type="password" name="oldpassword" class="form-control"
+                               placeholder="Enter Old Password">
+                      </div>
+                      <div class="form-group mb-2">
+                        <div class="form-label">New Password</div>
+                        <input type="password" name="newpassword" class="form-control"
+                               placeholder="Enter New Password">
+                      </div>
+                      <!--                                        <div class="form-group mb-2">-->
+                      <!--                                            <div class="form-label">Confirm Password</div>-->
+                      <!--                                            <input type="password" name="confirmPassword" class="form-control"-->
+                      <!--                                                   placeholder="Enter Confirm Password">-->
+                      <!--                                        </div>-->
+                      <div class="form-group d-grid">
+                        <button type="submit" class="btn btn-primary mb-2">Save</button>
+                        <div sec:authorize="isAuthenticated()">
+                          <input class="me-2 btn btn-outline-danger btn-sm" type="submit" value="Log Out" form="logoutForm">
+                          <form id="logoutForm" th:action="@{/logout}" method="post" th:hidden="true"></form>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+</body>
+</html>

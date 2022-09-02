@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{/layouts/STU-AUTH.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Course</title>
+    <style>
+        .cardhovers {
+            transition: transform 0.2s;
+        }
+
+        .cardhovers:hover {
+            transform: translateX(5px);
+        }
+
+        .alerts {
+            transition: transform 0.2s;
+        }
+
+        .alerts:hover {
+            transform: translateY(3px);
+        }
+
+        a.nav-link {
+            color: gray;
+            text-decoration: none;
+            padding: 0;
+        }
+
+        .avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid #e84118;
+            padding: 2px;
+            flex: none;
+        }
+
+        input:focus {
+            outline: 0px !important;
+            box-shadow: none !important;
+        }
+
+        .card-text {
+            border: 2px solid #ddd;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body class="bg-light">
+<div layout:fragment="content">
+    <section>
+        <div class="container-fluid" style="padding-top: 100px;">
+            <div class="row g-0">
+                <div class="col-md-4 col-sm-12 p-0">
+                    <div class="card mx-0" style="max-width: 100%;">
+                        <div class="card-header bg-transparent">
+                            <div class="navbar navbar-expand p-0">
+                                <ul class="navbar-nav me-auto align-items-center">
+                                    <li class="nav-item">
+                                        <a href="#!" class="nav-link">
+                                            <div class="position-relative"
+                                                 style="width:50px; height: 50px; border-radius: 50%; border: 2px solid #eee; padding: 2px">
+                                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAMAAAAKE/YAAAAAmVBMVEX///80TJ/RACDRACLy9PnneozdPlbmcoX7/P05UKLiX3PW2+w9VKNxgrzl6PNBV6WrtdeToMyCkcT1ydDslKHVEzP20NbTCSjhWW/bN1JNYqtdcLOzvNy6w9/ByOL3+PugrNNnebfq7PWHlcZTZ66Om8pIXqna3+7N0+eeptD64ubYKkXuo6/WGTj98vTxsbvfT2b0vsbrkZ/6ksJgAAAEyElEQVR4nO2aiXLaMBBAbeNATgi5SNs0kJMkTdK0//9xBYRk7epayTbg6b6ZDJa02n0II4NDljEMwzAMwzAMwzAMwzAMwzAM8x+SL0id+z2vaCQhkR95apGbHCP6HfmMaDfB0sQwg5+ucq58zUuXsc6uevti5LZVafKTAxxpFW4W7Skue7J70gcqvfYKgbLHwYK4ZOAp28tHODvqlqTF8oSokYOk+l4e5ZRnd7Yk6YwoU6WYk6UpVdOkaScr6QWlO1PWyl+wJWl//FlN6VHYJQeQnPcD4TWlCde6BOlgdNvSMyh9Q3A+aVva+SkAjt/FLLWKHQZC4qS1Jk2aujsuuSfEJkjf06XlcOgFC1TEPMRL680hTTpiqUnPr560/zvE8XL0FeQJfFCpLuD53Zakq8gH6lLTTqRZbekjgjT5/KBJE9YK5iCem9CZ/FZsR3qaJk1c6ifqkwvW1XPM6SlXcftGphGtXnPSZUxKGHdKmtqwNCI8dYjiOiGNw0hzd02atNRbljajKJMbll41n+tIv2xJWn3DCqZcPb2xI9mmpeX3StLEYLJNSRMv47mXjUujRbTn9zu7jebhkKakzQKp0lEfrBqWDjlXH0ncM/030ZYRLy1IE9O5ItI/m9pSjNOla9+Ik5zGSpd6c2rL764Zs9Q+6fgUi9YMBtBTRkjPXCFJ0kbAsaUvlND5fyPKUp/VOsPE/aBby6RkJYq0fziUwTZ2RnNKrrmu4P6vSSDB0DZWV6kKce3mlNfBHWMdo6ZMLSrGPf+e8s+3jpHOxyWBmzyBqu4C/unWsdAyRn6BSXAmzEZjYaPqXyp3CXXX94rO0qTz3BzLIfcl3IzLsnyFEcela7u2ZM+qb2yuE3pRoTzVCxyVkjGSc0mjigeWYctq2HON77TGI22OH5p0YDJdIX7G5qTFPfmYCQ1JH4Rzuh2sv63xhZu/HiJIt8HtpgoxHQK/H7pAF0/hpy5Kry+e0217RPHaxZXu5Dm9sjZ+3sZU9BRb9iiKghw8GKyMB4MWhSgUMdLZarH3mqns/gWsDWD5tjXpuM0jzhLRoHSUdRelI88HxIakzy9AcxKQvvANQmmx+V3iPRBui5fi0Nwo8/x++VCIrUDfEIo1sv2rAD1wUIWDZnao9+nSVz0N3Vk4iub78vDD3N5zIK3XFQdazT0oPYHSKlxaFRqmtHC7Fo/fqj79QUapp6NJr48mSlsVrWSAma2prb/WVfT0521KywMkPel9alHy8bfsG1XSfSn9qUrWlwZ9hjQ60BTPcc+eFpVDaYsRTXpxJK7Pb6APHpCk0flrico90utyZGn3EV3atHZIy2FDGr2NNiH9nr0hazPqGUn3kdEF9hSN97akPWf5l+oD31sW0ofQGUmohl3wQx6kS0+qLhy1ePxU0tV98wjpPoqxh9uktdfSIn0tt2z41oRB4AuiXdpyTlu0CNLo+qeOwTm8POqf296Z+oY30iqsuNY7vhZ/VwV8xVXrC75N4aVJhf6RHxDs0p9I+t225cEubaGl9AfqEY9/9c5LOEMOicv6Hkr4lYGgaOCHDiS9q5jS8y5KZ+4fDO0E+EqzZrdv1VzapRmGYRiGYRiGYRiGYRiGYRiGYRiGYRiGYRiGYRiGYTbCPzkrJYcXU6ojAAAAAElFTkSuQmCC"
+                                                     class="img-fluid rounded-circle" alt="">
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#!" class="nav-link">Group Chat</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-body p-0" style="height: 500px; overflow: auto;">
+                            <ul class="list-group list-group-none">
+                                <li class="list-group-item d-flex justify-content-between align-items-start active">
+                                    <div class="ms-2 me-auto">
+                                        <div class="fw-bold">OJT Batch-4</div>
+                                        Content for list item
+                                    </div>
+                                    <span class="badge bg-primary rounded-pill">14</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-start">
+                                    <div class="ms-2 me-auto">
+                                        <div class="fw-bold">JWD Batch-2</div>
+                                        Content for list item
+                                    </div>
+                                    <span class="badge bg-primary rounded-pill">14</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-start">
+                                    <div class="ms-2 me-auto">
+                                        <div class="fw-bold">PFC Batch-22</div>
+                                        Content for list item
+                                    </div>
+                                    <span class="badge bg-primary rounded-pill">14</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8 col-sm-12">
+                    <div class="card mx-0">
+                        <div class="card-header bg-transparent">
+                            <div class="navbar navbar-expand p-0">
+                                <ul class="navbar-nav me-auto align-items-center">
+                                    <li class="nav-item">
+                                        <a href="#!" class="nav-link">
+                                            <div class="position-relative"
+                                                 style="width:50px; height: 50px; border-radius: 50%; border: 2px solid #f4f4f4; padding: 2px">
+                                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAMAAAAKE/YAAAAAmVBMVEX///80TJ/RACDRACLy9PnneozdPlbmcoX7/P05UKLiX3PW2+w9VKNxgrzl6PNBV6WrtdeToMyCkcT1ydDslKHVEzP20NbTCSjhWW/bN1JNYqtdcLOzvNy6w9/ByOL3+PugrNNnebfq7PWHlcZTZ66Om8pIXqna3+7N0+eeptD64ubYKkXuo6/WGTj98vTxsbvfT2b0vsbrkZ/6ksJgAAAEyElEQVR4nO2aiXLaMBBAbeNATgi5SNs0kJMkTdK0//9xBYRk7epayTbg6b6ZDJa02n0II4NDljEMwzAMwzAMwzAMwzAMwzAM8x+SL0id+z2vaCQhkR95apGbHCP6HfmMaDfB0sQwg5+ucq58zUuXsc6uevti5LZVafKTAxxpFW4W7Skue7J70gcqvfYKgbLHwYK4ZOAp28tHODvqlqTF8oSokYOk+l4e5ZRnd7Yk6YwoU6WYk6UpVdOkaScr6QWlO1PWyl+wJWl//FlN6VHYJQeQnPcD4TWlCde6BOlgdNvSMyh9Q3A+aVva+SkAjt/FLLWKHQZC4qS1Jk2aujsuuSfEJkjf06XlcOgFC1TEPMRL680hTTpiqUnPr560/zvE8XL0FeQJfFCpLuD53Zakq8gH6lLTTqRZbekjgjT5/KBJE9YK5iCem9CZ/FZsR3qaJk1c6ifqkwvW1XPM6SlXcftGphGtXnPSZUxKGHdKmtqwNCI8dYjiOiGNw0hzd02atNRbljajKJMbll41n+tIv2xJWn3DCqZcPb2xI9mmpeX3StLEYLJNSRMv47mXjUujRbTn9zu7jebhkKakzQKp0lEfrBqWDjlXH0ncM/030ZYRLy1IE9O5ItI/m9pSjNOla9+Ik5zGSpd6c2rL764Zs9Q+6fgUi9YMBtBTRkjPXCFJ0kbAsaUvlND5fyPKUp/VOsPE/aBby6RkJYq0fziUwTZ2RnNKrrmu4P6vSSDB0DZWV6kKce3mlNfBHWMdo6ZMLSrGPf+e8s+3jpHOxyWBmzyBqu4C/unWsdAyRn6BSXAmzEZjYaPqXyp3CXXX94rO0qTz3BzLIfcl3IzLsnyFEcela7u2ZM+qb2yuE3pRoTzVCxyVkjGSc0mjigeWYctq2HON77TGI22OH5p0YDJdIX7G5qTFPfmYCQ1JH4Rzuh2sv63xhZu/HiJIt8HtpgoxHQK/H7pAF0/hpy5Kry+e0217RPHaxZXu5Dm9sjZ+3sZU9BRb9iiKghw8GKyMB4MWhSgUMdLZarH3mqns/gWsDWD5tjXpuM0jzhLRoHSUdRelI88HxIakzy9AcxKQvvANQmmx+V3iPRBui5fi0Nwo8/x++VCIrUDfEIo1sv2rAD1wUIWDZnao9+nSVz0N3Vk4iub78vDD3N5zIK3XFQdazT0oPYHSKlxaFRqmtHC7Fo/fqj79QUapp6NJr48mSlsVrWSAma2prb/WVfT0521KywMkPel9alHy8bfsG1XSfSn9qUrWlwZ9hjQ60BTPcc+eFpVDaYsRTXpxJK7Pb6APHpCk0flrico90utyZGn3EV3atHZIy2FDGr2NNiH9nr0hazPqGUn3kdEF9hSN97akPWf5l+oD31sW0ofQGUmohl3wQx6kS0+qLhy1ePxU0tV98wjpPoqxh9uktdfSIn0tt2z41oRB4AuiXdpyTlu0CNLo+qeOwTm8POqf296Z+oY30iqsuNY7vhZ/VwV8xVXrC75N4aVJhf6RHxDs0p9I+t225cEubaGl9AfqEY9/9c5LOEMOicv6Hkr4lYGgaOCHDiS9q5jS8y5KZ+4fDO0E+EqzZrdv1VzapRmGYRiGYRiGYRiGYRiGYRiGYRiGYRiGYRiGYRiGYTbCPzkrJYcXU6ojAAAAAElFTkSuQmCC"
+                                                     class="img-fluid rounded-circle" alt="">
+                                                <span
+                                                        class="position-absolute bottom-0 start-100 translate-middle p-1 bg-success border border-light rounded-circle">
+                                                    <span class="visually-hidden">New alerts</span>
+                                                </span>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#!" class="nav-link">OJT Batch-4</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-body p-4" style="height: 500px; overflow: auto;">
+
+                            <div class="d-flex align-items-baseline mb-4">
+                                <div class="position-relative avatar">
+                                    <img src="https://nextbootstrap.netlify.app/assets/images/profiles/1.jpg"
+                                         class="img-fluid rounded-circle" alt="">
+                                    <span
+                                            class="position-absolute bottom-0 start-100 translate-middle p-1 bg-success border border-light rounded-circle">
+                                        <span class="visually-hidden">New alerts</span>
+                                    </span>
+                                </div>
+                                <div class="pe-2">
+                                    <div>
+                                        <div class="card card-text d-inline-block p-2 px-3 m-1">Hi helh, are you
+                                            available to chat?
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small">01:10PM</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="d-flex align-items-baseline text-end justify-content-end mb-4">
+                                <div class="pe-2">
+                                    <div>
+                                        <div class="card card-text d-inline-block p-2 px-3 m-1">Sure</div>
+                                    </div>
+                                    <div>
+                                        <div class="card card-text d-inline-block p-2 px-3 m-1">Let me know when you're
+                                            available?
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small">01:13PM</div>
+                                    </div>
+                                </div>
+                                <div class="position-relative avatar">
+                                    <img src="https://nextbootstrap.netlify.app/assets/images/profiles/2.jpg"
+                                         class="img-fluid rounded-circle" alt="">
+                                    <span
+                                            class="position-absolute bottom-0 start-100 translate-middle p-1 bg-success border border-light rounded-circle">
+                                        <span class="visually-hidden">New alerts</span>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="d-flex align-items-baseline mb-4">
+                                <div class="position-relative avatar">
+                                    <img src="https://nextbootstrap.netlify.app/assets/images/profiles/1.jpg"
+                                         class="img-fluid rounded-circle" alt="">
+                                    <span
+                                            class="position-absolute bottom-0 start-100 translate-middle p-1 bg-success border border-light rounded-circle">
+                                        <span class="visually-hidden">New alerts</span>
+                                    </span>
+                                </div>
+                                <div class="pe-2">
+                                    <div>
+                                        <div class="card card-text d-inline-block p-2 px-3 m-1">3:00pm??</div>
+                                    </div>
+                                    <div>
+                                        <div class="small">Edited - 01:13PM</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="d-flex align-items-baseline text-end justify-content-end mb-4">
+                                <div class="pe-2">
+                                    <div>
+                                        <div class="card card-text d-inline-block p-2 px-3 m-1">Cool</div>
+                                    </div>
+                                    <div>
+                                        <div class="card card-text p-2 px-3 m-1 mb-5">
+                                            <div class="row align-items-center">
+                                                <div class="col-1">
+                                                    <a href=""><i class="fas fa-play"></i></a>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="progress" style="width:100px; height: 4px;">
+                                                        <div class="progress-bar bg-primary" role="progressbar"
+                                                             style="width: 35%" aria-valuenow="35" aria-valuemin="0"
+                                                             aria-valuemax="100"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <div class="small fw-bold">0:34</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="position-relative avatar">
+                                    <img src="https://nextbootstrap.netlify.app/assets/images/profiles/2.jpg"
+                                         class="img-fluid rounded-circle" alt="">
+                                    <span
+                                            class="position-absolute bottom-0 start-100 translate-middle p-1 bg-success border border-light rounded-circle">
+                                        <span class="visually-hidden">New alerts</span>
+                                    </span>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="card-footer bg-white position-absolute w-100 bottom-0 m-0 p-1">
+                            <form action="">
+                                <div class="input-group">
+                                    <div class="input-group-text bg-transparent border-0">
+                                        <button id="uploadBtn" class="btn btn-light text-secondary">
+                                            <i class="fas fa-paperclip"></i>
+                                        </button>
+                                    </div>
+                                    <input type="text" class="form-control border-0" placeholder="Write a message...">
+                                    <div class="input-group-text bg-transparent border-0">
+                                        <button class="btn btn-light text-secondary">
+                                            <i class="fas fa-paper-plane"></i>
+                                        </button>
+                                    </div>
+                                    <form action="" class="d-none" id="uploadForm" enctype="multipart/form-data">
+                                        <input type="file" class="d-none" id="uploadInput" />
+                                    </form>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+</section>
+</div>
+</body>
+</html>
