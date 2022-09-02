@@ -20,7 +20,7 @@ public class Batch implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(length = 50, nullable = false, unique = true)
+    @Column(length = 50, nullable = false)
     @NotBlank(message = "Batch name is required!")
     private String name;
 
@@ -32,9 +32,11 @@ public class Batch implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
 
+    private boolean close;
+
     @ManyToOne(optional = false)
     private Course course;
 
-    @OneToMany(mappedBy = "batch", cascade = {CascadeType.PERSIST,CascadeType.MERGE}, orphanRemoval = true)
-    private List<User> user;
+    @ManyToMany(mappedBy = "batches", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    private List<User> users;
 }

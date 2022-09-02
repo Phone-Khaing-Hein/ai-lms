@@ -4,6 +4,8 @@ import com.ai.entity.*;
 import com.ai.entity.Module;
 import com.ai.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -12,8 +14,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.transaction.Transactional;
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Controller
@@ -41,9 +46,13 @@ public class AdminController {
     @Autowired
     private BatchService batchService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @GetMapping("home")
     public String home(ModelMap m){
         m.put("courseCount", courseService.getCount());
+        m.put("batchCount", batchService.getCount());
         return "ADM-DB001";
     }
 
@@ -225,20 +234,107 @@ public class AdminController {
             attributes.addFlashAttribute("error", "Start Date should be earlier than End Date!");
             return "redirect:/admin/batch-list";
         }
+        batch.setClose(false);
         batchService.save(batch);
         attributes.addFlashAttribute("message", "%s created successfully!".formatted(batch.getName()));
         return "redirect:/admin/batch-list";
     }
 
     @PostMapping("batch-edit")
-    public String batchEdit(@ModelAttribute Batch batch) throws IOException {
+    public String batchEdit(@ModelAttribute Batch batch, RedirectAttributes attributes) throws IOException {
         var b = batchService.findById(batch.getId());
-        b.setCourse(batch.getCourse());
+        b.setCourse(courseService.findById(batch.getCourse().getId()));
         b.setName(batch.getName());
         b.setStartDate(batch.getStartDate());
         b.setEndDate(batch.getEndDate());
         batchService.save(b);
+        attributes.addFlashAttribute("message", "%s deleted successfully!".formatted(batch.getName()));
         return "redirect:/admin/batch-list";
+    }
+
+    @GetMapping("batch-delete")
+    public String batchDelete(@RequestParam int batchId, @RequestParam String batchName, RedirectAttributes attributes){
+        batchService.deleteById(batchId);
+        attributes.addFlashAttribute("message", "%s updated successfully!".formatted(batchName));
+        return "redirect:/admin/batch-list";
+    }
+
+    @GetMapping("batch-close")
+    @Transactional
+    public String closeBatch(@RequestParam int id){
+        var batch = batchService.findById(id);
+        batch.setClose(true);
+        for(var student : batch.getUsers()){
+            student.setBatchId(student.getBatches().get(0).getId());
+            student.setActive(false);
+        }
+        batchService.save(batch);
+        return "redirect:/admin/batch-list";
+    }
+
+    @GetMapping("batch-open")
+    @Transactional
+    public String openBatch(@RequestParam int id){
+        var batch = batchService.findById(id);
+        batch.setClose(false);
+        for(var student : batch.getUsers()){
+            student.setBatchId(student.getBatches().get(0).getId());
+            student.setActive(true);
+        }
+        batchService.save(batch);
+        return "redirect:/admin/batch-list";
+    }
+
+    @PostMapping("student-create")
+    public String createStudent(@Validated @ModelAttribute("student") User user, BindingResult bs, RedirectAttributes attributes, ModelMap m){
+        if(bs.hasErrors()){
+            m.put("openBatches", batchService.findAll().stream().filter(b -> b.isClose() == false).toList());
+            return "ADM-ST001";
+        }
+        var students = userService.findAll().stream().filter(a -> a.getRole().equals(User.Role.Student)).toList();
+        for(var s : students){
+            if(s.getLoginId().equals(user.getLoginId())){
+                m.put("error" , "Student Login ID has already existed!");
+                m.put("openBatches", batchService.findAll().stream().filter(b -> b.isClose() == false).toList());
+                return "ADM-ST001";
+            }
+            if(s.getEmail().equals(user.getEmail())){
+                m.put("emailError" , "Student Email has already existed!");
+                m.put("openBatches", batchService.findAll().stream().filter(b -> b.isClose() == false).toList());
+                return "ADM-ST001";
+            }
+        }
+        var batches = batchService.findAll();
+        for(var batch : batches){
+            if(batch.getId() == user.getBatchId() && batch.isClose()){
+                m.put("batchError" , "%s has already closed!".formatted(batch.getName()));
+                return "ADM-ST001";
+            }
+        }
+
+        user.setPassword(passwordEncoder.encode(user.getEmail()));
+        var batch = batchService.findById(user.getBatchId());
+        user.setBatches(List.of(batch));
+        userService.save(user);
+        attributes.addFlashAttribute("message", "%s added successfully!".formatted(user.getName()));
+        return "redirect:/admin/student-list";
+    }
+
+    @GetMapping("student-list")
+    public String studentList(ModelMap m){
+        m.put("openBatches", batchService.findAll().stream().filter(b -> b.isClose() == false).toList());
+        return "ADM-ST001";
+    }
+
+    @ModelAttribute("students")
+    public List<User> users(){return userService.findAll().stream().filter(a -> a.getRole().equals(User.Role.Student)).toList();};
+
+    @ModelAttribute("student")
+    public User student(){
+        var student = new User();
+        student.setRole(User.Role.Student);
+        student.setActive(true);
+        return student;
     }
 
     @ModelAttribute("batches")
@@ -267,24 +363,24 @@ public class AdminController {
         return new User();
     }
 
-    @PostMapping("teacher-register")
-    public String postCreate(@Validated @ModelAttribute User user, BindingResult bs, RedirectAttributes attr, ModelMap m){
-        if(bs.hasErrors()){
-            return "ADM-TC001";
-        }
-        var c = userService.findByLoginId(user.getLoginId());
-        if(c != null) {
-            attr.addFlashAttribute("error", "%s course has already existed!".formatted(user.getLoginId()));
-            return "redirect:/admin/course-list";
-        }
-        userService.save(user);
-        attr.addFlashAttribute("cmessage", "%s course created successfully!".formatted(user.getName()));
-        return "redirect:/admin/teacher-list";
-    }
-
-    @GetMapping("teacher-list")
-    public String teacherList(ModelMap m) {
-        m.put("teachers", userService.findUserByTeacherRole());
-        return "ADM-TC001";
-    }
+//    @PostMapping("teacher-register")
+//    public String postCreate(@Validated @ModelAttribute User user, BindingResult bs, RedirectAttributes attr, ModelMap m){
+//        if(bs.hasErrors()){
+//            return "ADM-TC001";
+//        }
+//        var c = userService.findByLoginId(user.getLoginId());
+//        if(c != null) {
+//            attr.addFlashAttribute("error", "%s course has already existed!".formatted(user.getLoginId()));
+//            return "redirect:/admin/course-list";
+//        }
+//        userService.save(user);
+//        attr.addFlashAttribute("cmessage", "%s course created successfully!".formatted(user.getName()));
+//        return "redirect:/admin/teacher-list";
+//    }
+//
+//    @GetMapping("teacher-list")
+//    public String teacherList(ModelMap m) {
+//        m.put("teachers", userService.findUserByTeacherRole());
+//        return "ADM-TC001";
+//    }
 }

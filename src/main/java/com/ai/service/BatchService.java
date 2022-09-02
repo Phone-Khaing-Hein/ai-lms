@@ -28,4 +28,12 @@ public class BatchService {
     public Batch findById(Integer id) {
         return batchRepository.findById(id).get();
     }
+
+    public void deleteById(int batchId) {
+        batchRepository.deleteById(batchId);
+    }
+
+    public int getCount() {
+        return (int) batchRepository.count();
+    }
 }

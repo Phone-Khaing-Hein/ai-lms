@@ -23,6 +23,7 @@ public class UserService {
 //    public List<User> findByUserId(int batchId) {
 //        return userRepo.findByBatchId(batchId).stream().filter(a -> a.getRole().equals(User.Role.Teacher)).toList();
 //    }
+
     public User findByLoginId(String loginId) {
     return userRepo.findById(loginId).get();
 }

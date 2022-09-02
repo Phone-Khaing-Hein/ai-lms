@@ -3,7 +3,10 @@ package com.ai.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Entity
 @Data
@@ -12,13 +15,13 @@ public class User {
 
     @Id
     @Column(length = 10,name = "login_id")
-    @NotBlank(message = "User Login Id is required!")
+    @NotBlank(message = "Student ID is required!")
     private String loginId;
     @Column(nullable = false)
-    @NotBlank(message = "Username is required!")
+    @NotBlank(message = "Student Name is required!")
     private String name;
-    @Column(nullable = false)
-    @NotBlank(message = "User email is required!")
+    @Column(nullable = false, unique = true)
+    @NotBlank(message = "Student Email is required!")
     private String email;
     @Column(nullable = false)
     private String password;
@@ -26,8 +29,15 @@ public class User {
     private Role role;
     @Column(name = "is_active", nullable = false)
     public boolean isActive;
-	@ManyToOne
-	private Batch batch;
+	@ManyToMany
+    @JoinTable(name = "batch_has_user",
+                joinColumns = @JoinColumn(name = "user_id"),
+                inverseJoinColumns = @JoinColumn(name = "batch_id"))
+	private List<Batch> batches;
+
+	@Transient
+    @NotNull(message = "Student Batch is required!")
+    private Integer batchId;
 
     public enum Role{
         Admin,
