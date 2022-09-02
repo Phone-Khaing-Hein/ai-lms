@@ -81,7 +81,7 @@
                                         <i class="bi bi-pencil-square me-2"></i> Edit
                                     </a>
                                     <a class="btn btn-danger" id="deleteBtn"
-                                        th:attr="onclick=|deleteAction('${teacher.loginId}')|,student-name=|${student.name}|"><i
+                                        th:attr="onclick=|deleteAction('${student.loginId}')|,student-name=|${student.name}|"><i
                                             class="bi bi-trash-fill me-2"></i>Delete
                                     </a>
                                 </td>
@@ -115,6 +115,39 @@
             $(document).ready( function () {
                 $('#studentTable').DataTable();
             });
+
+            const deleteAction = (studentId, studentName) => {
+                const swalWithBootstrapButtons = Swal.mixin({
+                    customClass: {
+                        confirmButton: 'btn btn-success',
+                        cancelButton: 'btn btn-danger me-2'
+                    },
+                    buttonsStyling: false
+                })
+
+                swalWithBootstrapButtons.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'No, cancel!',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location = `http://localhost:9090/admin/student-delete?studentId=${studentId}&studentName=${studentName}`;
+                    } else if (
+                        /* Read more about handling dismissals below */
+                        result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                        swalWithBootstrapButtons.fire(
+                            'Cancelled',
+                            'Your data is safe :)',
+                            'error'
+                        )
+                    }
+                })
+            }
         </script>
     </div>
 </body>

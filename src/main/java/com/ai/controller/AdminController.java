@@ -334,6 +334,14 @@ public class AdminController {
         student.setBatches(new ArrayList<>(List.of(batchService.findById(user.getBatchId()))));
         student.setName(user.getName());
         userService.save(student);
+        attributes.addFlashAttribute("message", "%s updated successfully!".formatted(student.getName()));
+        return "redirect:/admin/student-list";
+    }
+
+    @GetMapping("student-delete")
+    public String studentDelete(@RequestParam String studentId, @RequestParam String studentName, RedirectAttributes attributes){
+        userService.deleteById(studentId);
+        attributes.addFlashAttribute("message", "%s deleted successfully!".formatted(studentName));
         return "redirect:/admin/student-list";
     }
 
