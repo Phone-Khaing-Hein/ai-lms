@@ -37,6 +37,6 @@ public class Batch implements Serializable {
     @ManyToOne(optional = false)
     private Course course;
 
-    @ManyToMany(mappedBy = "batches", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToMany(mappedBy = "batches", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
     private List<User> users;
 }
