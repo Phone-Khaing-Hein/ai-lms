@@ -27,9 +27,7 @@ public class UserService {
     return userRepo.findById(loginId).get();
 }
 
-
-
-        public List<User> findUserByTeacherRole(){
+    public List<User> findUserByTeacherRole(){
             return userRepo.findAll().stream().filter(a -> a.getRole().equals(User.Role.Teacher)).toList();
     }
 
