@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -314,7 +315,7 @@ public class AdminController {
 
         user.setPassword(passwordEncoder.encode(user.getEmail()));
         var batch = batchService.findById(user.getBatchId());
-        user.setBatches(List.of(batch));
+        user.setBatches(new ArrayList<>(List.of(batch)));
         userService.save(user);
         attributes.addFlashAttribute("message", "%s added successfully!".formatted(user.getName()));
         return "redirect:/admin/student-list";
@@ -324,6 +325,16 @@ public class AdminController {
     public String studentList(ModelMap m){
         m.put("openBatches", batchService.findAll().stream().filter(b -> b.isClose() == false).toList());
         return "ADM-ST001";
+    }
+
+    @PostMapping("student-edit")
+    public String studentEdit(@ModelAttribute User user, RedirectAttributes attributes){
+        var student = userService.findByLoginId(user.getLoginId());
+        student.setEmail(user.getEmail());
+        student.setBatches(new ArrayList<>(List.of(batchService.findById(user.getBatchId()))));
+        student.setName(user.getName());
+        userService.save(student);
+        return "redirect:/admin/student-list";
     }
 
     @ModelAttribute("students")

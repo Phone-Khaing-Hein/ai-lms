@@ -63,6 +63,7 @@
                                 <th>Student Name</th>
                                 <th>Email</th>
                                 <th>Batch</th>
+                                <th>Status</th>
                                 <th class="text-end"></th>
                             </tr>
                         </thead>
@@ -72,18 +73,19 @@
                                 <td th:text="${student.name}"></td>
                                 <td th:text="${student.email}"></td>
                                 <td th:each="batch : ${student.batches}" th:text="${batch.name}"></td>
+                                <td th:text="${student.active} ? 'Active' : 'Inactive'"></td>
                                 <td class="text-end">
                                     <a class="btn btn-warning"
                                         th:attr="href='#edit-student-button' + ${student.loginId}"
                                         data-bs-toggle="modal">
                                         <i class="bi bi-pencil-square me-2"></i> Edit
                                     </a>
-                                    <div th:replace="fragments/COM-FG001 :: student-edit"></div>
                                     <a class="btn btn-danger" id="deleteBtn"
                                         th:attr="onclick=|deleteAction('${teacher.loginId}')|,student-name=|${student.name}|"><i
                                             class="bi bi-trash-fill me-2"></i>Delete
                                     </a>
                                 </td>
+                                <div th:replace="fragments/COM-FG001 :: student-edit"></div>
                             </tr>
                         </tbody>
                     </table>

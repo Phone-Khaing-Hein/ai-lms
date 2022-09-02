@@ -31,6 +31,7 @@
                         <th>Course</th>
                         <th>Start Date</th>
                         <th>End Date</th>
+                        <th>Status</th>
                         <th class="text-end"></th>
                     </tr>
                     </thead>
@@ -41,6 +42,7 @@
                         <td th:text="${batch.course.name}"></td>
                         <td th:text="${batch.startDate}"></td>
                         <td th:text="${batch.endDate}"></td>
+                        <td th:text="${batch.close} ? 'Suspend' : 'Active'"></td>
                         <td class="text-end">
                             <button class="btn btn-outline-danger" th:if="${!batch.close}" th:attr="id=|close${batch.id}|,batchId=|${batch.id}|">
                                 <i class="bi bi-exclamation-circle me-2"></i>Close Batch
