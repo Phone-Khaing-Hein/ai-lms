@@ -42,7 +42,6 @@ public class User {
 	private List<Batch> batches;
 
 	@Transient
-    @NotNull(message = "Student Batch is required!")
     private Integer batchId;
 
     public enum Role{

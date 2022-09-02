@@ -320,7 +320,7 @@
                 <div class="modal-body">
                     <div class="form-group mb-3">
                         <select class="form-select" th:required="true" name="batch">
-                            <option value="">Select Batch</option>
+                            <option value="" disable selected>Select Batch</option>
                             <option th:selected="${#strings.equals(batch.name, student.batches.get(0).name)}"
                                     th:each="batch : ${batches}" th:value="${batch.id}"
                                     th:text="${batch.name}"></option>
