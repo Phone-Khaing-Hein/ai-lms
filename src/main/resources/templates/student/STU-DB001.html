@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{/layouts/STU-AUTH.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <style>
+        .cardhovers {
+            transition: transform 0.2s;
+        }
+
+        .cardhovers:hover {
+            transform: translateY(-4px);
+        }
+    </style>
+</head>
+    <body class="bg-light">
+        <div layout:fragment="content">
+            <section>
+                <div class="container" style="padding-top: 100px;">
+                    <h4 class="text-capitalize mb-3">dashboard</h4>
+                    <div class="row gx-3" style="height: 100vh;">
+                        <div class="col-md-9">
+                            <div class="alert alert-primary alerts" role="alert">
+                                <div class="row text-capitalize align-items-center">
+                                    <div class="col-8">
+                                        <h5>Welcome Back! Jerusalem</h5>
+                                        <p class="text-muted m-0">you have completed 60% of your goal this week!</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row gx-2">
+                                <div class="col-md-4 mb-3">
+                                    <a href="../../../../../../student-final/examlist.html" class="text-white text-decoration-none">
+                                        <div class="card p-2 cardhovers" style="background: red;">
+                                            <div class="card-body">
+                                                <span class="h4"><i class="fal fa-file me-2"></i>Exam</span>
+                                                <p class="mt-2">Total : 6</p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <a href="../../../../../../student-final/assignment-list.html" class="text-white text-decoration-none">
+                                        <div class="card p-2 cardhovers" style="background: green;">
+                                            <div class="card-body">
+                                                <span class="h4"><i class="fal fa-folder-plus me-2"></i>Assignment</span>
+                                                <p class="mt-2">Total : 6</p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <a href="" class="text-white text-decoration-none">
+                                        <div class="card p-2 cardhovers" style="background: blue;">
+                                            <div class="card-body">
+                                                <span class="h4"><i class="fal fa-comments me-2"></i>Messages</span>
+                                                <p class="mt-2">messages : 0</p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col mb-3">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="card-title text-muted">Instructor</h5>
+                                            <table class="table mb-0 table-hover">
+                                                <tbody>
+                                                <tr>
+                                                    <th>
+                                                        <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/avatar-5.webp"
+                                                             class="shadow-1-strong rounded-circle" alt="avatar 1"
+                                                             style="width: 40px; height: auto;">
+                                                        <span class="ms-2">Alice Mayer</span>
+                                                    </th>
+                                                    <td class="align-middle">
+                                                        <span>JWD</span>
+                                                    </td>
+                                                    <td class="align-middle">
+                                                        <h6 class="mb-0"><span class="badge bg-success">active</span>
+                                                        </h6>
+                                                    </td>
+
+                                                </tr>
+                                                <tr>
+                                                    <th>
+                                                        <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/avatar-4.webp"
+                                                             class="shadow-1-strong rounded-circle" alt="avatar 1"
+                                                             style="width: 40px; height: auto;">
+                                                        <span class="ms-2">Kate Moss</span>
+                                                    </th>
+                                                    <td class="align-middle">
+                                                        <span>JWD</span>
+                                                    </td>
+                                                    <td class="align-middle">
+                                                        <h6 class="mb-0"><span class="badge bg-success">active</span>
+                                                        </h6>
+                                                    </td>
+
+                                                </tr>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center position-relative">
+                                        <img src="https://nextbootstrap.netlify.app/assets/images/profiles/1.jpg"
+                                             class="shadow bg-body rounded-circle" width="80" height="80px" alt="">
+                                        <div>
+                                            <h5 class="text-capitalize text-muted mx-3">jerusalem</h5>
+                                            <span class="text-capitalize text-muted mx-3">student</span>
+                                        </div>
+                                        <span class="badge bg-success position-absolute top-0 end-0">online</span>
+                                    </div>
+                                    <h6 class="text-capitalize text-muted my-2 d-grid"><a href="../../../../../../student-final/profile.html"
+                                                                                          class="btn btn-outline-danger btn-sm">manage your account</a></h6>
+                                    <hr />
+                                    <h6 class="text-muted text-capitalize">general information</h6>
+                                    <table class="table table-borderless">
+                                        <tr>
+                                            <td>
+                                                <h6 class="text-muted">STU001</h6>
+                                            </td>
+                                            <td>
+                                                <h6 class="text-muted">Batch-4</h6>
+                                            </td>
+                                            <td>
+                                                <h6 class="text-muted">JWD</h6>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <hr />
+                                    <h6 class="text-muted text-capitalize">general setting</h6>
+                                    <table class="table table-borderless">
+                                        <tr>
+                                            <td>
+                                                <h6 class="text-muted text-capitalize">language</h6>
+                                            </td>
+                                            <td>
+                                                <h6 class="text-muted text-capitalize">english</h6>
+                                            </td>
+                                            <td><a href="" class="text-decoration-none">
+                                                <h6 class="text-primary text-capitalize">change</h6>
+                                            </a></td>
+                                        </tr>
+                                    </table>
+                                    <h6 class="text-success"><i class="fal fa-shield-check me-1"></i>account is protected</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </body>
+</html>
