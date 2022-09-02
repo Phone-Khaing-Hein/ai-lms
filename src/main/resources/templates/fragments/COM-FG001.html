@@ -47,6 +47,34 @@
     </nav>
 </header>
 
+
+<header th:fragment="student-header">
+    <nav class="navbar navbar-expand-md navbar-light bg-light shadow-sm bg-light fixed-top">
+
+        <a href="STU-DB001.html" class="navbar-brand mx-4">
+            <img src="https://aceinspiration.com/wp-content/themes/acinspiration/images/logo.PNG" alt="brand-logo"
+                 width="170px">
+        </a>
+
+        <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav"><i
+                class="navbar-toggler-icon"></i></button>
+
+        <div class="navbar-collapse collapse justify-content-between" id="nav">
+            <ul class="navbar-nav px-3">
+                <li class="nav-item"><a href="STU-DB001.html" class="nav-link text-uppercase">dashboard</a>
+                </li>
+                <li class="nav-item"><a href="../../../../../../student-final/course.html" class="nav-link text-uppercase">video</a>
+                </li>
+                <li class="nav-item"><a href="../../../../../../student-final/people.html" class="nav-link text-uppercase">participants</a>
+                </li>
+                <li class="nav-item"><a href="../../../../../../student-final/chat.html" class="nav-link text-uppercase">Chat</a>
+                </li>
+            </ul>
+            <a href="../../../../../../student-final/login.html" class="btn btn-outline-danger btn-sm text-capitalize mx-3">logout</a>
+        </div>
+    </nav>
+</header>
+
 <div th:fragment="course-create" class="modal fade" data-bs-backdrop="static" id="courseCreate" tabindex="-1"
      aria-labelledby="courseCreateLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -318,14 +346,22 @@
             <form th:action="@{/admin/student-edit}" method="post">
                 <input type="hidden" name="id" th:value="${student.loginId}">
                 <div class="modal-body">
+
+                        <div class="form-group mb-3">
+                            <label for="id">Student ID</label>
+                            <input type="text" required placeholder="Enter Student ID"
+                                   id="id" class="form-control mt-2" th:required="true" readonly name="loginId"
+                                   th:value="${student.loginId}">
+                        </div>
                     <div class="form-group mb-3">
-                        <select class="form-select" th:required="true" name="batch">
+                        <label for="batch">Batch</label>
+                        <select class="form-select" th:required="true" name="batchId">
                             <option value="">Select Batch</option>
                             <option th:selected="${#strings.equals(batch.name, student.batches.get(0).name)}"
                                     th:each="batch : ${batches}" th:value="${batch.id}"
                                     th:text="${batch.name}"></option>
                         </select>
-                        <span class="text-danger" th:errors="*{batches}"></span>
+                        <span class="text-danger" th:if="${batchError}" th:text="${batchError}" id="duplicateError"></span>
                     </div>
                     <div class="form-group mb-3">
                         <label for="name">Student Name</label>
@@ -333,6 +369,13 @@
                                id="name" class="form-control mt-2" th:required="true" name="name"
                                th:value="${student.name}">
                         <span class="text-danger" th:if="${error}" th:text="${error}" id="duplicateError"></span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="email">Student Email</label>
+                        <input type="email" required placeholder="Enter Student Email"
+                               id="email" class="form-control mt-2" th:required="true" name="email"
+                               th:value="${student.email}">
+                        <span class="text-danger" th:if="${emailError}" th:text="${emailError}" id="duplicateError"></span>
                     </div>
                 </div>
                 <div class="modal-footer">

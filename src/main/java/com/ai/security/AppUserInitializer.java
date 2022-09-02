@@ -30,6 +30,7 @@ public class AppUserInitializer {
             admin.setEmail("admin@gmail.com");
             admin.setPassword(passwordEncoder.encode("admin"));
             admin.setRole(Role.Admin);
+            admin.setBatchId(0);
             repo.save(admin);
 
             var teacher = new User();
@@ -47,7 +48,7 @@ public class AppUserInitializer {
             student.setActive(true);
             student.setEmail("pkh2662003@gmail.com");
             student.setPassword(passwordEncoder.encode("student"));
-            student.setRole(Role.Teacher);
+            student.setRole(Role.Student);
             repo.save(student);
         }
     }

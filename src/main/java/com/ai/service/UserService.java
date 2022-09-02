@@ -32,4 +32,7 @@ public class UserService {
             return userRepo.findAll().stream().filter(a -> a.getRole().equals(User.Role.Teacher)).toList();
     }
 
+    public void deleteById(String studentId) {
+        userRepo.deleteById(studentId);
+    }
 }
