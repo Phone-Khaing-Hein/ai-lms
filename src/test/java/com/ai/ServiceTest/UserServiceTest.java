@@ -1,4 +1,4 @@
-package com.ai.Service;
+package com.ai.ServiceTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.times;
