@@ -61,13 +61,13 @@
 
         <div class="navbar-collapse collapse justify-content-between" id="nav">
             <ul class="navbar-nav px-3">
-                <li class="nav-item"><a href="STU-DB001.html" class="nav-link text-uppercase">dashboard</a>
+                <li class="nav-item"><a th:href="@{/student/home}" class="nav-link text-uppercase">dashboard</a>
                 </li>
-                <li class="nav-item"><a href="../../../../../../student-final/course.html" class="nav-link text-uppercase">video</a>
+                <li class="nav-item"><a th:href="@{/student/course}" class="nav-link text-uppercase">video</a>
                 </li>
-                <li class="nav-item"><a href="../../../../../../student-final/people.html" class="nav-link text-uppercase">participants</a>
+                <li class="nav-item"><a th:href="@{/student/members}" class="nav-link text-uppercase">participants</a>
                 </li>
-                <li class="nav-item"><a href="../../../../../../student-final/chat.html" class="nav-link text-uppercase">Chat</a>
+                <li class="nav-item"><a th:href="@{/student/chat}" class="nav-link text-uppercase">Chat</a>
                 </li>
             </ul>
             <a href="../../../../../../student-final/login.html" class="btn btn-outline-danger btn-sm text-capitalize mx-3">logout</a>
