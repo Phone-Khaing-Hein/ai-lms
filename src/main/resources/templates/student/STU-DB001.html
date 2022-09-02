@@ -25,7 +25,7 @@
                             <div class="alert alert-primary alerts" role="alert">
                                 <div class="row text-capitalize align-items-center">
                                     <div class="col-8">
-                                        <h5>Welcome Back! Jerusalem</h5>
+                                        <h5>Welcome Back! [[${user.name}]]</h5>
                                         <p class="text-muted m-0">you have completed 60% of your goal this week!</p>
                                     </div>
                                 </div>
@@ -114,8 +114,8 @@
                                         <img src="https://nextbootstrap.netlify.app/assets/images/profiles/1.jpg"
                                              class="shadow bg-body rounded-circle" width="80" height="80px" alt="">
                                         <div>
-                                            <h5 class="text-capitalize text-muted mx-3">jerusalem</h5>
-                                            <span class="text-capitalize text-muted mx-3">student</span>
+                                            <h5 class="text-capitalize text-muted mx-3">[[${user.name}]]</h5>
+                                            <span class="text-capitalize text-muted mx-3">Student</span>
                                         </div>
                                         <span class="badge bg-success position-absolute top-0 end-0">online</span>
                                     </div>
@@ -126,13 +126,13 @@
                                     <table class="table table-borderless">
                                         <tr>
                                             <td>
-                                                <h6 class="text-muted">STU001</h6>
+                                                <h6 class="text-muted">[[${user.loginId}]]</h6>
                                             </td>
                                             <td>
-                                                <h6 class="text-muted">Batch-4</h6>
+                                                <h6 class="text-muted">[[${user.batches.get(0).name}]]</h6>
                                             </td>
                                             <td>
-                                                <h6 class="text-muted">JWD</h6>
+                                                <h6 class="text-muted">[[${user.batches.get(0).course.name}]]</h6>
                                             </td>
                                         </tr>
                                     </table>
