@@ -88,7 +88,7 @@ public class UserServiceTest {
         List<User> user = userList();
         Mockito.when(userRepository.findAll()).thenReturn(user);
         List<User> userList = userService.findAll();
-        assertEquals(2, userList.size());
+        assertEquals(3, userList.size());
         verify(userRepository, times(1)).findAll();
     }
 
@@ -108,6 +108,5 @@ public class UserServiceTest {
     public void findUserByTeacherRoleTest(){
         List<User> teacher = userList().stream().filter(a -> a.getRole().equals(User.Role.Teacher)).toList();
         assertEquals(teacher.size(), 1);
-        assertEquals(Role.Teacher, teacher.get(4));
     }
 }

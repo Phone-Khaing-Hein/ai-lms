@@ -77,7 +77,7 @@ public class CourseServiceTest {
         List<Course> courses = courseList();
         Mockito.when(courseRepository.findAll()).thenReturn(courses);
         List<Course> userList = courseService.findAll();
-        assertEquals(2, userList.size());
+        assertEquals(3, userList.size());
         verify(courseRepository, times(1)).findAll();
     }
 
