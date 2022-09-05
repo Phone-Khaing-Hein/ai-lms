@@ -12,5 +12,6 @@ public interface UserRepository extends JpaRepository<User,String> {
 
     Optional<User> findOneByLoginId(String username);
 
-//    List<User> findByBatchId(int batchId);
+    User findByLoginId(String loginId);
+
 }

@@ -92,17 +92,17 @@ public class UserServiceTest {
         verify(userRepository, times(1)).findAll();
     }
 
-    @Test
-    public void findByLoginIdTest(){
-        User user = userObj();
-        Mockito.when(userRepository.findById("STU001")).thenReturn(Optional.of(user));
-        User getUser = userService.findByLoginId("STU001");
-        assertEquals("Admin User", getUser.getName());
-        assertEquals("admin", getUser.getPassword());
-        assertEquals(Role.Admin, getUser.getRole());
-        assertEquals("phyuthin2004@gmail.com", getUser.getEmail());
-        assertEquals(true, getUser.isActive);
-    }
+//    @Test
+//    public void findByLoginIdTest(){
+//        User user = userObj();
+//        Mockito.when(userRepository.findById("STU001")).thenReturn(Optional.of(user));
+//        User getUser = userService.findByLoginId("STU001");
+//        assertEquals("Admin User", getUser.getName());
+//        assertEquals("admin", getUser.getPassword());
+//        assertEquals(Role.Admin, getUser.getRole());
+//        assertEquals("phyuthin2004@gmail.com", getUser.getEmail());
+//        assertEquals(true, getUser.isActive);
+//    }
 
     @Test
     public void findUserByTeacherRoleTest(){

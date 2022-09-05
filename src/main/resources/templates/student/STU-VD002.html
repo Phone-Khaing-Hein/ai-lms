@@ -14,7 +14,7 @@
                     <div class="col-md-9 col-sm-12">
                         <div class="row gx-2">
                             <video width="200" controls>
-                                <source src="./video/Day 4-CSS.mp4" type="video/mp4">
+                                <source th:src="@{/resources/courses/}+${modules.get(0).course.name}+@{/}+${modules.get(0).name}+@{/videos/}+${modules.get(0).videos.get(0).name}" type="video/mp4" id="video">
                             </video>
                             <div class="col mt-3">
                                 <div>
@@ -290,84 +290,22 @@
                     <div class="col-md-3 col-sm-12 mb-2 d-sm-none d-md-block" id="video-tab">
                         <!-- To Do Video -->
                         <div class="accordion" id="accordionPanelsStayOpenExample">
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                            <div class="accordion-item" th:each="module : ${modules}">
+                                <h2 class="accordion-header" th:attr="id='panelsStayOpen-'+${module.id}">
                                     <button class="accordion-button p-3" type="button" data-bs-toggle="collapse"
-                                            data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
-                                            aria-controls="panelsStayOpen-collapseOne">
-                                        Java Basic
+                                            th:attr="data-bs-target='#panelsStayOpen-'+${module.name},aria-controls='panelsStayOpen-'+${module.name}" aria-expanded="true">
+                                        [[${module.name}]]
                                     </button>
                                 </h2>
-                                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show w-100"
-                                     style="border-bottom: 1px solid gray;" aria-labelledby="panelsStayOpen-headingOne">
-                                    <div class="accordion-body p-3 bg-light">1. Java Fundamental</div>
-                                </div>
-                                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show w-100"
-                                     style="border-bottom: 1px solid gray;" aria-labelledby="panelsStayOpen-headingOne">
-                                    <div class="accordion-body p-3 bg-light">2. Java OOP</div>
-                                </div>
-                            </div>
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="panelsStayOpen-headingOne">
-                                    <button class="accordion-button p-3" type="button" data-bs-toggle="collapse"
-                                            data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
-                                            aria-controls="panelsStayOpen-collapseOne">
-                                        Java Basic 2
-                                    </button>
-                                </h2>
-                                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show w-100"
-                                     style="border-bottom: 1px solid gray;" aria-labelledby="panelsStayOpen-headingOne">
-                                    <div class="accordion-body p-3 bg-light">3. Java Abstraction</div>
-
-                                </div>
-                                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show w-100"
-                                     style="border-bottom: 1px solid gray;" aria-labelledby="panelsStayOpen-headingOne">
-                                    <div class="accordion-body p-3 bg-light">4. Java I/O</div>
-
-                                </div>
-                            </div>
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="panelsStayOpen-headingOne">
-                                    <button class="accordion-button p-3" type="button" data-bs-toggle="collapse"
-                                            data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
-                                            aria-controls="panelsStayOpen-collapseOne">
-                                        Java Intermediate
-                                    </button>
-                                </h2>
-                                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show w-100"
-                                     style="border-bottom: 1px solid gray;" aria-labelledby="panelsStayOpen-headingOne">
-                                    <div class="accordion-body p-3 bg-light">5. Generic</div>
-
-                                </div>
-                                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show w-100"
-                                     style="border-bottom: 1px solid gray;" aria-labelledby="panelsStayOpen-headingOne">
-                                    <div class="accordion-body p-3 bg-light">6. Java Collections</div>
-
-                                </div>
-                            </div>
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="panelsStayOpen-headingOne">
-                                    <button class="accordion-button p-3" type="button" data-bs-toggle="collapse"
-                                            data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
-                                            aria-controls="panelsStayOpen-collapseOne">
-                                        Accordion Item #1
-                                    </button>
-                                </h2>
-                                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show w-100"
-                                     style="border-bottom: 1px solid gray;" aria-labelledby="panelsStayOpen-headingOne">
-                                    <div class="accordion-body p-3 bg-light">1. Java Fundamental</div>
-
-                                </div>
-                                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show w-100"
-                                     style="border-bottom: 1px solid gray;" aria-labelledby="panelsStayOpen-headingOne">
-                                    <div class="accordion-body p-3 bg-light">2. Java OOP</div>
-
+                                <div th:each="v : ${module.videos}" th:attr="id='panelsStayOpen-'+${module.name}, aria-labelledby='panelsStayOpen-'+${module.id}" class="accordion-collapse collapse show w-100 bg-light"
+                                     style="border-bottom: 1px solid gray;">
+                                    <div class="accordion-body px-3">
+                                        <a href="" th:attr="onclick=|changeVideo(${module},${v.name})|" class="text-decoration-none" th:text="${v.name}"></a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-
                 </div>
             </div>
         </section>
@@ -375,9 +313,14 @@
             $(document).ready(function () {
 
                 $("#mytag").tabs();
-                $('#student-table').dataTable();
-                $('#teacher-table').dataTable();
+                $("#comments-tab").tabs();
+                $("#resource-tab").tabs();
             });
+
+            // var changeVideo = (module, videoName)=>{
+            //     var video = document.getElementById('video')
+            //     video.setAttribute('src', [[@{/resources/courses/}+${module.course.name}+@{/}+${module.name}+@{/}+${videoName}]])
+            // }
         </script>
     </div>
 </body>

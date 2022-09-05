@@ -266,7 +266,7 @@ public class AdminController {
         var batch = batchService.findById(id);
         batch.setClose(true);
         for(var student : batch.getUsers()){
-            student.setBatchId(student.getBatches().get(0).getId());
+            student.setBatchId(new Integer[]{student.getBatches().get(0).getId()});
             student.setActive(false);
         }
         batchService.save(batch);
@@ -279,7 +279,7 @@ public class AdminController {
         var batch = batchService.findById(id);
         batch.setClose(false);
         for(var student : batch.getUsers()){
-            student.setBatchId(student.getBatches().get(0).getId());
+            student.setBatchId(new Integer[]{student.getBatches().get(0).getId()});
             student.setActive(true);
         }
         batchService.save(batch);
@@ -307,14 +307,14 @@ public class AdminController {
         }
         var batches = batchService.findAll();
         for(var batch : batches){
-            if(batch.getId() == user.getBatchId() && batch.isClose()){
+            if(batch.getId() == user.getBatchId()[0] && batch.isClose()){
                 m.put("batchError" , "%s has already closed!".formatted(batch.getName()));
                 return "ADM-ST001";
             }
         }
 
         user.setPassword(passwordEncoder.encode(user.getEmail()));
-        var batch = batchService.findById(user.getBatchId());
+        var batch = batchService.findById(user.getBatchId()[0]);
         user.setBatches(new ArrayList<>(List.of(batch)));
         userService.save(user);
         attributes.addFlashAttribute("message", "%s added successfully!".formatted(user.getName()));
@@ -331,7 +331,7 @@ public class AdminController {
     public String studentEdit(@ModelAttribute User user, RedirectAttributes attributes){
         var student = userService.findByLoginId(user.getLoginId());
         student.setEmail(user.getEmail());
-        student.setBatches(new ArrayList<>(List.of(batchService.findById(user.getBatchId()))));
+        student.setBatches(new ArrayList<>(List.of(batchService.findById(user.getBatchId()[0]))));
         student.setName(user.getName());
         userService.save(student);
         attributes.addFlashAttribute("message", "%s updated successfully!".formatted(student.getName()));
@@ -382,24 +382,33 @@ public class AdminController {
         return new User();
     }
 
-//    @PostMapping("teacher-register")
-//    public String postCreate(@Validated @ModelAttribute User user, BindingResult bs, RedirectAttributes attr, ModelMap m){
-//        if(bs.hasErrors()){
-//            return "ADM-TC001";
-//        }
-//        var c = userService.findByLoginId(user.getLoginId());
-//        if(c != null) {
-//            attr.addFlashAttribute("error", "%s course has already existed!".formatted(user.getLoginId()));
-//            return "redirect:/admin/course-list";
-//        }
-//        userService.save(user);
-//        attr.addFlashAttribute("cmessage", "%s course created successfully!".formatted(user.getName()));
-//        return "redirect:/admin/teacher-list";
-//    }
-//
-//    @GetMapping("teacher-list")
-//    public String teacherList(ModelMap m) {
-//        m.put("teachers", userService.findUserByTeacherRole());
-//        return "ADM-TC001";
-//    }
+    @PostMapping("teacher-create")
+    public String postCreate(@Validated @ModelAttribute User user, BindingResult bs, RedirectAttributes attr, ModelMap m){
+        if(bs.hasErrors()){
+            return "ADM-TC001";
+        }
+        var u = userService.findByLoginId(user.getLoginId());
+        if(u != null) {
+            attr.addFlashAttribute("error", "%s has already existed!".formatted(user.getLoginId()));
+            return "redirect:/admin/teacher-list";
+        }
+        user.setRole(User.Role.Teacher);
+        user.setPassword(passwordEncoder.encode(user.getEmail()));
+        var batches = new ArrayList<Batch>();
+        for(var id : user.getBatchId()){
+            batches.add(batchService.findById(id));
+        }
+        user.setBatches(batches);
+        user.setActive(true);
+        userService.save(user);
+        attr.addFlashAttribute("message", "%s created successfully!".formatted(user.getName()));
+        return "redirect:/admin/teacher-list";
+    }
+
+    @GetMapping("teacher-list")
+    public String teacherList(ModelMap m) {
+        var teachers = userService.findAll().stream().filter(u -> u.getRole().equals(User.Role.Teacher)).toList();
+        m.put("teachers", teachers);
+        return "ADM-TC001";
+    }
 }

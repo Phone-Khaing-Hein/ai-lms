@@ -42,7 +42,7 @@ public class User {
 	private List<Batch> batches;
 
 	@Transient
-    private Integer batchId;
+    private Integer[] batchId;
 
     public enum Role{
         Admin,

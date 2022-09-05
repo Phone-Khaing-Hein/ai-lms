@@ -6,7 +6,7 @@
   <meta charset="UTF-8">
   <title>Course</title>
 </head>
-<body class="bg-light">
+<body class="bg-light overflow-hidden">
 <div layout:fragment="content">
   <section class="mt-5 pt-4">
     <div class="container mt-5">
@@ -27,37 +27,31 @@
                     <h4 class=""><i class="fas fa-user-check me-2"></i>User Infomation</h4>
                     <div class="text-capitalize text-muted mt-4">
                       <p class="mb-3"><i
-                              class="fas fa-check text-success me-2"></i>ID:</p>
+                              class="fas fa-check text-success me-2"></i>ID: [[${user.loginId}]]</p>
                       <p class="mb-3"><i
-                              class="fas fa-check text-success me-2"></i>Email:</p>
+                              class="fas fa-check text-success me-2"></i>Email: <span th:text="${#strings.toLowerCase(user.email)}"></span></p>
                       <p class="mb-3"><i
-                              class="fas fa-check text-success me-2"></i>Role:</p>
+                              class="fas fa-check text-success me-2"></i>Role: [[${user.role}]]</p>
                     </div>
                   </div>
                   <div class="col-md-5 col-sm-12">
+                    <span th:if="${message}" class="alert alert-success d-none" id="message">[[${message}]]</span>
                     <h5><i class="fas fa-key me-2"></i>Change Password</h5>
-                    <form th:action="@{/change-password}" method="post">
+                    <form th:action="@{/student/change-password}" method="post">
                       <div class="form-group mb-2">
-                        <div class="form-label">Old Password</div>
-                        <input type="password" name="oldpassword" class="form-control"
-                               placeholder="Enter Old Password">
+                        <label class="form-label">Old Password</label>
+                        <input type="password" name="oldPassword" class="form-control"
+                               placeholder="Enter Old Password" th:value="${oldPassword}">
+                        <span th:if="${oldPasswordError}" class="text-danger">[[${oldPasswordError}]]</span>
                       </div>
                       <div class="form-group mb-2">
-                        <div class="form-label">New Password</div>
-                        <input type="password" name="newpassword" class="form-control"
-                               placeholder="Enter New Password">
+                        <label class="form-label">New Password</label>
+                        <input type="password" name="newPassword" class="form-control"
+                               placeholder="Enter New Password" th:value="${newPassword}">
                       </div>
-                      <!--                                        <div class="form-group mb-2">-->
-                      <!--                                            <div class="form-label">Confirm Password</div>-->
-                      <!--                                            <input type="password" name="confirmPassword" class="form-control"-->
-                      <!--                                                   placeholder="Enter Confirm Password">-->
-                      <!--                                        </div>-->
+                      <span th:if="${newPasswordError}" class="text-danger">[[${newPasswordError}]]</span>
                       <div class="form-group d-grid">
                         <button type="submit" class="btn btn-primary mb-2">Save</button>
-                        <div sec:authorize="isAuthenticated()">
-                          <input class="me-2 btn btn-outline-danger btn-sm" type="submit" value="Log Out" form="logoutForm">
-                          <form id="logoutForm" th:action="@{/logout}" method="post" th:hidden="true"></form>
-                        </div>
                       </div>
                     </form>
                   </div>
@@ -66,11 +60,32 @@
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </div>
   </section>
+  <script>
+      var message = document.getElementById("message");
+      if(message !== null){
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+        })
+
+        Toast.fire({
+          icon: 'success',
+          title: message.innerText
+        })
+      }
+
+  </script>
 </div>
 </body>
 </html>
