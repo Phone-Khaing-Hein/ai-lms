@@ -1,4 +1,4 @@
-package com.ai.Controller;
+package com.ai.ControllerTest;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
