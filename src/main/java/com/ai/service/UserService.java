@@ -28,4 +28,8 @@ public class UserService {
     public void deleteById(String studentId) {
         userRepo.deleteById(studentId);
     }
+
+    public int getCount() {
+        return (int) userRepo.count();
+    }
 }

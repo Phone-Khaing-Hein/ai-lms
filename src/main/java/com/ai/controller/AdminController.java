@@ -21,6 +21,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("admin")
@@ -54,6 +55,23 @@ public class AdminController {
     public String home(ModelMap m){
         m.put("courseCount", courseService.getCount());
         m.put("batchCount", batchService.getCount());
+        List<String> batchName = batchService.findAll().stream().map(batch -> batch.getName()).collect(Collectors.toList());
+        List<Batch> batches = batchService.findAll().stream().filter(batch -> batch.isClose() == false).collect(Collectors.toList());
+
+        List<Integer> sizeList=new ArrayList<>();
+
+        for (Batch batch:
+             batches) {
+            List<User> u = batch.getUsers()
+                    .stream()
+                    .filter(user -> user.getRole().equals(User.Role.Student))
+                    .collect(Collectors.toList());
+            sizeList.add(u.size());
+        }
+        m.addAttribute("studentCount",
+                sizeList);
+        m.addAttribute("batchName",batchName);
+//        System.out.println(batchName);
         return "ADM-DB001";
     }
 
@@ -382,7 +400,9 @@ public class AdminController {
         return new User();
     }
 
+
     @PostMapping("teacher-create")
+
     public String postCreate(@Validated @ModelAttribute User user, BindingResult bs, RedirectAttributes attr, ModelMap m){
         if(bs.hasErrors()){
             return "ADM-TC001";
@@ -402,6 +422,7 @@ public class AdminController {
         user.setActive(true);
         userService.save(user);
         attr.addFlashAttribute("message", "%s created successfully!".formatted(user.getName()));
+
         return "redirect:/admin/teacher-list";
     }
 
