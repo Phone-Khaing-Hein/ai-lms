@@ -55,7 +55,9 @@ public class TeacherController {
     @GetMapping("batch-detail")
     public String batchDetail(@RequestParam int batchId, ModelMap m){
         var batch = batchService.findById(batchId);
+        m.put("batch", batch);
         m.put("students", batch.getUsers().stream().filter(u -> u.getRole().equals(User.Role.Student)).toList());
+        m.put("modules", batch.getCourse().getModules());
         return "teacher/TCH-BD003";
     }
 }

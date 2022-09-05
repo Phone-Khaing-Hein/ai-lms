@@ -13,8 +13,8 @@
             <div class="">
                 <div class="text-center">
                     <h2 style="color:darkblue; font-weight: bold;" class="mb-3"><i class="fas fa-user-friends me-2"></i>Welcome To
-                        OJT
-                        Batch 2</h2>
+                        [[${batch.name}]]
+                    </h2>
                 </div>
 
                 <div>
@@ -253,52 +253,17 @@
                             <table class="table display" id="schedule">
                                 <thead>
                                 <tr>
-                                    <th scope="col">Name</th>
+                                    <th>#</th>
+                                    <th scope="col">Module Name</th>
                                     <th scope="col">Date</th>
-                                    <th scope="col">Module</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td>OOP</td>
-                                    <td><input type="date" name="" id="" class="border-0" style="outline:none;">
-                                    </td>
-                                    <td>
-                                        <select class="form-select" aria-label="Disabled select example"
-                                                style="width:70%;">
-                                            <option selected>Select Module</option>
-                                            <option value="1">Module 1</option>
-                                            <option value="2">Module 2</option>
-                                            <option value="3">Module 3</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>JSP</td>
-                                    <td><input type="date" name="" id="" class="border-0" style="outline:none;">
-                                    </td>
-                                    <td>
-                                        <select class="form-select" aria-label="Disabled select example"
-                                                style="width:70%;">
-                                            <option selected>Select Module</option>
-                                            <option value="1">Module 1</option>
-                                            <option value="2">Module 2</option>
-                                            <option value="3">Module 3</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Database</td>
-                                    <td><input type="date" name="" id="" class="border-0" style="outline:none;">
-                                    </td>
-                                    <td>
-                                        <select class="form-select" aria-label="Disabled select example"
-                                                style="width:70%;">
-                                            <option selected>Select Module</option>
-                                            <option value="1">Module 1</option>
-                                            <option value="2">Module 2</option>
-                                            <option value="3">Module 3</option>
-                                        </select>
+                                <tr th:each="module, row : ${modules}" style="vertical-align: middle;">
+                                    <td>[[${row.index}+1]]</td>
+                                    <td>[[${module.name}]]</td>
+                                    <td class="w-25">
+                                        <input type="date" class="form-control" style="outline:none;">
                                     </td>
                                 </tr>
                                 </tbody>
