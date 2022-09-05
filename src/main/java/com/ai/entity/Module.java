@@ -1,6 +1,8 @@
 package com.ai.entity;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
@@ -11,7 +13,8 @@ import java.util.List;
 
 @Entity
 @Table(name="module")
-@Data
+@Getter
+@Setter
 public class Module implements Serializable {
 
     private static final long serialVersionUID = 1L;
