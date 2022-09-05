@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -20,16 +21,8 @@ public class UserService {
         return userRepo.findAll();
     }
 
-//    public List<User> findByUserId(int batchId) {
-//        return userRepo.findByBatchId(batchId).stream().filter(a -> a.getRole().equals(User.Role.Teacher)).toList();
-//    }
-
     public User findByLoginId(String loginId) {
-    return userRepo.findById(loginId).get();
-}
-
-    public List<User> findUserByTeacherRole(){
-            return userRepo.findAll().stream().filter(a -> a.getRole().equals(User.Role.Teacher)).toList();
+        return userRepo.findByLoginId(loginId);
     }
 
     public void deleteById(String studentId) {

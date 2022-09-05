@@ -17,6 +17,29 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        /* ===== Scrollbar CSS ===== */
+        /* Firefox */
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: #c2c1c3 #ffffff;
+        }
+
+        /* Chrome, Edge, and Safari */
+        *::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        *::-webkit-scrollbar-track {
+            background: #ffffff;
+        }
+
+        *::-webkit-scrollbar-thumb {
+            background-color: #c2c1c3;
+            border-radius: 5px;
+            border: 3px solid #ffffff;
+        }
+    </style>
 </head>
 <body>
     <div th:replace="fragments/COM-FG001 :: admin-header"></div>

@@ -1,6 +1,9 @@
 package com.ai.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -9,6 +12,9 @@ import java.util.List;
 
 @Entity
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Table(name = "course")
 public class Course implements Serializable {
 
@@ -17,13 +23,17 @@ public class Course implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     @Column(length = 100, nullable = false)
     @NotBlank(message = "Course Name is required!")
     private String name;
+
     @Column(columnDefinition = "LONGTEXT")
     private String description;
+
     @OneToMany(mappedBy = "course", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     private List<Module> modules;
+    
     @OneToMany(mappedBy = "course", cascade = {CascadeType.PERSIST,CascadeType.MERGE}, orphanRemoval = true)
     private List<Batch> batches;
 }

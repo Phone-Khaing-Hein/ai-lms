@@ -15,7 +15,7 @@
         }
     </style>
 </head>
-    <body class="bg-light">
+    <body class="bg-light overflow-hidden">
         <div layout:fragment="content">
             <section>
                 <div class="container" style="padding-top: 100px;">
@@ -67,39 +67,21 @@
                                             <h5 class="card-title text-muted">Instructor</h5>
                                             <table class="table mb-0 table-hover">
                                                 <tbody>
-                                                <tr>
+                                                <tr th:each="teacher : ${teachers}">
                                                     <th>
                                                         <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/avatar-5.webp"
                                                              class="shadow-1-strong rounded-circle" alt="avatar 1"
                                                              style="width: 40px; height: auto;">
-                                                        <span class="ms-2">Alice Mayer</span>
+                                                        <span class="ms-2">[[${teacher.name}]]</span>
                                                     </th>
-                                                    <td class="align-middle">
-                                                        <span>JWD</span>
-                                                    </td>
+<!--                                                    <td class="align-middle">-->
+<!--                                                        <span>[[${teacher}]]</span>-->
+<!--                                                    </td>-->
                                                     <td class="align-middle">
                                                         <h6 class="mb-0"><span class="badge bg-success">active</span>
                                                         </h6>
                                                     </td>
-
                                                 </tr>
-                                                <tr>
-                                                    <th>
-                                                        <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/avatar-4.webp"
-                                                             class="shadow-1-strong rounded-circle" alt="avatar 1"
-                                                             style="width: 40px; height: auto;">
-                                                        <span class="ms-2">Kate Moss</span>
-                                                    </th>
-                                                    <td class="align-middle">
-                                                        <span>JWD</span>
-                                                    </td>
-                                                    <td class="align-middle">
-                                                        <h6 class="mb-0"><span class="badge bg-success">active</span>
-                                                        </h6>
-                                                    </td>
-
-                                                </tr>
-
                                                 </tbody>
                                             </table>
                                         </div>
