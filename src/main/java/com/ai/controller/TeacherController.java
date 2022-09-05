@@ -1,19 +1,15 @@
 package com.ai.controller;
 
-import com.ai.entity.Course;
+import com.ai.entity.User;
 import com.ai.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.io.IOException;
-import java.util.List;
+import javax.transaction.Transactional;
 
 @Controller
 @RequestMapping("teacher")
@@ -53,6 +49,13 @@ public class TeacherController {
         var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
         var batches = userService.findByLoginId(loginId).getBatches();
         m.put("batches", batches);
-        return "ADM-BT001";
+        return "teacher/TCH-BT002";
+    }
+
+    @GetMapping("batch-detail")
+    public String batchDetail(@RequestParam int batchId, ModelMap m){
+        var batch = batchService.findById(batchId);
+        m.put("students", batch.getUsers().stream().filter(u -> u.getRole().equals(User.Role.Student)).toList());
+        return "teacher/TCH-BD003";
     }
 }
