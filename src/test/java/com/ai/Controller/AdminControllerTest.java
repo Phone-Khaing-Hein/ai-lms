@@ -26,10 +26,14 @@ import org.springframework.security.config.annotation.web.reactive.EnableWebFlux
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.request.RequestPostProcessor;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.ai.service.*;
@@ -39,13 +43,17 @@ import java.util.List;
 import com.ai.entity.*;
 import com.ai.repository.*;
 
-@SpringBootTest()
-@AutoConfigureMockMvc
+import javax.annotation.Resource;
 
-@WithMockUser(username = "ADMIN", password = "password", roles = "ADMIN")
+@SpringBootTest(
+        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
+)
+@AutoConfigureMockMvc
+@ContextConfiguration
+@WithUserDetails("ADM001")
 public class AdminControllerTest {
 
-    @Autowired
+    @Resource
     private MockMvc mockMvc;
 
     @MockBean
@@ -54,31 +62,9 @@ public class AdminControllerTest {
     @MockBean
     CourseService courseService;
 
-    @Autowired
-    WebApplicationContext webApplicationContext;
-
-    // @BeforeEach
-    // public void mustTest() throws Exception{
-    // this.mockMvc.perform(MockMvcRequestBuilders.get("/admin")
-    // .with(SecurityMockMvcRequestPostProcessors.user("Admin User").roles("ADMIN"))
-    // );
-    // }
-
-    @Configuration
-    @EnableWebSecurity
-    static class Config extends WebSecurityConfigurerAdapter{
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception
-    {
-    auth.inMemoryAuthentication().withUser("ADMIN").password("password").roles("ADMIN");
-    }
-    }
-
 
     @Test
     public void testHome() throws Exception {
-    
         this.mockMvc.perform(get("/admin/home"))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("courseCount"))
@@ -87,9 +73,6 @@ public class AdminControllerTest {
 
     @Test
     public void testCourseList() throws Exception {
-        // Course course = new Course();
-        // course.setId(1);
-        // course.setModules(modules);
         List<Course> courses=new ArrayList<>();
         Mockito.when(courseService.findAll()).thenReturn(courses);
         this.mockMvc.perform(get("/admin/course-list"))
