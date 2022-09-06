@@ -432,7 +432,7 @@
                             <label for="batchId">Select Batch</label>
                             <select name="batchId" id="batchId" multiple class="form-control mt-2"
                                     th:required="true">
-                                <option th:each="batch : ${batches}" th:value="${batch.id}">[[${batch.name}]]</option>
+                                <option th:each="batch : ${openBatches}" th:value="${batch.id}">[[${batch.name}]]</option>
                             </select>
                             <span class="text-danger"></span>
                         </div>
@@ -482,7 +482,7 @@
                     <div class="form-group">
                         <label for="batch">Batch</label>
                         <select name="batch" id="batch" multiple class="form-control mt-2">
-                            <option value=""></option>
+                            <option th:each="batch : ${openBatches}" th:value="${batch.id}" th:selected="${teacher.batches.contains(batch)}">[[${batch.name}]]</option>
                         </select>
                     </div>
                 </form>
@@ -493,7 +493,7 @@
                         style="margin-right: 13px;">
                     Cancel
                 </button>
-                <button form="courseEditForm" class="btn btn-primary" type="submit">
+                <button form="teacherEditForm" class="btn btn-primary" type="submit">
                     Update
                 </button>
             </div>

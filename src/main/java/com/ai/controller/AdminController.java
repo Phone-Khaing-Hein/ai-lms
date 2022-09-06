@@ -402,7 +402,6 @@ public class AdminController {
 
 
     @PostMapping("teacher-create")
-
     public String postCreate(@Validated @ModelAttribute User user, BindingResult bs, RedirectAttributes attr, ModelMap m){
         if(bs.hasErrors()){
             return "ADM-TC001";
@@ -429,6 +428,7 @@ public class AdminController {
     @GetMapping("teacher-list")
     public String teacherList(ModelMap m) {
         var teachers = userService.findAll().stream().filter(u -> u.getRole().equals(User.Role.Teacher)).toList();
+        m.put("openBatches", batchService.findAll().stream().filter(b -> b.isClose() == false).toList());
         m.put("teachers", teachers);
         return "ADM-TC001";
     }

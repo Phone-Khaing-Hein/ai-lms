@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layouts/AUTHENTICATED.html}">
+<head>
+  <meta charset="UTF-8">
+  <title>Profile</title>
+</head>
+<body class="bg-light">
+<div layout:fragment="content">
+  <section>
+    <div class="container paddings">
+      <div class="row">
+        <div class="col-md-4 col-sm-12">
+          <div class="card">
+            <div class="card-body py-4">
+              <div class="d-flex justify-content-center">
+                <img src="https://coderthemes.com/hyper/creative/assets/images/users/avatar-1.jpg"
+                     class="rounded-circle" width="70px" alt="">
+              </div>
+              <h5 class="text-center text-muted mt-2 mb-0">[[${user.name}]]</h5>
+              <h6 class="text-center text-muted">[[${user.role}]]</h6>
+
+              <h6 class="fs-6 text-muted">ABOUT ME :</h6>
+              <div class="mt-4 text-muted">
+                <h6 class="mb-3">Email : <span class="ms-3">[[${user.email}]]</span></h6>
+                <h6 class="mb-3">Location : <span class="ms-3" id="location"></span></h6>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="col-sm-6">
+            <button class="btn btn-dark" id="changepassword">Change Password</button>
+        </div>
+    -->
+        <div class="col-md-8 col-sm-12">
+          <div class="card">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-12">
+                  <h5>Joined Class</h5>
+                  <table class="table">
+                    <thead>
+                    <tr>
+                      <th>Batch</th>
+                      <th>Course</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="batch : ${batches}">
+                      <td>[[${batch.name}]]</td>
+                      <td>[[${batch.course.name}]]</td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card mt-2">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-12">
+                  <h5>Profile Change Password</h5>
+                  <hr>
+                  <div class="row justify-content-center">
+                    <div class="col-md-6 col-sm-12" id="password">
+                      <span th:if="${message}" class="alert alert-success d-none" id="message">[[${message}]]</span>
+                      <form th:action="@{/teacher/change-password}" method="post">
+                        <div class="form-group">
+                          <label for="old">Old Password</label>
+                          <input type="password" class="form-control form-control-sm" id="old" name="oldPassword" th:value="${oldPassword}">
+                          <span th:if="${oldPasswordError}" class="text-danger">[[${oldPasswordError}]]</span>
+                        </div>
+                        <div class="form-group">
+                          <label for="new">New Password</label>
+                          <input type="password" class="form-control form-control-sm" id="new" name="newPassword" th:value="${newPassword}">
+                          <span th:if="${newPasswordError}" class="text-danger">[[${newPasswordError}]]</span>
+                        </div>
+                        <div class="form-group d-flex justify-content-end mt-2">
+                          <button type="submit"
+                                  class="btn btn-outline-success">Change</button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <script>
+    document.addEventListener("DOMContentLoaded", ()=>{
+      fetch('https://api.ipregistry.co/2a09:bac0:497::822:ca7a?key=qr0ise9ibghuo39c')
+              .then(function (response) {
+                return response.json();
+              })
+              .then(function (payload) {
+                document.getElementById("location").innerText = payload.location.country.name + ', ' + payload.location.city
+              });
+    })
+
+    var message = document.getElementById("message");
+    if(message !== null){
+      const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer)
+          toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+      })
+
+      Toast.fire({
+        icon: 'success',
+        title: message.innerText
+      })
+    }
+  </script>
+</div>
+</body>
+</html>
