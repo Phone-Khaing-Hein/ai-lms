@@ -59,7 +59,8 @@ public class StudentController {
     public String members(ModelMap m){
         var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
         var user = userService.findByLoginId(loginId);
-        m.put("members", userService.findAll().stream()
+        var members = batchService.findById(user.getBatches().get(0).getId()).getUsers();
+        m.put("members", members.stream()
                 .filter(s -> s.getRole().equals(User.Role.Student))
                 .filter(u -> !u.getLoginId().equals(user.getLoginId())).toList());
         return "student/STU-MB003";
