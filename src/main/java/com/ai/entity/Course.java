@@ -1,5 +1,6 @@
 package com.ai.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -30,8 +31,10 @@ public class Course implements Serializable {
     private String description;
 
     @OneToMany(mappedBy = "course", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    @JsonIgnore
     private List<Module> modules;
     
     @OneToMany(mappedBy = "course", cascade = {CascadeType.PERSIST,CascadeType.MERGE}, orphanRemoval = true)
+    @JsonIgnore
     private List<Batch> batches;
 }

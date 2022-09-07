@@ -359,7 +359,7 @@
                         <label for="batch">Batch</label>
                         <select class="form-select" th:required="true" name="batchId">
                             <option value="">Select Batch</option>
-                            <option th:selected="${#strings.equals(batch.name, student.batches.get(0).name)}"
+                            <option th:selected="${#strings.equals(batch.name, student?.batches?.get(0)?.name)}"
                                     th:each="batch : ${batches}" th:value="${batch.id}"
                                     th:text="${batch.name}"></option>
                         </select>

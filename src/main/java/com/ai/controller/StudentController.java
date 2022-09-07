@@ -1,10 +1,8 @@
 package com.ai.controller;
 
+import com.ai.entity.Message;
 import com.ai.entity.User;
-import com.ai.service.BatchService;
-import com.ai.service.ModuleService;
-import com.ai.service.UserService;
-import com.ai.service.VideoService;
+import com.ai.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,11 +10,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Controller
 @RequestMapping("student")
@@ -33,6 +31,9 @@ public class StudentController {
 
     @Autowired
     private BatchService batchService;
+
+    @Autowired
+    private MessageService messageService;
 
     @GetMapping("home")
     public String home(ModelMap m){
@@ -67,7 +68,11 @@ public class StudentController {
     }
 
     @GetMapping("chat")
-    public String chat(){
+    public String chat(ModelMap m){
+        var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
+        var user = userService.findByLoginId(loginId);
+        m.put("batch", user.getBatches().get(0));
+        m.put("user", user);
         return "student/STU-CH004";
     }
 
@@ -109,5 +114,12 @@ public class StudentController {
         userService.save(user);
         attributes.addFlashAttribute("message","Changed Password successfully!");
         return "redirect:/student/profile";
+    }
+
+    @ModelAttribute("messages")
+    public List<Message> messagesView(){
+        var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
+        var user = userService.findByLoginId(loginId);
+        return messageService.findAll();
     }
 }

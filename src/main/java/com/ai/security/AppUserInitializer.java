@@ -30,7 +30,6 @@ public class AppUserInitializer {
             admin.setEmail("admin@gmail.com");
             admin.setPassword(passwordEncoder.encode("admin"));
             admin.setRole(Role.Admin);
-            admin.setBatchId(new Integer[]{0});
             repo.save(admin);
 
             var teacher = new User();

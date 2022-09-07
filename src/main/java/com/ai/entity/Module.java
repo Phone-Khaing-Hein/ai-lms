@@ -1,5 +1,6 @@
 package com.ai.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -31,9 +32,11 @@ public class Module implements Serializable {
     private Course course;
 
     @OneToMany(mappedBy = "module", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    @JsonIgnore
     private List<Resource> resources;
 
     @OneToMany(mappedBy = "module", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    @JsonIgnore
     private List<Video> videos;
 
     @Transient

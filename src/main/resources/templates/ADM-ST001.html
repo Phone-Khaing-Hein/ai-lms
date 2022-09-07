@@ -86,7 +86,9 @@
                                             class="bi bi-trash-fill me-2"></i>Delete
                                     </a>
                                 </td>
-                                <div th:replace="fragments/COM-FG001 :: student-edit"></div>
+                                <div th:if="${student.batches.size()} > 0">
+                                    <div th:replace="fragments/COM-FG001 :: student-edit"></div>
+                                </div>
                             </tr>
                         </tbody>
                     </table>

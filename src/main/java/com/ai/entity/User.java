@@ -1,5 +1,6 @@
 package com.ai.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -37,7 +38,12 @@ public class User {
     @JoinTable(name = "batch_has_user",
                 joinColumns = @JoinColumn(name = "user_id"),
                 inverseJoinColumns = @JoinColumn(name = "batch_id"))
+    @JsonIgnore
 	private List<Batch> batches;
+
+	@OneToMany(mappedBy = "user", orphanRemoval = true, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JsonIgnore
+    private List<Message> messages;
 
 	@Transient
     private Integer[] batchId;

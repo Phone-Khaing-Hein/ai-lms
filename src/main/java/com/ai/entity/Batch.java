@@ -1,5 +1,6 @@
 package com.ai.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -41,5 +42,6 @@ public class Batch implements Serializable {
     private Course course;
 
     @ManyToMany(mappedBy = "batches", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
+    @JsonIgnore
     private List<User> users;
 }
