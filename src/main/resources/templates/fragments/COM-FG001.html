@@ -61,17 +61,17 @@
 
         <div class="navbar-collapse collapse justify-content-between" id="nav">
             <ul class="navbar-nav px-3">
-                <li class="nav-item"><a th:href="@{/student/home}" class="nav-link text-uppercase">dashboard</a>
+                <li class="nav-item"><a th:href="@{/student/home}" class="nav-link text-uppercase" th:classappend="${#strings.equals(nav, 'dashboard')} ? 'active' : ''"><i class="bi bi-house-door me-2"></i>dashboard</a>
                 </li>
-                <li class="nav-item"><a th:href="@{/student/course}" class="nav-link text-uppercase">video</a>
+                <li class="nav-item"><a th:href="@{/student/course}" class="nav-link text-uppercase" th:classappend="${#strings.equals(nav, 'video')} ? 'active' : ''"><i class="bi bi-camera-reels me-2"></i>video</a>
                 </li>
-                <li class="nav-item"><a th:href="@{/student/members}" class="nav-link text-uppercase">participants</a>
+                <li class="nav-item"><a th:href="@{/student/members}" class="nav-link text-uppercase" th:classappend="${#strings.equals(nav, 'participants')} ? 'active' : ''"><i class="bi bi-people me-2"></i>participants</a>
                 </li>
-                <li class="nav-item"><a th:href="@{/student/chat}" class="nav-link text-uppercase">Chat</a>
+                <li class="nav-item"><a th:href="@{/student/chat}" class="nav-link text-uppercase" th:classappend="${#strings.equals(nav, 'chat')} ? 'active' : ''"><i class="bi bi-chat-dots me-2"></i>Chat</a>
                 </li>
             </ul>
-            <form th:action="@{/logout}" method="post">
-                <input class="me-4 btn btn-outline-danger btn-sm" type="submit" value="Log Out">
+            <form th:action="@{/logout}" method="post" id="logoutForm">
+                <button class="me-4 btn btn-outline-danger btn-sm" type="button" id="logout"><i class="bi bi-door-open me-2"></i>Log Out</button>
             </form>
         </div>
     </nav>

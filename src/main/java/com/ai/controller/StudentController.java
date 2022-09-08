@@ -44,6 +44,7 @@ public class StudentController {
                 .filter(t -> t.getBatches().contains(batchService.findById(user.getBatches().get(0).getId()))).toList();
         m.put("user", user);
         m.put("teachers", teachers);
+        m.put("nav", "dashboard");
         return "student/STU-DB001";
     }
 
@@ -53,6 +54,7 @@ public class StudentController {
         var user = userService.findByLoginId(loginId);
         var modules = moduleService.findByCourseId(user.getBatches().get(0).getCourse().getId());
         m.put("modules", modules);
+        m.put("nav", "video");
         return "student/STU-VD002";
     }
 
@@ -64,6 +66,7 @@ public class StudentController {
         m.put("members", members.stream()
                 .filter(s -> s.getRole().equals(User.Role.Student))
                 .filter(u -> !u.getLoginId().equals(user.getLoginId())).toList());
+        m.put("nav", "participants");
         return "student/STU-MB003";
     }
 
@@ -73,6 +76,7 @@ public class StudentController {
         var user = userService.findByLoginId(loginId);
         m.put("batch", user.getBatches().get(0));
         m.put("user", user);
+        m.put("nav", "chat");
         return "student/STU-CH004";
     }
 
@@ -114,6 +118,16 @@ public class StudentController {
         userService.save(user);
         attributes.addFlashAttribute("message","Changed Password successfully!");
         return "redirect:/student/profile";
+    }
+
+    @GetMapping("exam-list")
+    public String exams(){
+        return "student/STU-EX006";
+    }
+
+    @GetMapping("assignment-list")
+    public String assignments(){
+        return "student/STU-AS007";
     }
 
     @ModelAttribute("messages")

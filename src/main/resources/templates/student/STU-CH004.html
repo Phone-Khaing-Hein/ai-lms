@@ -55,7 +55,7 @@
             <div class="container-fluid" style="padding-top: 100px;">
                 <div class="row g-0 justify-content-center">
                     <div class="col-sm-12 col-md-9">
-                        <div class="card mx-0 overflow-scroll" style="height: 615px">
+                        <div class="card mx-0" style="height: 615px">
                             <div class="card-header bg-white position-sticky top-0" style="z-index: 1500">
                                 <div class="navbar navbar-expand p-0">
                                     <ul class="navbar-nav me-auto align-items-center">
@@ -78,58 +78,61 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div class="card-body" v-for="m in messages" id="messages">
+                            <div class="card-body overflow-scroll" id="messages">
 
-                                <div class="d-flex align-items-baseline" v-if="user.loginId !== m.user.loginId">
-                                    <div class="position-relative avatar">
-                                        <img src="https://nextbootstrap.netlify.app/assets/images/profiles/1.jpg"
-                                            class="img-fluid rounded-circle" alt="">
-                                        <span
-                                            class="position-absolute bottom-0 start-100 translate-middle p-1 bg-success border border-light rounded-circle">
+                                <div v-for="m in messages">
+                                    <div class="d-flex align-items-baseline mb-2" v-if="user.loginId !== m.user.loginId">
+                                        <div class="position-relative avatar">
+                                            <img src="https://nextbootstrap.netlify.app/assets/images/profiles/1.jpg"
+                                                 class="img-fluid rounded-circle" alt="">
+                                            <span
+                                                    class="position-absolute bottom-0 start-100 translate-middle p-1 bg-success border border-light rounded-circle">
                                             <span class="visually-hidden">New alerts</span>
                                         </span>
-                                    </div>
-                                    <div class="pe-2">
-                                        <div>
-                                            <div class="card card-text d-inline-block p-2 px-3 m-1">
-                                                {{m.message}}
+                                        </div>
+                                        <div class="pe-2">
+                                            <div>
+                                                <div class="card card-text d-inline-block p-2 px-3 m-1">
+                                                    {{m.message}}
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div class="small">{{m.created}}</div>
                                             </div>
                                         </div>
-                                        <div>
-                                            <div class="small">{{m.created}}</div>
+                                    </div>
+
+                                    <div class="d-flex align-items-baseline text-end justify-content-end mb-2" v-else>
+                                        <div class="pe-2">
+                                            <div>
+                                                <div class="card card-text d-inline-block p-2 px-3 m-1">
+                                                    {{m.message}}
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div class="small">{{m.created}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="position-relative avatar">
+                                            <img src="https://nextbootstrap.netlify.app/assets/images/profiles/2.jpg"
+                                                 class="img-fluid rounded-circle" alt="">
+                                            <span
+                                                    class="position-absolute bottom-0 start-100 translate-middle p-1 bg-success border border-light rounded-circle">
+                                            <span class="visually-hidden">New alerts</span>
+                                        </span>
                                         </div>
                                     </div>
                                 </div>
-
-                                <div class="d-flex align-items-baseline text-end justify-content-end" v-else>
-                                    <div class="pe-2">
-                                        <div>
-                                            <div class="card card-text d-inline-block p-2 px-3 m-1">
-                                                {{m.message}}
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <div class="small">{{m.created}}</div>
-                                        </div>
-                                    </div>
-                                    <div class="position-relative avatar">
-                                        <img src="https://nextbootstrap.netlify.app/assets/images/profiles/2.jpg"
-                                            class="img-fluid rounded-circle" alt="">
-                                        <span
-                                            class="position-absolute bottom-0 start-100 translate-middle p-1 bg-success border border-light rounded-circle">
-                                            <span class="visually-hidden">New alerts</span>
-                                        </span>
-                                    </div>
-                                </div>
+                                <a href="#divider" class="d-none" id="autoscroll">scroll</a>
+                                <div id="divider"></div>
                             </div>
-                            <div class="mt-3"></div>
                             <div class="card-footer bg-white position-sticky bottom-0 w-100 bottom-0 p-1">
                                 <form id="sendMessage" @submit.prevent="sendMessage" @keyup.enter="sendMessage">
                                     <div class="input-group d-flex align-items-center justify-content-around">
                                         <input type="text" id="textBox" class="form-control border-0 w-75"
                                             placeholder="Write a message...">
                                         <div class="input-group-text bg-transparent border-0">
-                                            <button class="btn btn-primary" type="submit">
+                                            <button @click="scroll" class="btn btn-primary" type="submit">
                                                 <i class="bi bi-send"></i>
                                             </button>
                                         </div>
@@ -144,14 +147,22 @@
         <script>
             $(document).ready(() => {
                 $("#textBox").emojioneArea()
+                document.getElementById("autoscroll").click();
             })
 
             $("#textBox").emojioneArea({
                 events: {
                     keyup: function (editor, event) {
                         if (event.which == 13) {
-                            window.that.sendMessage();
-                            $("#textBox").data("emojioneArea").editor.focus();
+                            axios.post('http://localhost:9090/student/chat', {
+                                message: document.getElementById("textBox").value
+                            }).then(() => {
+                                // this.newMessage = response.data
+                                // this.messages = [...this.messages, newMessage]
+                                $(".emojionearea-editor").html('');
+                            }).catch(function (error) {
+                                console.log(error);
+                            });
                         }
                     },
                 }
@@ -189,6 +200,10 @@
                         }).catch(function (error) {
                             console.log(error);
                         });
+                        document.getElementById("autoscroll").click();
+                    },
+                    scroll(){
+                        document.getElementById("autoscroll").click();
                     }
                 },
                 created() {
@@ -248,6 +263,11 @@
             //             console.log(error);
             //         });
             // })
+
+            // window.onload = function() {
+            //     var el = document.getElementById('target');
+            //     el.scrollIntoView(true);
+            // }
         </script>
     </div>
 </body>
