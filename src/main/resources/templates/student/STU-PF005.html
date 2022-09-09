@@ -12,9 +12,14 @@
     <div class="container mt-5">
       <div class="row justify-content-center">
         <div class="col-md-8 col-sm-12 text-center">
-          <img src="https://nextbootstrap.netlify.app/assets/images/profiles/1.jpg"
-               class="shadow bg-body rounded-circle" width="80" height="80px" alt="">
-          <h3 class="fs-4 lead mt-2">Welcome, John</h3>
+          <div class="d-flex align-items-top justify-content-center">
+            <img th:src="@{/resources/profile/}+${user.photo}" class="shadow bg-body rounded-circle" width="80" height="80px" alt="profile" id="profile">
+            <i class="bi bi-pencil-square" id="photo"></i>
+          </div>
+          <form th:action="@{/student/profile-change}" enctype="multipart/form-data" class="d-none" id="profileForm" method="post">
+            <input type="file" class="d-none" name="photo" id="profileInput" accept="image/png, image/jpeg">
+          </form>
+          <h3 class="fs-4 lead mt-2">Welcome, [[${user.name}]]</h3>
           <p class="text-muted">Manage your info, privacy, and security to make work better for you.</p>
 
         </div>
@@ -85,6 +90,27 @@
         })
       }
 
+      document.getElementById("photo").addEventListener("click", ()=>{
+        document.getElementById("profileInput").click()
+      })
+
+      document.getElementById("profileInput").addEventListener("change", (e)=>{
+        const reader = new FileReader();
+        reader.readAsDataURL(e.target.files[0]);
+        reader.onload = () => {
+          const preview = document.getElementById('profile');
+          preview.src = reader.result;
+        };
+
+        let file = e.target.files[0]
+        let formData = new FormData();
+        formData.append("profile", file);
+        axios.post('http://localhost:9090/student/profile-change', formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+      })
   </script>
 </div>
 </body>

@@ -93,7 +93,7 @@
                             <div class="card">
                                 <div class="card-body">
                                     <div class="d-flex align-items-center position-relative">
-                                        <img src="https://nextbootstrap.netlify.app/assets/images/profiles/1.jpg"
+                                        <img th:src="@{/resources/profile/}+${user.photo}"
                                              class="shadow bg-body rounded-circle" width="80" height="80px" alt="">
                                         <div>
                                             <h5 class="text-capitalize text-muted mx-3 text-nowrap">[[${user.name}]]</h5>

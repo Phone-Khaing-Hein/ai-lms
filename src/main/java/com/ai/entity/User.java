@@ -45,6 +45,9 @@ public class User {
     @JsonIgnore
     private List<Message> messages;
 
+	@Column(name = "photo",columnDefinition = "VARCHAR(255) DEFAULT 'default.png'", nullable = false)
+	private String photo;
+
 	@Transient
     private Integer[] batchId;
 

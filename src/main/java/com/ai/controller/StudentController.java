@@ -11,13 +11,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.annotation.MultipartConfig;
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
 @RequestMapping("student")
+@MultipartConfig
 public class StudentController {
 
     @Autowired
@@ -34,6 +39,9 @@ public class StudentController {
 
     @Autowired
     private MessageService messageService;
+
+    @Autowired
+    private FileService fileService;
 
     @GetMapping("home")
     public String home(ModelMap m){

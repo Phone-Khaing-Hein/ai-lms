@@ -20,7 +20,7 @@ public class Message implements Serializable {
     @Column(nullable = false)
     private String message;
 
-    @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", nullable = false)
     private LocalDateTime created;
 
     @ManyToOne
