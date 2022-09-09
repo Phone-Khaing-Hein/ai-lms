@@ -130,19 +130,19 @@ public class StudentController {
         return "redirect:/student/profile";
     }
 
-    @PostMapping("profile-change")
-    public String profileChange(@RequestParam MultipartFile photo) throws IOException {
-        var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
-        var user = userService.findByLoginId(loginId);
-        if(StringUtils.hasLength(user.getPhoto()) && !user.getPhoto().equals("default.png")){
-            var profileFilePath = new File("src\\main\\resources\\static\\profile\\").getAbsolutePath();
-            fileService.deleteFile(profileFilePath.concat("\\").concat(user.getPhoto()));
-        }
-        var fileName = fileService.createProfileFile(photo, user.getLoginId());
-        user.setPhoto(fileName);
-        userService.save(user);
-        return "redirect:/student/profile";
-    }
+//    @PostMapping("profile-change")
+//    public String profileChange(@RequestParam MultipartFile photo) throws IOException {
+//        var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
+//        var user = userService.findByLoginId(loginId);
+//        if(StringUtils.hasLength(user.getPhoto()) && !user.getPhoto().equals("default.png")){
+//            var profileFilePath = new File("src\\main\\resources\\static\\profile\\").getAbsolutePath();
+//            fileService.deleteFile(profileFilePath.concat("\\").concat(user.getPhoto()));
+//        }
+//        var fileName = fileService.createProfileFile(photo, user.getLoginId());
+//        user.setPhoto(fileName);
+//        userService.save(user);
+//        return "redirect:/student/profile";
+//    }
 
     @GetMapping("exam-list")
     public String exams(){

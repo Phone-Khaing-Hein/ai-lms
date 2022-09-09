@@ -13,7 +13,7 @@
       <div class="row justify-content-center">
         <div class="col-md-8 col-sm-12 text-center">
           <div class="d-flex align-items-top justify-content-center">
-            <img th:src="@{/resources/profile/}+${user.photo}" class="shadow bg-body rounded-circle" width="80" height="80px" alt="profile">
+            <img th:src="@{/resources/profile/}+${user.photo}" class="shadow bg-body rounded-circle" width="80" height="80px" alt="profile" id="profile">
             <i class="bi bi-pencil-square" id="photo"></i>
           </div>
           <form th:action="@{/student/profile-change}" enctype="multipart/form-data" class="d-none" id="profileForm" method="post">
@@ -95,27 +95,26 @@
       })
 
       document.getElementById("profileInput").addEventListener("change", (e)=>{
-        document.getElementById("profileForm").submit()
-        // const reader = new FileReader();
-        // reader.readAsDataURL(e.target.files[0]);
-        // reader.onload = () => {
-        //   const preview = document.getElementById('profile');
-        //   preview.src = reader.result;
-        // };
-        //
-        // let file = e.target.files[0]
-        // let formData = new FormData();
-        // formData.append("profile", file);
-        // axios.post('http://localhost:9090/student/profile-change', formData, {
-        //   headers: {
-        //     "Content-Type": "multipart/form-data",
-        //   },
-        // }).then(function (response) {
-        //   console.log(response.data)
-        //   document.getElementById("profile").src = response.data;
-        // }).catch(function (error) {
-        //   console.log(error);
-        // });
+        // document.getElementById("profileForm").submit()
+        const reader = new FileReader();
+        reader.readAsDataURL(e.target.files[0]);
+        reader.onload = () => {
+          const preview = document.getElementById('profile');
+          preview.src = reader.result;
+        };
+
+        let file = e.target.files[0]
+        let formData = new FormData();
+        formData.append("profile", file);
+        axios.post('http://localhost:9090/student/profile-change', formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }).then(function (response) {
+          // document.getElementById("profile").src = response.data;
+        }).catch(function (error) {
+          console.log(error);
+        });
       })
   </script>
 </div>
