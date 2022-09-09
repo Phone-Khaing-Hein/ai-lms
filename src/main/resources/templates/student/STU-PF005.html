@@ -13,7 +13,7 @@
       <div class="row justify-content-center">
         <div class="col-md-8 col-sm-12 text-center">
           <div class="d-flex align-items-top justify-content-center">
-            <img th:src="@{/resources/profile/}+${user.photo}" class="shadow bg-body rounded-circle" width="80" height="80px" alt="profile" id="profile">
+            <img th:src="@{/resources/profile/}+${user.photo}" class="shadow bg-body rounded-circle" width="80" height="80px" alt="profile">
             <i class="bi bi-pencil-square" id="photo"></i>
           </div>
           <form th:action="@{/student/profile-change}" enctype="multipart/form-data" class="d-none" id="profileForm" method="post">
@@ -109,6 +109,11 @@
           headers: {
             "Content-Type": "multipart/form-data",
           },
+        }).then(function (response) {
+          console.log(response.data)
+          // document.getElementById("profile").src = response.data;
+        }).catch(function (error) {
+          console.log(error);
         });
       })
   </script>

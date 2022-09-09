@@ -22,9 +22,8 @@ public class FileService {
                 new File(courseFilePath + folderName + "\\" + file.getOriginalFilename()));
     }
 
-    public String  createProfileFile(MultipartFile file) throws IllegalStateException, IOException {
-        var dformat = new DecimalFormat("00000");
-        var fileName =  "profile-".concat(String.valueOf(dformat.format(Math.random()))).concat(".").concat(file.getOriginalFilename().split("\\.")[1]);
+    public String  createProfileFile(MultipartFile file, String loginId) throws IllegalStateException, IOException {
+        var fileName =  "profile-".concat(loginId).concat(".").concat(file.getOriginalFilename().split("\\.")[1]);
         file.transferTo(
                 new File( profileFilePath + "\\" + fileName));
         return fileName;

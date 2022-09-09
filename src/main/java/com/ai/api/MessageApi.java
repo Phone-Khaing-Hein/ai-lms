@@ -52,15 +52,16 @@ public class MessageApi {
 
     @PostMapping("student/profile-change")
     @CrossOrigin
-    public void profileChange(@RequestBody MultipartFile profile) throws IOException {
+    public String profileChange(@RequestBody MultipartFile profile) throws IOException {
         var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
         var user = userService.findByLoginId(loginId);
         if(StringUtils.hasLength(user.getPhoto()) && !user.getPhoto().equals("default.png")){
             var profileFilePath = new File("src\\main\\resources\\static\\profile\\").getAbsolutePath();
             fileService.deleteFile(profileFilePath.concat("\\").concat(user.getPhoto()));
         }
-        var fileName = fileService.createProfileFile(profile);
+        var fileName = fileService.createProfileFile(profile, user.getLoginId());
         user.setPhoto(fileName);
         userService.save(user);
+        return "http://localhost:9090/resources/profile/%s".formatted(fileName);
     }
 }
