@@ -225,264 +225,41 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3 col-sm-12 mb-2 d-sm-none d-md-block" id="video-tab">
+                    <div class="col-md-3 col-sm-12 mb-2 d-sm-none d-md-block">
                         <!-- To Do Video -->
-                        <div class="accordion" id="accordionPanelsStayOpenExample">
-                            <div class="accordion-item" th:each="module : ${modules}">
-                                <h2 class="accordion-header" th:attr="id='panelsStayOpen-'+${module?.id}">
-                                    <button class="accordion-button p-3" type="button" data-bs-toggle="collapse"
-                                        th:attr="data-bs-target='#panelsStayOpen-'+${module.name},aria-controls='panelsStayOpen-'+${module.name}"
-                                        aria-expanded="true">
-                                        [[${module.name}]]
-                                    </button>
-                                </h2>
-                                <div th:each="v : ${module.videos}"
-                                    th:attr="id='panelsStayOpen-'+${module.name}, aria-labelledby='panelsStayOpen-'+${module.id}"
-                                    class="accordion-collapse collapse show w-100 bg-light"
-                                    style="border-bottom: 1px solid gray;">
-                                    <div class="accordion-body px-3">
-                                        <a href="" th:attr="onclick=|changeVideo(${module},${v.name})|"
-                                            class="text-decoration-none" th:text="${v.name}"></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+<!--                        <div class="accordion" id="accordionPanelsStayOpenExample">-->
+<!--                            <div class="accordion-item" th:each="module : ${modules}">-->
+<!--                                <h2 class="accordion-header" th:attr="id='panelsStayOpen-'+${module?.id}">-->
+<!--                                    <button class="accordion-button p-3" type="button" data-bs-toggle="collapse"-->
+<!--                                        th:attr="data-bs-target='#panelsStayOpen-'+${module.name},aria-controls='panelsStayOpen-'+${module.name}"-->
+<!--                                        aria-expanded="true">-->
+<!--                                        [[${module.name}]]-->
+<!--                                    </button>-->
+<!--                                </h2>-->
+<!--                                <div th:each="v : ${module.videos}"-->
+<!--                                    th:attr="id='panelsStayOpen-'+${module.name}, aria-labelledby='panelsStayOpen-'+${module.id}"-->
+<!--                                    class="accordion-collapse collapse show w-100 bg-light"-->
+<!--                                    style="border-bottom: 1px solid gray;">-->
+<!--                                    <div class="accordion-body px-3">-->
+<!--                                        <a href="" th:attr="onclick=|changeVideo(${module},${v.name})|"-->
+<!--                                            class="text-decoration-none" th:text="${v.name}"></a>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
                     </div>
                 </div>
             </div>
         </section>
-
-
-        <!--        <section>-->
-        <!--            <div class="container" style="padding-top: 80px;">-->
-        <!--                <div class="row gx-2">-->
-        <!--                    <div class="col-md-9 col-sm-12">-->
-        <!--                        <div class="row gx-2">-->
-        <!--                            <video width="200" controls>-->
-        <!--                                <source-->
-        <!--                                    th:src="@{/resources/courses/}+${modules?.get(0).course?.name}+@{/}+${modules?.get(0)?.name}+@{/videos/}+${modules?.get(0).videos?.get(0)?.name}"-->
-        <!--                                    type="video/mp4" id="video">-->
-        <!--                            </video>-->
-        <!--                            <div class="col mt-3">-->
-        <!--                                <div id="mytag">-->
-        <!--                                    <ul>-->
-        <!--                                        <li class="nav-item">-->
-        <!--                                            <a class="nav-link" data-toggle="tab" href="#comments-tab">Comments</a>-->
-        <!--                                        </li>-->
-        <!--                                        <li class="nav-item d-sm-block d-md-none">-->
-        <!--                                            <a class="nav-link" data-toggle="tab" href="#video-tab">Videos</a>-->
-        <!--                                        </li>-->
-        <!--                                        <li class="nav-item">-->
-        <!--                                            <a class="nav-link" data-toggle="tab" href="#resource-tab">Resource</a>-->
-        <!--                                        </li>-->
-        <!--                                    </ul>-->
-        <!--                                    <div id="comments-tab">-->
-        <!--                                        &lt;!&ndash; comment section &ndash;&gt;-->
-        <!--                                        <section class="bg-white">-->
-        <!--                                            <h5 class="text-muted">Class comments</h5>-->
-        <!--                                            <div class="card border-0">-->
-        <!--                                                &lt;!&ndash;card&ndash;&gt;-->
-        <!--                                                <div class="card-body">-->
-        <!--                                                    <div class="d-flex flex-start align-items-center">-->
-        <!--                                                        <img class="rounded-circle shadow-1-strong me-3"-->
-        <!--                                                            src="https://i.pinimg.com/originals/3d/66/78/3d667893c5788613ff3590ca218a9cb2.jpg"-->
-        <!--                                                            alt="avatar" width="60" height="60" />-->
-        <!--                                                        <div>-->
-        <!--                                                            <h6 class="fw-bold text-primary mb-1">Phyu Phyu Thin-->
-        <!--                                                            </h6>-->
-        <!--                                                            <p class="text-muted small mb-0">-->
-        <!--                                                                Jan 2020-->
-        <!--                                                            </p>-->
-        <!--                                                        </div>-->
-        <!--                                                    </div>-->
-        <!--                                                    <p class="mt-3 mb-4 pb-2">-->
-        <!--                                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed-->
-        <!--                                                        do-->
-        <!--                                                        eiusmod-->
-        <!--                                                        tempor incididunt ut labore et dolore magna aliqua. Ut enim-->
-        <!--                                                        ad-->
-        <!--                                                        minim veniam,-->
-        <!--                                                        quis nostrud exercitation ullamco laboris nisi ut aliquip-->
-        <!--                                                        consequat.-->
-        <!--                                                    </p>-->
-        <!--                                                </div>-->
-        <!--                                                &lt;!&ndash;card&ndash;&gt;-->
-
-        <!--                                                &lt;!&ndash;card&ndash;&gt;-->
-        <!--                                                <div class="card-body">-->
-        <!--                                                    <div class="d-flex flex-start align-items-center">-->
-        <!--                                                        <img class="rounded-circle shadow-1-strong me-3"-->
-        <!--                                                            src="https://i.quotev.com/lr6j7dfrjd5a.jpg" alt="avatar"-->
-        <!--                                                            width="60" height="60" />-->
-        <!--                                                        <div>-->
-        <!--                                                            <h6 class="fw-bold text-primary mb-1">May Zwei</h6>-->
-        <!--                                                            <p class="text-muted small mb-0">-->
-        <!--                                                                Jan 2020-->
-        <!--                                                            </p>-->
-        <!--                                                        </div>-->
-        <!--                                                    </div>-->
-        <!--                                                    <p class="mt-3 mb-4 pb-2">-->
-        <!--                                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed-->
-        <!--                                                        do-->
-        <!--                                                        eiusmod-->
-        <!--                                                        tempor incididunt ut labore et dolore magna aliqua. Ut enim-->
-        <!--                                                        ad-->
-        <!--                                                        minim veniam,-->
-        <!--                                                        quis nostrud exercitation ullamco laboris nisi ut aliquip-->
-        <!--                                                        consequat.-->
-        <!--                                                    </p>-->
-        <!--                                                </div>-->
-        <!--                                                &lt;!&ndash;card&ndash;&gt;-->
-
-        <!--                                                &lt;!&ndash;card&ndash;&gt;-->
-        <!--                                                <div class="card-body">-->
-        <!--                                                    <div class="d-flex flex-start align-items-center">-->
-        <!--                                                        <img class="rounded-circle shadow-1-strong me-3"-->
-        <!--                                                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfG26lCCZXstVwEXL7T8wbWvgl4omGGU5W9QMnki7Ues5r24_TXc8RsOm2MvhCSjWaADA&usqp=CAU"-->
-        <!--                                                            alt="avatar" width="60" height="60" />-->
-        <!--                                                        <div>-->
-        <!--                                                            <h6 class="fw-bold text-primary mb-1">Phyu Phyu Thin-->
-        <!--                                                            </h6>-->
-        <!--                                                            <p class="text-muted small mb-0">-->
-        <!--                                                                Jan 2020-->
-        <!--                                                            </p>-->
-        <!--                                                        </div>-->
-        <!--                                                    </div>-->
-        <!--                                                    <p class="mt-3 mb-4 pb-2">-->
-        <!--                                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed-->
-        <!--                                                        do-->
-        <!--                                                        eiusmod-->
-        <!--                                                        tempor incididunt ut labore et dolore magna aliqua. Ut enim-->
-        <!--                                                        ad-->
-        <!--                                                        minim veniam,-->
-        <!--                                                        quis nostrud exercitation ullamco laboris nisi ut aliquip-->
-        <!--                                                        consequat.-->
-        <!--                                                    </p>-->
-        <!--                                                </div>-->
-        <!--                                                &lt;!&ndash;card&ndash;&gt;-->
-
-        <!--                                                &lt;!&ndash;card&ndash;&gt;-->
-        <!--                                                <div class="card-body">-->
-        <!--                                                    <div class="d-flex flex-start align-items-center">-->
-        <!--                                                        <img class="rounded-circle shadow-1-strong me-3"-->
-        <!--                                                            src="https://cdn.vectorstock.com/i/1000x1000/44/12/default-avatar-photo-placeholder-icon-grey-vector-38594412.webp"-->
-        <!--                                                            alt="avatar" width="60" height="60" />-->
-        <!--                                                        <div>-->
-        <!--                                                            <h6 class="fw-bold text-primary mb-1">May Zwei</h6>-->
-        <!--                                                            <p class="text-muted small mb-0">-->
-        <!--                                                                Jan 2020-->
-        <!--                                                            </p>-->
-        <!--                                                        </div>-->
-        <!--                                                    </div>-->
-        <!--                                                    <p class="mt-3 mb-4 pb-2">-->
-        <!--                                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed-->
-        <!--                                                        do-->
-        <!--                                                        eiusmod-->
-        <!--                                                        tempor incididunt ut labore et dolore magna aliqua. Ut enim-->
-        <!--                                                        ad-->
-        <!--                                                        minim veniam,-->
-        <!--                                                        quis nostrud exercitation ullamco laboris nisi ut aliquip-->
-        <!--                                                        consequat.-->
-        <!--                                                    </p>-->
-        <!--                                                </div>-->
-        <!--                                                &lt;!&ndash;card&ndash;&gt;-->
-
-        <!--                                                &lt;!&ndash;card&ndash;&gt;-->
-        <!--                                                <div class="card-body">-->
-        <!--                                                    <div class="d-flex flex-start align-items-center">-->
-        <!--                                                        <img class="rounded-circle shadow-1-strong me-3"-->
-        <!--                                                            src="https://64.media.tumblr.com/d1133af521baf01b6898025f4339c3b0/866a7d8faf880207-5f/s640x960/3cef0d45e826da7df75c8ba57f519bcf162ccefb.png"-->
-        <!--                                                            alt="avatar" width="60" height="60" />-->
-        <!--                                                        <div>-->
-        <!--                                                            <h6 class="fw-bold text-primary mb-1">Phyu Phyu Thin-->
-        <!--                                                            </h6>-->
-        <!--                                                            <p class="text-muted small mb-0">-->
-        <!--                                                                Jan 2020-->
-        <!--                                                            </p>-->
-        <!--                                                        </div>-->
-        <!--                                                    </div>-->
-        <!--                                                    <p class="mt-3 mb-4 pb-2">-->
-        <!--                                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed-->
-        <!--                                                        do-->
-        <!--                                                        eiusmod-->
-        <!--                                                        tempor incididunt ut labore et dolore magna aliqua. Ut enim-->
-        <!--                                                        ad-->
-        <!--                                                        minim veniam,-->
-        <!--                                                        quis nostrud exercitation ullamco laboris nisi ut aliquip-->
-        <!--                                                        consequat.-->
-        <!--                                                    </p>-->
-        <!--                                                </div>-->
-        <!--                                                &lt;!&ndash;card&ndash;&gt;-->
-
-        <!--                                                <div class="card-footer py-3 border-0"-->
-        <!--                                                    style="background-color: #f8f9fa;">-->
-        <!--                                                    <div class="d-flex flex-start w-100">-->
-        <!--                                                        <img class="rounded-circle shadow-1-strong me-3"-->
-        <!--                                                            src="https://i.pinimg.com/474x/eb/d2/2e/ebd22e59d2788984176c91d24e2f855d.jpg"-->
-        <!--                                                            alt="avatar" width="40" height="40" />-->
-        <!--                                                        <div class="form-outline w-100">-->
-        <!--                                                            <textarea class="form-control" id="textAreaExample" rows="4"-->
-        <!--                                                                style="background: #fff; resize: none;"-->
-        <!--                                                                placeholder="Post Comments ....."></textarea>-->
-        <!--                                                        </div>-->
-        <!--                                                    </div>-->
-        <!--                                                    <div class="float-end mt-2 pt-1">-->
-        <!--                                                        <button type="button" class="btn btn-primary btn-sm">Post-->
-        <!--                                                            comment</button>-->
-        <!--                                                        <button type="button"-->
-        <!--                                                            class="btn btn-outline-primary btn-sm">Cancel</button>-->
-        <!--                                                    </div>-->
-        <!--                                                </div>-->
-        <!--                                            </div>-->
-
-        <!--                                        </section>-->
-        <!--                                        &lt;!&ndash; comment section &ndash;&gt;-->
-        <!--                                    </div>-->
-        <!--                                    <div id="resource-tab">-->
-
-        <!--                                    </div>-->
-        <!--                                </div>-->
-        <!--                            </div>-->
-        <!--                        </div>-->
-        <!--                    </div>-->
-        <!--                    <div class="col-md-3 col-sm-12 mb-2 d-sm-none d-md-block" id="video-tab">-->
-        <!--                        &lt;!&ndash; To Do Video &ndash;&gt;-->
-        <!--                        <div class="accordion" id="accordionPanelsStayOpenExample">-->
-        <!--                            <div class="accordion-item" th:each="module : ${modules}">-->
-        <!--                                <h2 class="accordion-header" th:attr="id='panelsStayOpen-'+${module?.id}">-->
-        <!--                                    <button class="accordion-button p-3" type="button" data-bs-toggle="collapse"-->
-        <!--                                        th:attr="data-bs-target='#panelsStayOpen-'+${module.name},aria-controls='panelsStayOpen-'+${module.name}"-->
-        <!--                                        aria-expanded="true">-->
-        <!--                                        [[${module.name}]]-->
-        <!--                                    </button>-->
-        <!--                                </h2>-->
-        <!--                                <div th:each="v : ${module.videos}"-->
-        <!--                                    th:attr="id='panelsStayOpen-'+${module.name}, aria-labelledby='panelsStayOpen-'+${module.id}"-->
-        <!--                                    class="accordion-collapse collapse show w-100 bg-light"-->
-        <!--                                    style="border-bottom: 1px solid gray;">-->
-        <!--                                    <div class="accordion-body px-3">-->
-        <!--                                        <a href="" th:attr="onclick=|changeVideo(${module},${v.name})|"-->
-        <!--                                            class="text-decoration-none" th:text="${v.name}"></a>-->
-        <!--                                    </div>-->
-        <!--                                </div>-->
-        <!--                            </div>-->
-        <!--                        </div>-->
-        <!--                    </div>-->
-        <!--                </div>-->
-        <!--            </div>-->
-        <!--        </section>-->
         <script type="text/javascript">
             $(document).ready(function () {
-
                 $("#mytag").tabs();
-                $("#comments-tab").tabs();
-                $("#resource-tab").tabs();
             });
 
-            // var changeVideo = (module, videoName)=>{
-            //     var video = document.getElementById('video')
-            //     video.setAttribute('src', [[@{/resources/courses/}+${module.course.name}+@{/}+${module.name}+@{/}+${videoName}]])
-            // }
+            var changeVideo = (module, videoName)=>{
+                var video = document.getElementById('video')
+                video.setAttribute('src', [[@{/resources/courses/}+${module.course.name}+@{/}+${module.name}+@{/}+${videoName}]])
+            }
         </script>
     </div>
 </body>
