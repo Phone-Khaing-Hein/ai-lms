@@ -67,7 +67,7 @@
                 </li>
                 <li class="nav-item"><a th:href="@{/student/members}" class="nav-link text-uppercase" th:classappend="${#strings.equals(nav, 'participants')} ? 'active' : ''"><i class="bi bi-people me-2"></i>participants</a>
                 </li>
-                <li class="nav-item"><a th:href="@{/student/chat}" class="nav-link text-uppercase" th:classappend="${#strings.equals(nav, 'chat')} ? 'active' : ''"><i class="bi bi-chat-dots me-2"></i>Chat</a>
+                <li class="nav-item"><a th:href="@{/student/chat#divider}" class="nav-link text-uppercase" th:classappend="${#strings.equals(nav, 'chat')} ? 'active' : ''"><i class="bi bi-chat-dots me-2"></i>Chat</a>
                 </li>
             </ul>
             <form th:action="@{/logout}" method="post" id="logoutForm">

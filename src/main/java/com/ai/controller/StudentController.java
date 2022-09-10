@@ -3,23 +3,16 @@ package com.ai.controller;
 import com.ai.entity.Message;
 import com.ai.entity.User;
 import com.ai.service.*;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.annotation.MultipartConfig;
-import java.io.File;
-import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -43,7 +36,7 @@ public class StudentController {
     private MessageService messageService;
 
     @Autowired
-    private FileService fileService;
+    private VideoService videoService;
 
     @GetMapping("home")
     public String home(ModelMap m){
@@ -62,8 +55,7 @@ public class StudentController {
     public String course(ModelMap m){
         var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
         var user = userService.findByLoginId(loginId);
-        var modules = moduleService.findByCourseId(user.getBatches().get(0).getCourse().getId());
-        m.put("modules", modules);
+        m.put("course", user.getBatches().get(0).getCourse());
         m.put("nav", "video");
         return "student/STU-VD002";
     }
@@ -154,10 +146,10 @@ public class StudentController {
         return "student/STU-AS007";
     }
 
-    @ModelAttribute("messages")
-    public List<Message> messagesView(){
-        var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
-        var user = userService.findByLoginId(loginId);
-        return messageService.findAll();
-    }
+    // @ModelAttribute("messages")
+    // public List<Message> messagesView(){
+    //     var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
+    //     var user = userService.findByLoginId(loginId);
+    //     return messageService.findAll();
+    // }
 }
