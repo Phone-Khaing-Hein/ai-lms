@@ -146,6 +146,11 @@ public class StudentController {
         return "student/STU-AS007";
     }
 
+    @ModelAttribute("user")
+    public User user(){
+        var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
+        return userService.findByLoginId(loginId);
+    }
     // @ModelAttribute("messages")
     // public List<Message> messagesView(){
     //     var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
