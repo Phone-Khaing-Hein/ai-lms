@@ -38,6 +38,9 @@ public class StudentController {
     @Autowired
     private VideoService videoService;
 
+    @Autowired
+    private CommentService commentService;
+
     @GetMapping("home")
     public String home(ModelMap m){
         var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -144,6 +147,13 @@ public class StudentController {
     @GetMapping("assignment-list")
     public String assignments(){
         return "student/STU-AS007";
+    }
+
+    @GetMapping("delete-comment")
+    public String deleteComment(@RequestParam int commentId, RedirectAttributes attributes){
+        commentService.delete(commentId);
+        attributes.addFlashAttribute("message", "Your comment deleted successfully!");
+        return "redirect:/student/course";
     }
 
     @ModelAttribute("user")

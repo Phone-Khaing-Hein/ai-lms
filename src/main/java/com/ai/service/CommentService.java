@@ -25,5 +25,9 @@ public class CommentService {
     public List<Comment> findAllByOrderByIdDesc() {
         return commentRepository.findAllByOrderByIdDesc();
     }
+
+    public void delete(int id) {
+        commentRepository.deleteById(id);
+    }
     
 }

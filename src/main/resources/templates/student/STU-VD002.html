@@ -41,6 +41,8 @@
                                         <div id="comments-tab">
                                             <!-- comment section -->
                                             <section class="bg-white" id="app">
+                                                <span class="d-none alert alert-success"
+                                                    id="successMessage">[[${message}]]</span>
                                                 <h5 class="text-muted">Class comments</h5>
                                                 <div class="card border-0">
                                                     <!--card-->
@@ -50,7 +52,15 @@
                                                                 th:src="@{/resources/profile/}+${user.photo}"
                                                                 alt="avatar" width="60" height="60" />
                                                             <div>
-                                                                <h6 class="fw-bold text-primary mb-1">[[${user.name}]]
+                                                                <h6 class="fw-bold text-primary mb-1">
+                                                                    {{user.name}}
+                                                                    <!-- <i class="bi bi-pencil-square text-primary ms-2"
+                                                                        style="cursor: pointer;"
+                                                                        v-if="comment.user.loginId === user.loginId"></i> -->
+                                                                    <i class="bi bi-trash-fill text-danger ms-2"
+                                                                        style="cursor: pointer;"
+                                                                        v-if="comment.user.loginId === user.loginId"
+                                                                        @click="deleteComment(comment.id)"></i>
                                                                 </h6>
                                                                 <p class="text-muted small mb-0">
                                                                     {{comment.created}}
@@ -78,7 +88,8 @@
                                                         </div>
                                                         <div class="float-end mt-2 pt-1">
                                                             <button type="button" class="btn btn-primary btn-sm"
-                                                                @click="commentSend">comment</button>
+                                                                @click="commentSend"
+                                                                :disabled="newComment.trim().length === 0">comment</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -197,11 +208,32 @@
             //     console.log(newComment);
             // })
 
+            let message = document.getElementById('successMessage');
+            if (message !== null && message.innerText !== "") {
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 2000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                })
+
+                Toast.fire({
+                    icon: 'success',
+                    title: message.innerText
+                })
+            }
+
             const app = new Vue({
                 el: '#app',
                 data: {
                     comments: [],
                     newComment: "",
+                    user: {}
                 },
                 methods: {
                     async getComments() {
@@ -234,9 +266,32 @@
                         }
                         return;
                     },
+                    getLoginUser() {
+                        return fetch('http://localhost:9090/student/chat/user')
+                            .then((res) => res.json())
+                            .then((data) => {
+                                this.user = data
+                            })
+                    },
+                    deleteComment(commentId) {
+                        Swal.fire({
+                            title: 'Are you sure?',
+                            text: "You won't be able to revert this!",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Yes, delete it!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location = `http://localhost:9090/student/delete-comment?commentId=${commentId}`
+                            }
+                        })
+                    }
                 },
                 created() {
                     this.getComments();
+                    this.getLoginUser();
                 },
             })
         </script>
