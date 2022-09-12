@@ -1,17 +1,24 @@
 package com.ai.controller;
 
+import com.ai.entity.Batch;
+import com.ai.entity.Module;
+import com.ai.entity.Schedule;
 import com.ai.entity.User;
+import com.ai.repository.ScheduleRepository;
 import com.ai.service.*;
+import net.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("teacher")
@@ -41,6 +48,9 @@ public class TeacherController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private ScheduleRepository scheduleRepository;
+
     @GetMapping("home")
     public String home(){
         return "teacher/TCH-DB001";
@@ -60,8 +70,27 @@ public class TeacherController {
         m.put("batch", batch);
         m.put("students", batch.getUsers().stream().filter(u -> u.getRole().equals(User.Role.Student)).toList());
         m.put("modules", batch.getCourse().getModules());
+        m.put("schedule",new Schedule());
         return "teacher/TCH-BD003";
     }
+
+    @PostMapping("save-schedule")
+    public String saveSchedule(@RequestParam int batchId, @RequestParam int moduleId, @ModelAttribute @Valid Schedule schedule, BindingResult bs){
+
+        if(bs.hasErrors()){
+
+        }
+        else {
+            schedule.setScheduleDate(schedule.getScheduleDate());
+            Module module = moduleService.findById(moduleId);
+            schedule.setModule(module);
+            schedule.setBatch(batchService.findById(batchId));
+            scheduleRepository.save(schedule);
+        }
+        return "redirect:/teacher/batch-detail?batchId="+batchId;
+    }
+
+
 
     @GetMapping("profile")
     public String profile(ModelMap m){
