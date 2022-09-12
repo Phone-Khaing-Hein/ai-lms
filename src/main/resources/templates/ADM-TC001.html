@@ -41,13 +41,14 @@
                         <td><span th:each="batch : ${teacher.batches}">[[${batch.name}]]<span th:text="${#strings.equals(teacher.batches.get(teacher.batches.size - 1).name, batch.name)} ? '' : ', '"></span></span></td>
                         <td class="text-end">
                             <a class="btn btn-warning"
-                               th:attr="href='#edit-course-button' + ${teacher.loginId}"
+                               th:attr="href='#edit-teacher-button' + ${teacher.loginId}"
                                data-bs-toggle="modal">
                                 <i class="bi bi-pencil-square me-2"></i>Edit
                             </a>
                             <a class="btn btn-danger" id="deleteBtn"
-                               th:attr="onclick=|deleteAction('${teacher.loginId}')|,teacher-name=|${teacher.name}|"><i class="bi bi-trash-fill me-2"></i>Delete
-                            </a>
+                                    th:attr="onclick=|deleteAction('${teacher.loginId}', '${teacher.name}')|"><i
+                                     class="bi bi-trash-fill me-2"></i>Delete
+                            </a>    
                         </td>
                         <div th:replace="fragments/COM-FG001 :: teacher-edit"></div>
                     </tr>
@@ -103,44 +104,38 @@
         });
 
 
-        const deleteAction = (courseId) => {
-            const swalWithBootstrapButtons = Swal.mixin({
-                customClass: {
-                    confirmButton: 'btn btn-success',
-                    cancelButton: 'btn btn-danger me-2'
-                },
-                buttonsStyling: false
-            })
+        const deleteAction = (teacherId, teacherName) => {
+                const swalWithBootstrapButtons = Swal.mixin({
+                    customClass: {
+                        confirmButton: 'btn btn-success',
+                        cancelButton: 'btn btn-danger me-2'
+                    },
+                    buttonsStyling: false
+                })
 
-            swalWithBootstrapButtons.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Yes, delete it!',
-                cancelButtonText: 'No, cancel!',
-                reverseButtons: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    let courseName = document.getElementById('deleteBtn').getAttribute('course-name');
-                    window.location = `http://localhost:9090/admin/course-delete?courseId=${courseId}&courseName=${courseName}`;
-                    swalWithBootstrapButtons.fire(
-                        'Deleted!',
-                        'Your file has been deleted.',
-                        'success'
-                    )
-                } else if (
-                    /* Read more about handling dismissals below */
-                    result.dismiss === Swal.DismissReason.cancel
-                ) {
-                    swalWithBootstrapButtons.fire(
-                        'Cancelled',
-                        'Your imaginary file is safe :)',
-                        'error'
-                    )
-                }
-            })
-        }
+                swalWithBootstrapButtons.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'No, cancel!',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location = `http://localhost:9090/admin/teacher-delete?teacherId=${teacherId}&teacherName=${teacherName}`;
+                    } else if (
+                        /* Read more about handling dismissals below */
+                        result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                        swalWithBootstrapButtons.fire(
+                            'Cancelled',
+                            'Your data is safe :)',
+                            'error'
+                        )
+                    }
+                })
+            }
     </script>
 </div>
 </body>
