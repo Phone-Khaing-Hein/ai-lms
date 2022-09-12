@@ -1,15 +1,20 @@
 package com.ai.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
-
-import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
+import lombok.Data;
+
 @Entity
 @Data
-public class Message implements Serializable {
+public class Comment implements Serializable{
 
     private static final long serialVersionUID = 1L;
 
@@ -18,12 +23,11 @@ public class Message implements Serializable {
     private int id;
 
     @Column(nullable = false)
-    private String message;
+    private String comment;
 
     @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", nullable = false)
     private LocalDateTime created;
 
     @ManyToOne
     private User user;
-
 }

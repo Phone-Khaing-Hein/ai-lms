@@ -4,7 +4,6 @@ import com.ai.entity.Message;
 import com.ai.entity.User;
 import com.ai.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -13,11 +12,12 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.time.LocalDateTime;
+import javax.servlet.annotation.MultipartConfig;
 import java.util.List;
 
 @Controller
 @RequestMapping("student")
+@MultipartConfig
 public class StudentController {
 
     @Autowired
@@ -35,6 +35,12 @@ public class StudentController {
     @Autowired
     private MessageService messageService;
 
+    @Autowired
+    private VideoService videoService;
+
+    @Autowired
+    private CommentService commentService;
+
     @GetMapping("home")
     public String home(ModelMap m){
         var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -44,6 +50,7 @@ public class StudentController {
                 .filter(t -> t.getBatches().contains(batchService.findById(user.getBatches().get(0).getId()))).toList();
         m.put("user", user);
         m.put("teachers", teachers);
+        m.put("nav", "dashboard");
         return "student/STU-DB001";
     }
 
@@ -51,8 +58,8 @@ public class StudentController {
     public String course(ModelMap m){
         var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
         var user = userService.findByLoginId(loginId);
-        var modules = moduleService.findByCourseId(user.getBatches().get(0).getCourse().getId());
-        m.put("modules", modules);
+        m.put("course", user.getBatches().get(0).getCourse());
+        m.put("nav", "video");
         return "student/STU-VD002";
     }
 
@@ -64,6 +71,7 @@ public class StudentController {
         m.put("members", members.stream()
                 .filter(s -> s.getRole().equals(User.Role.Student))
                 .filter(u -> !u.getLoginId().equals(user.getLoginId())).toList());
+        m.put("nav", "participants");
         return "student/STU-MB003";
     }
 
@@ -73,6 +81,7 @@ public class StudentController {
         var user = userService.findByLoginId(loginId);
         m.put("batch", user.getBatches().get(0));
         m.put("user", user);
+        m.put("nav", "chat");
         return "student/STU-CH004";
     }
 
@@ -116,10 +125,46 @@ public class StudentController {
         return "redirect:/student/profile";
     }
 
-    @ModelAttribute("messages")
-    public List<Message> messagesView(){
-        var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
-        var user = userService.findByLoginId(loginId);
-        return messageService.findAll();
+//    @PostMapping("profile-change")
+//    public String profileChange(@RequestParam MultipartFile photo) throws IOException {
+//        var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
+//        var user = userService.findByLoginId(loginId);
+//        if(StringUtils.hasLength(user.getPhoto()) && !user.getPhoto().equals("default.png")){
+//            var profileFilePath = new File("src\\main\\resources\\static\\profile\\").getAbsolutePath();
+//            fileService.deleteFile(profileFilePath.concat("\\").concat(user.getPhoto()));
+//        }
+//        var fileName = fileService.createProfileFile(photo, user.getLoginId());
+//        user.setPhoto(fileName);
+//        userService.save(user);
+//        return "redirect:/student/profile";
+//    }
+
+    @GetMapping("exam-list")
+    public String exams(){
+        return "student/STU-EX006";
     }
+
+    @GetMapping("assignment-list")
+    public String assignments(){
+        return "student/STU-AS007";
+    }
+
+    @GetMapping("delete-comment")
+    public String deleteComment(@RequestParam int commentId, RedirectAttributes attributes){
+        commentService.delete(commentId);
+        attributes.addFlashAttribute("message", "Your comment deleted successfully!");
+        return "redirect:/student/course";
+    }
+
+    @ModelAttribute("user")
+    public User user(){
+        var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
+        return userService.findByLoginId(loginId);
+    }
+    // @ModelAttribute("messages")
+    // public List<Message> messagesView(){
+    //     var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
+    //     var user = userService.findByLoginId(loginId);
+    //     return messageService.findAll();
+    // }
 }

@@ -32,11 +32,9 @@ public class Module implements Serializable {
     private Course course;
 
     @OneToMany(mappedBy = "module", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
-    @JsonIgnore
     private List<Resource> resources;
 
     @OneToMany(mappedBy = "module", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
-    @JsonIgnore
     private List<Video> videos;
 
     @Transient

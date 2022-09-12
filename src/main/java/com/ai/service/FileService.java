@@ -8,15 +8,25 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.text.DecimalFormat;
+import java.util.Random;
 
 @Service
 public class FileService {
 
     private String courseFilePath = new File("src\\main\\resources\\static\\courses\\").getAbsolutePath();
+    private String profileFilePath = new File("src\\main\\resources\\static\\profile\\").getAbsolutePath();
 
     public void createFile(MultipartFile file, String folderName) throws IllegalStateException, IOException {
         file.transferTo(
                 new File(courseFilePath + folderName + "\\" + file.getOriginalFilename()));
+    }
+
+    public String  createProfileFile(MultipartFile file, String loginId) throws IllegalStateException, IOException {
+        var fileName =  "profile-".concat(loginId).concat(".").concat(file.getOriginalFilename().split("\\.")[1]);
+        file.transferTo(
+                new File( profileFilePath + "\\" + fileName));
+        return fileName;
     }
 
     public boolean deleteFile(String path) {

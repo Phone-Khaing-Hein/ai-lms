@@ -19,7 +19,7 @@
         <div layout:fragment="content">
             <section>
                 <div class="container" style="padding-top: 100px;">
-                    <h4 class="text-capitalize mb-3">dashboard</h4>
+                    <h4 class="text-capitalize mb-3"><i class="bi bi-house-door me-2"></i>dashboard</h4>
                     <div class="row gx-3" style="height: 100vh;">
                         <div class="col-md-9">
                             <div class="alert alert-primary alerts" role="alert">
@@ -32,30 +32,30 @@
                             </div>
                             <div class="row gx-2">
                                 <div class="col-md-4 mb-3">
-                                    <a href="../../../../../../student-final/examlist.html" class="text-white text-decoration-none">
+                                    <a th:href="@{/student/exam-list}" class="text-white text-decoration-none">
                                         <div class="card p-2 cardhovers" style="background: red;">
                                             <div class="card-body">
-                                                <span class="h4"><i class="fal fa-file me-2"></i>Exam</span>
+                                                <span class="h4"><i class="bi bi-file-earmark-text me-2"></i>Exam</span>
                                                 <p class="mt-2">Total : 6</p>
                                             </div>
                                         </div>
                                     </a>
                                 </div>
                                 <div class="col-md-4 mb-3">
-                                    <a href="../../../../../../student-final/assignment-list.html" class="text-white text-decoration-none">
+                                    <a th:href="@{/student/assignment-list}" class="text-white text-decoration-none">
                                         <div class="card p-2 cardhovers" style="background: green;">
                                             <div class="card-body">
-                                                <span class="h4"><i class="fal fa-folder-plus me-2"></i>Assignment</span>
+                                                <span class="h4"><i class="bi bi-file-earmark-zip me-2"></i>Assignment</span>
                                                 <p class="mt-2">Total : 6</p>
                                             </div>
                                         </div>
                                     </a>
                                 </div>
                                 <div class="col-md-4 mb-3">
-                                    <a href="" class="text-white text-decoration-none">
+                                    <a th:href="@{/student/chat#divider}" class="text-white text-decoration-none">
                                         <div class="card p-2 cardhovers" style="background: blue;">
                                             <div class="card-body">
-                                                <span class="h4"><i class="fal fa-comments me-2"></i>Messages</span>
+                                                <span class="h4"><i class="bi bi-chat-dots me-2"></i>Messages</span>
                                                 <p class="mt-2">messages : 0</p>
                                             </div>
                                         </div>
@@ -64,7 +64,7 @@
                                 <div class="col mb-3">
                                     <div class="card">
                                         <div class="card-body">
-                                            <h5 class="card-title text-muted">Instructor</h5>
+                                            <h5 class="card-title text-muted"><i class="bi bi-people me-2"></i>Instructors</h5>
                                             <table class="table mb-0 table-hover">
                                                 <tbody>
                                                 <tr th:each="teacher : ${teachers}">
@@ -93,47 +93,35 @@
                             <div class="card">
                                 <div class="card-body">
                                     <div class="d-flex align-items-center position-relative">
-                                        <img src="https://nextbootstrap.netlify.app/assets/images/profiles/1.jpg"
+                                        <img th:src="@{/resources/profile/}+${user.photo}"
                                              class="shadow bg-body rounded-circle" width="80" height="80px" alt="">
                                         <div>
-                                            <h5 class="text-capitalize text-muted mx-3">[[${user.name}]]</h5>
+                                            <h5 class="text-capitalize text-muted mx-3 text-nowrap">[[${user.name}]]</h5>
                                             <span class="text-capitalize text-muted mx-3">Student</span>
                                         </div>
-                                        <span class="badge bg-success position-absolute top-0 end-0">online</span>
                                     </div>
                                     <h6 class="text-capitalize text-muted my-2 d-grid">
-                                        <a th:href="@{/student/profile}" class="btn btn-outline-danger btn-sm">manage your account</a>
+                                        <a th:href="@{/student/profile}" class="btn btn-outline-danger btn-sm"><i class="bi bi-sliders me-2"></i>manage your account</a>
                                     </h6>
                                     <hr />
-                                    <h6 class="text-muted text-capitalize">general information</h6>
                                     <table class="table table-borderless">
                                         <tr>
                                             <td>
-                                                <h6 class="text-muted">[[${user.loginId}]]</h6>
+                                                <h6 class="text-muted">Login ID : [[${user.loginId}]]</h6>
                                             </td>
+                                        </tr>
+                                        <tr>
                                             <td>
-                                                <h6 class="text-muted">[[${user.batches.get(0).name}]]</h6>
+                                                <h6 class="text-muted">Batch : [[${user.batches.get(0).name}]]</h6>
                                             </td>
+                                        </tr>
+                                        <tr>
                                             <td>
-                                                <h6 class="text-muted">[[${user.batches.get(0).course.name}]]</h6>
+                                                <h6 class="text-muted">Course : [[${user.batches.get(0).course.name}]]</h6>
                                             </td>
                                         </tr>
                                     </table>
                                     <hr />
-                                    <h6 class="text-muted text-capitalize">general setting</h6>
-                                    <table class="table table-borderless">
-                                        <tr>
-                                            <td>
-                                                <h6 class="text-muted text-capitalize">language</h6>
-                                            </td>
-                                            <td>
-                                                <h6 class="text-muted text-capitalize">english</h6>
-                                            </td>
-                                            <td><a href="" class="text-decoration-none">
-                                                <h6 class="text-primary text-capitalize">change</h6>
-                                            </a></td>
-                                        </tr>
-                                    </table>
                                     <h6 class="text-success"><i class="fal fa-shield-check me-1"></i>account is protected</h6>
                                 </div>
                             </div>
@@ -141,6 +129,23 @@
                     </div>
                 </div>
             </section>
+            <script>
+                document.getElementById("logout").addEventListener("click", ()=>{
+                    Swal.fire({
+                        title: 'Are you sure to logout?',
+                        text: "You won't be able to revert this!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, logout!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            document.getElementById("logoutForm").submit();
+                        }
+                    })
+                })
+            </script>
         </div>
     </body>
 </html>
