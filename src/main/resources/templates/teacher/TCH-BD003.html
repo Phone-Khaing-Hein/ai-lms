@@ -12,7 +12,8 @@
         <div class="row paddings">
             <div class="">
                 <div class="text-center">
-                    <h2 style="color:darkblue; font-weight: bold;" class="mb-3"><i class="fas fa-user-friends me-2"></i>Welcome To
+                    <h2 style="color:darkblue; font-weight: bold;" class="mb-3"><i class="fas fa-user-friends me-2"></i>Welcome
+                        To
                         [[${batch.name}]]
                     </h2>
                 </div>
@@ -177,7 +178,7 @@
                                         class="fas fa-upload ms-2"></i> </a>
                                 <a href="assignmentTable.html" class="btn btn-primary text-light">View All</a>
                             </div>
-                            <hr />
+                            <hr/>
                             <table class="table display" id="assignment">
                                 <thead>
                                 <tr>
@@ -242,29 +243,32 @@
                                 <div>
                                     <h4>Schedule</h4>
                                 </div>
-                                <div>
-                                    <button type="button" class="btn btn-outline-primary btn-sm">Save<i
-                                            class="fas fa-save ms-2"></i></button>
-                                    <button type="button" class="btn btn-outline-danger btn-sm">Edit<i
-                                            class="fas fa-edit ms-2"></i></button>
-                                </div>
                             </div>
                             <hr>
-                            <table class="table display" id="schedule">
+                            <table class="table display text-center" id="schedule">
                                 <thead>
                                 <tr>
                                     <th>#</th>
                                     <th scope="col">Module Name</th>
                                     <th scope="col">Date</th>
+                                    <th scope="col">Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr th:each="module, row : ${modules}" style="vertical-align: middle;">
-                                    <td>[[${row.index}+1]]</td>
-                                    <td>[[${module.name}]]</td>
-                                    <td class="w-25">
-                                        <input type="date" class="form-control" style="outline:none;">
-                                    </td>
+                                    <td scope="col">[[${row.index}+1]]</td>
+                                    <td scope="col">[[${module.name}]]</td>
+                                    <form action="#" th:action="@{save-schedule}" th:object="${schedule}" method="post">
+                                        <td>
+                                            <input type="date" id="scheduleDate" class="form-control" name="scheduleDate" th:required="true"
+                                                   th:value="${#temporals.format(schedule.scheduleDate, 'yyyy-MM-dd')}">
+                                        </td>
+                                        <td>
+                                            <input type="hidden" name="moduleId" th:value="${module.id}">
+                                            <input type="hidden" name="batchId" th:value="${batch.id}">
+                                            <input type="submit" class="btn btn-primary" value="Save"/>
+                                        </td>
+                                    </form>
                                 </tr>
                                 </tbody>
                             </table>

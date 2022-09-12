@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <!-- fontawesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+        integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- <link rel="stylesheet" href="https://coderthemes.com/hyper/creative/assets/css/app-creative.min.css"> -->
+
+    <!-- <script type="text/javascript">
+        window.onload = function () {
+
+            var dps = [[]];
+            var chart = new CanvasJS.Chart("chartContainer", {
+                theme: "light2", // "light1", "dark1", "dark2"
+                animationEnabled: true,
+                // title: {
+                //     text: "Year of Publish By Book - Book"
+                // },
+                axisX: {
+                    valueFormatString: "MMM"
+                },
+                axisY: {
+                    title: "Book Name",
+                    includeZero: true,
+                    suffix: ""
+                },
+                data: [{
+                    type: "line",
+                    xValueType: "dateTime",
+                    xValueFormatString: "MMM",
+                    yValueFormatString: "#,##0 °C",
+                    dataPoints: dps[0]
+                }]
+            });
+
+            var xValue;
+            var yValue;
+
+            chart.render();
+
+        }
+    </script> -->
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-lg">
+                    <div class="container-fluid">
+                        <a class="navbar-brand" href="#">
+                            <img src="./png-clipart-green-leaf-logo-computer-icons-leaf-leaf-icon-logo-grass.png"
+                                width="8%" alt="logo">
+                            <span class="h6 text-muted text-capitalize">book store mgmt</span>
+                        </a>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false"
+                            aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <form>
+                                <input class="form-control form-control-sm" type="search" placeholder="Search"
+                                    aria-label="Search">
+                            </form>
+                            <div class="collapse navbar-collapse" id="navbarScroll">
+                                <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll"
+                                    style="--bs-scroll-height: 100px;">
+                                    <li class="nav-item dropdown">
+
+                                        <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown"
+                                            role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <img src="https://www.bankrate.com/2022/05/25154641/discover-it-student-chrome-worth-it.jpg?auto=webp&optimize=high&crop=16:9"
+                                                class="shadow-1-strong rounded-circle" alt="avatar 1"
+                                                style="width: 30px; height: 30px;">
+                                        </a>
+                                        <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
+                                            <li><a class="dropdown-item" href="#">Profile</a></li>
+                                            <li><a class="dropdown-item" href="#">Sign Out</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="row gx-0 mt-3">
+            <div class="col-md-2 col-sm-12 mt-1">
+                <ul class="list-group">
+                    <a href="#" class="list-group-item list-group-item-action disabled" aria-current="true">
+                        Activity
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action active" aria-current="true">
+                        <i class="fas fa-home me-2"></i>HOME
+                    </a>
+                    <a href="books.html" class="list-group-item list-group-item-action" aria-current="true">
+                        <i class="fas fa-book me-2"></i>BOOK
+                    </a>
+                    <a href="author-list.html" class="list-group-item list-group-item-action" aria-current="true">
+                        <i class="fas fa-users text-muted me-2"></i>AUTHOR
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action" aria-current="true">
+                        <i class="fas fa-industry me-2"></i>PUBLISHER
+                    </a>
+                </ul>
+                <ul class="list-group mt-2">
+                    <a href="#" class="list-group-item list-group-item-action disabled" aria-current="true">
+                        Activity For User
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action" aria-current="true">
+                        <i class="fas fa-id-card-alt me-2"></i>Profile
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action" aria-current="true">
+                        <i class="fas fa-user-plus me-2"></i>New User
+                    </a>
+                    <a href="login.html" class="list-group-item list-group-item-action" aria-current="true">
+                        <i class="fas fa-sign-out-alt me-2"></i>Log Out
+                    </a>
+                </ul>
+            </div>
+            <div class="col-md-10 col-sm-12 text-muted">
+                <div class="row gx-2 justify-content-center px-4">
+                    <h5 class="mb-3">Dashboard</h5>
+                    <div class="col-md-3 col-sm-12">
+                        <div class="card">
+                            <div class="card-body bg-light">
+                                <div class="d-flex justify-content-between">
+                                    <h5 class="card-title text-primary">$335.00</h5>
+                                    <span><i class="fas fa-shopping-cart text-muted fs-5"></i></span>
+                                </div>
+                                <p class="text-muted text-uppercase">average sale values</p>
+                                <div class="progress" style="height: 3px;">
+                                    <div class="progress-bar bg-warning" role="progressbar" style="width: 44%;"
+                                        aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-12">
+                        <div class="card">
+                            <div class="card-body bg-light">
+                                <div class="d-flex justify-content-between">
+                                    <h5 class="card-title text-primary">30</h5>
+                                    <span><i class="fas fa-book text-muted fs-5"></i></span>
+                                </div>
+                                <p class="text-muted text-uppercase">new book</p>
+                                <div class="progress" style="height: 3px;">
+                                    <div class="progress-bar bg-danger" role="progressbar" style="width: 25%;"
+                                        aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-12">
+                        <div class="card">
+                            <div class="card-body bg-light">
+                                <div class="d-flex justify-content-between">
+                                    <h5 class="card-title text-primary">50</h5>
+                                    <span><i class="fas fa-users text-muted fs-5"></i></span>
+                                </div>
+                                <p class="text-muted text-uppercase">new authors</p>
+                                <div class="progress" style="height: 3px;">
+                                    <div class="progress-bar bg-success" role="progressbar" style="width: 80%;"
+                                        aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-12">
+                        <div class="card">
+                            <div class="card-body bg-light">
+                                <div class="d-flex justify-content-between">
+                                    <h5 class="card-title text-primary">22</h5>
+                                    <span><i class="fas fa-industry text-muted fs-5"></i></span>
+                                </div>
+                                <p class="text-muted text-uppercase">new publisher</p>
+                                <div class="progress" style="height: 3px;">
+                                    <div class="progress-bar bg-warning" role="progressbar" style="width: 44%;"
+                                        aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row m-2">
+                    <div class="col-md-6 col-sm-12 ms-1">
+                        <!-- <div id="chartContainer" style="height: 300px; width: 80%;"></div>
+                        <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script> -->
+                        <div class="card">
+                            <div class="card-body">
+                                <h6 class="text-capitalize text-muted m-2">year of publish - book</h6>
+                                <canvas id="myChart" width="500" height="300"></canvas>
+                            </div> <!-- end card body-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center text-light bg-danger" style="padding: 1px;">
+        <h5 class="mt-2">copy right - www.aceinspriation</h5>
+    </footer>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
+        integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
+        integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
+        crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
+    <script type="text/javascript">
+        var ctx = document.getElementById("myChart");
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ["2005", "2007", "2009", "2012", "2014"],
+                datasets: [
+                    {
+                        label: 'Publish of book',
+                        data: [5000, 8000, 10000, 1200, 15000],
+                        backgroundColor: ['rgba(255, 129, 102, 1)',
+                            'rgba(234, 162, 235, 1)',
+                            'rgba(255, 206, 36, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                        ],
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+    </script>
+
+</body>
+
+</html>

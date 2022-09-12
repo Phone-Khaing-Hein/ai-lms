@@ -1,7 +1,6 @@
 package com.ai.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -44,4 +43,8 @@ public class Batch implements Serializable {
     @ManyToMany(mappedBy = "batches", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
     @JsonIgnore
     private List<User> users;
+
+    @OneToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy = "batch")
+    private List<Schedule> schedules;
+
 }
