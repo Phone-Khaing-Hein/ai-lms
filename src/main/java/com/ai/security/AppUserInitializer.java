@@ -30,6 +30,7 @@ public class AppUserInitializer {
             admin.setEmail("admin@gmail.com");
             admin.setPassword(passwordEncoder.encode("admin"));
             admin.setRole(Role.Admin);
+            admin.setPhoto("default.png");
             repo.save(admin);
 
             var teacher = new User();

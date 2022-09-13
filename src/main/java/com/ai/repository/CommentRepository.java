@@ -11,5 +11,7 @@ import com.ai.entity.Comment;
 public interface CommentRepository extends JpaRepository<Comment, Integer>{
 
     List<Comment> findAllByOrderByIdDesc();
+
+    List<Comment> findByVideo_Id(Integer videoId);
     
 }

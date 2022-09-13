@@ -81,14 +81,15 @@
                             <div class="card-body overflow-scroll" id="messages">
 
                                 <div v-for="m in messages">
-                                    <div class="d-flex align-items-baseline mb-2" v-if="user.loginId !== m.user.loginId">
+                                    <div class="d-flex align-items-baseline mb-2"
+                                        v-if="user.loginId !== m.user.loginId">
                                         <div class="position-relative avatar">
                                             <img src="https://nextbootstrap.netlify.app/assets/images/profiles/1.jpg"
-                                                 class="img-fluid rounded-circle" alt="">
+                                                class="img-fluid rounded-circle" alt="">
                                             <span
-                                                    class="position-absolute bottom-0 start-100 translate-middle p-1 bg-success border border-light rounded-circle">
-                                            <span class="visually-hidden">New alerts</span>
-                                        </span>
+                                                class="position-absolute bottom-0 start-100 translate-middle p-1 bg-success border border-light rounded-circle">
+                                                <span class="visually-hidden">New alerts</span>
+                                            </span>
                                         </div>
                                         <div class="pe-2">
                                             <div>
@@ -115,11 +116,11 @@
                                         </div>
                                         <div class="position-relative avatar">
                                             <img src="https://nextbootstrap.netlify.app/assets/images/profiles/2.jpg"
-                                                 class="img-fluid rounded-circle" alt="">
+                                                class="img-fluid rounded-circle" alt="">
                                             <span
-                                                    class="position-absolute bottom-0 start-100 translate-middle p-1 bg-success border border-light rounded-circle">
-                                            <span class="visually-hidden">New alerts</span>
-                                        </span>
+                                                class="position-absolute bottom-0 start-100 translate-middle p-1 bg-success border border-light rounded-circle">
+                                                <span class="visually-hidden">New alerts</span>
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
@@ -150,23 +151,23 @@
                 document.getElementById("autoscroll").click();
             })
 
-            $("#textBox").emojioneArea({
-                events: {
-                    keyup: function (editor, event) {
-                        if (event.which == 13) {
-                            axios.post('http://localhost:9090/student/chat', {
-                                message: document.getElementById("textBox").value
-                            }).then(() => {
-                                // this.newMessage = response.data
-                                // this.messages = [...this.messages, newMessage]
-                                $(".emojionearea-editor").html('');
-                            }).catch(function (error) {
-                                console.log(error);
-                            });
-                        }
-                    },
-                }
-            });
+            // $("#textBox").emojioneArea({
+            //     events: {
+            //         keyup: function (editor, event) {
+            //             if (event.which == 13) {
+            //                 axios.post('http://localhost:9090/student/chat', {
+            //                     message: document.getElementById("textBox").value
+            //                 }).then(() => {
+            //                     // this.newMessage = response.data
+            //                     // this.messages = [...this.messages, newMessage]
+            //                     $(".emojionearea-editor").html('');
+            //                 }).catch(function (error) {
+            //                     console.log(error);
+            //                 });
+            //             }
+            //         },
+            //     }
+            // });
 
             const app = new Vue({
                 el: '#app',
@@ -194,25 +195,25 @@
                         axios.post('http://localhost:9090/student/chat', {
                             message: document.getElementById("textBox").value
                         }).then(function (response) {
-                            // this.newMessage = response.data
-                            // this.messages = [...this.messages, newMessage]
+                            that.messages = [...that.messages, response.data]
                             $(".emojionearea-editor").html('');
                         }).catch(function (error) {
                             console.log(error);
                         });
                         document.getElementById("autoscroll").click();
                     },
-                    scroll(){
+                    scroll() {
                         document.getElementById("autoscroll").click();
                     }
                 },
                 created() {
+                    window.that = this;
                     this.getMessage();
                     this.getLoginUser();
                 },
-                updated(){
-                    this.getMessage();
-                }
+                // updated() {
+                //     this.getMessage();
+                // }
                 // async mounted() {
                 //     await axios
                 //         .get("http://localhost:9090/student/chat/messages")

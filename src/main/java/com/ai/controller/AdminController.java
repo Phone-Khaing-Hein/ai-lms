@@ -332,6 +332,7 @@ public class AdminController {
         }
 
         user.setPassword(passwordEncoder.encode(user.getEmail()));
+        user.setPhoto("default.png");
         var batch = batchService.findById(user.getBatchId()[0]);
         user.setBatches(new ArrayList<>(List.of(batch)));
         userService.save(user);
@@ -418,6 +419,7 @@ public class AdminController {
             batches.add(batchService.findById(id));
         }
         user.setBatches(batches);
+        user.setPhoto("default.png");
         user.setActive(true);
         userService.save(user);
         attr.addFlashAttribute("message", "%s created successfully!".formatted(user.getName()));

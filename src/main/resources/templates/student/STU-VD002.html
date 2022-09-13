@@ -22,7 +22,8 @@
                             <video width="200" controls id="video">
                                 <source
                                     th:src="@{/resources/courses/}+${course.name}+@{/}+${course.modules.get(0).name}+@{/videos/}+${course.modules.get(0).videos.get(0).name}"
-                                    type="video/mp4" id="courseVideo">
+                                    type="video/mp4" id="courseVideo"
+                                    th:video-id="${course.modules.get(0).videos.get(0).id}">
                             </video>
                             <div class="col mt-3">
                                 <div>
@@ -49,11 +50,11 @@
                                                     <div class="card-body" v-for="comment in comments">
                                                         <div class="d-flex flex-start align-items-center">
                                                             <img class="rounded-circle shadow-1-strong me-3"
-                                                                th:src="@{/resources/profile/}+${user.photo}"
+                                                                :src="'http://localhost:9090/resources/profile/' + comment.user.photo"
                                                                 alt="avatar" width="60" height="60" />
                                                             <div>
                                                                 <h6 class="fw-bold text-primary mb-1">
-                                                                    {{user.name}}
+                                                                    {{comment.user.name}}
                                                                     <!-- <i class="bi bi-pencil-square text-primary ms-2"
                                                                         style="cursor: pointer;"
                                                                         v-if="comment.user.loginId === user.loginId"></i> -->
@@ -63,7 +64,8 @@
                                                                         @click="deleteComment(comment.id)"></i>
                                                                 </h6>
                                                                 <p class="text-muted small mb-0">
-                                                                    {{comment.created}}
+                                                                    {{comment.created[2] + "/" + comment.created[1] +
+                                                                    "/" + comment.created[0]}}
                                                                 </p>
                                                             </div>
                                                         </div>
@@ -77,7 +79,7 @@
                                                         style="background-color: #f8f9fa;">
                                                         <div class="d-flex flex-start w-100">
                                                             <img class="rounded-circle shadow-1-strong me-3"
-                                                                src="https://i.pinimg.com/474x/eb/d2/2e/ebd22e59d2788984176c91d24e2f855d.jpg"
+                                                                th:src="@{/resources/profile/}+${user.photo}"
                                                                 alt="avatar" width="40" height="40" />
                                                             <div class="form-outline w-100">
                                                                 <textarea class="form-control" rows="4"
@@ -87,7 +89,11 @@
                                                             </div>
                                                         </div>
                                                         <div class="float-end mt-2 pt-1">
-                                                            <button type="button" class="btn btn-primary btn-sm"
+                                                            <button v-if="newComment.trim().length !== 0" type="button"
+                                                                class="btn btn-primary btn-sm" @click="commentSend"
+                                                                :disabled="newComment.trim().length === 0">comment</button>
+                                                            <button v-else type="button"
+                                                                class="btn btn-primary btn-sm disabled"
                                                                 @click="commentSend"
                                                                 :disabled="newComment.trim().length === 0">comment</button>
                                                         </div>
@@ -117,7 +123,7 @@
                                                         style="border-bottom: 0.5px solid rgb(160, 157, 157);"
                                                         th:aria-labelledby="'panelsStayOpen-'+${module.id}"
                                                         th:each="video : ${module.videos}">
-                                                        <div th:onclick="changeVideo([[${course.name}]], [[${module.name}]], [[${video.name}]])"
+                                                        <div th:onclick="videoChange([[${course.name}]], [[${module.name}]], [[${video.name}]], [[${video.id}]])"
                                                             class="accordion-body p-3 bg-light cursor-pointer">
                                                             [[${video.name}]]</div>
                                                     </div>
@@ -173,7 +179,7 @@
                                     style="border-bottom: 0.5px solid rgb(160, 157, 157);"
                                     th:aria-labelledby="'panelsStayOpen-'+${module.id}"
                                     th:each="video : ${module.videos}">
-                                    <div th:onclick="changeVideo([[${course.name}]], [[${module.name}]], [[${video.name}]])"
+                                    <div th:onclick="videoChange([[${course.name}]], [[${module.name}]], [[${video.name}]], [[${video.id}]])"
                                         class="accordion-body p-3 bg-light cursor-pointer">
                                         [[${video.name}]]</div>
                                 </div>
@@ -183,14 +189,18 @@
                 </div>
             </div>
         </section>
-        <script type="text/javascript">
+        <script>
             $(document).ready(function () {
                 $("#mytag").tabs();
             });
 
-            const changeVideo = (cname, mname, vname) => {
+            function videoChange(cname, mname, vname, vid) {
                 console.log("working");
-                document.getElementById("courseVideo").src = `http://localhost:9090/resources/courses/${cname}/${mname}/videos/${vname}`
+                let source = document.getElementById("courseVideo")
+                source.src = `http://localhost:9090/resources/courses/${cname}/${mname}/videos/${vname}`
+                source.removeAttribute("video-id")
+                source.setAttribute("video-id", vid)
+                that.getComments();
                 document.getElementById("video").load()
             }
 
@@ -233,12 +243,15 @@
                 data: {
                     comments: [],
                     newComment: "",
-                    user: {}
+                    user: {},
+                    newObject: {}
                 },
                 methods: {
                     async getComments() {
                         try {
-                            let response = await axios.get('http://localhost:9090/student/comments');
+                            let videoId = document.getElementById("courseVideo").getAttribute("video-id")
+                            let response = await axios.get(`http://localhost:9090/student/comments/${videoId}`);
+                            console.log(response.data);
                             this.comments = response.data
                             console.log(this.comments);
                         } catch (error) {
@@ -248,24 +261,27 @@
                     },
                     async commentSend() {
                         await axios.post('http://localhost:9090/student/comment', {
-                            comment: this.newComment
+                            comment: this.newComment,
+                            videoId: document.getElementById("courseVideo").getAttribute("video-id")
                         }).then(function (response) {
                             console.log(response.data);
+                            that.newObject = response.data
                         }).catch(function (error) {
                             console.log(error);
                         });
                         this.newComment = ""
-                        this.getLastComments();
+                        this.comments = [...this.comments, this.newObject]
+                        // this.getLastComments();
                     },
-                    async getLastComments() {
-                        try {
-                            let response = await axios.get('http://localhost:9090/student/final-comment');
-                            this.comments = [...this.comments, response.data]
-                        } catch (error) {
-                            console.error(error);
-                        }
-                        return;
-                    },
+                    // async getLastComments() {
+                    //     try {
+                    //         let response = await axios.get('http://localhost:9090/student/final-comment');
+                    //         this.comments = [...this.comments, response.data]
+                    //     } catch (error) {
+                    //         console.error(error);
+                    //     }
+                    //     return;
+                    // },
                     getLoginUser() {
                         return fetch('http://localhost:9090/student/chat/user')
                             .then((res) => res.json())
@@ -287,9 +303,19 @@
                                 window.location = `http://localhost:9090/student/delete-comment?commentId=${commentId}`
                             }
                         })
+                    },
+                    videoChange(cname, mname, vname, vid) {
+                        console.log("working");
+                        let source = document.getElementById("courseVideo")
+                        source.src = `http://localhost:9090/resources/courses/${cname}/${mname}/videos/${vname}`
+                        source.removeAttribute("video-id")
+                        source.setAttribute("video-id", vid)
+                        this.getComments();
+                        document.getElementById("video").load()
                     }
                 },
                 created() {
+                    window.that = this;
                     this.getComments();
                     this.getLoginUser();
                 },

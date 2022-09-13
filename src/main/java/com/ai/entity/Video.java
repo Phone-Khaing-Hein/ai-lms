@@ -1,15 +1,16 @@
 package com.ai.entity;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
-@Setter
-@Getter
+@Data
 @Table(name="video")
 public class Video implements Serializable {
 
@@ -21,5 +22,9 @@ public class Video implements Serializable {
     @Column(nullable = false)
     private String name;
     @ManyToOne
+    @JsonIgnore
     private Module module;
+    @OneToMany(mappedBy = "video", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
+    @JsonIgnore
+    private List<Comment> comments;
 }

@@ -29,5 +29,8 @@ public class CommentService {
     public void delete(int id) {
         commentRepository.deleteById(id);
     }
-    
+
+    public List<Comment> findByVideoId(Integer videoId) {
+        return commentRepository.findByVideo_Id(videoId);
+    }
 }
