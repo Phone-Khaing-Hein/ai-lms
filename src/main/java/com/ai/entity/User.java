@@ -48,7 +48,7 @@ public class User {
     @JsonIgnore
     private List<Comment> comments;
 
-	@Column(name = "photo",columnDefinition = "VARCHAR(255) DEFAULT 'default.png'", nullable = false)
+	@Column(name = "photo",columnDefinition = "VARCHAR(255) DEFAULT 'default.png'", nullable = true)
 	private String photo;
 
 	@Transient

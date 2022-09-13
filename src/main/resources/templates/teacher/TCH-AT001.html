@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+    layout:decorate="~{layouts/AUTHENTICATED.html}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Attendance Create</title>
+</head>
+
+<body style="margin-top: 90px; background-color: rgba(35, 209, 222, 0.2);">
+    <div layout:fragment="content">
+        <section class="container mb-3">
+            <div class="row paddings">
+                <div class="container bg-light shadow p-3 mt-4 rounded">
+                    <div class="text-center mb-4">
+                        <h2 style="color:darkblue; font-weight: bold;" class="mb-3"><i
+                                class="fas fa-user-friends me-2"></i>
+                            Create Attendance for [[${batch.name}]]
+                        </h2>
+                    </div>
+
+                    <div>
+                        <form th:action="@{/teacher/setAttendance(batchId=${param.batchId})}" method="post"
+                            >
+                            <!-- Attendence start here-->
+                            <div class="attendance-list" id="attendance-tab">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <div style="color: green;">
+                                            <h4 class = "col-md-6 offset-md-2 mb-5 mt-4 alert alert-danger" 
+                                            th:if="${error}" th:text="${error}"></h4>
+                                        </div>
+                                        <input type="date" name="date" class="form-control me-2" th:required="true">
+
+                                    </div>
+                                    <div>
+                                        <input type="submit" name="Save" id="save-btn" value="Save">
+                                        <a th:href="@{/teacher/batch-detail?batchId=1#attendance-tab}"
+                                            class="btn btn-primary text-light">Batch Details</a>
+                                        <button type="button" class="btn btn-secondary">Export<i
+                                                class="fas fa-file-export ms-2"></i></button>
+                                    </div>
+                                </div>
+                                <hr>
+                                <table class="table table-striped display" id="attendTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Id</th>
+                                            <th>Student Id</th>
+                                            <th>Student Name</th>
+                                            <th>Attendance Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr th:each="student, row : ${students}">
+                                            <td>[[${row.index}+1]]</td>
+                                            <td><input type="text" name="loginId" th:value="${student.loginId}"></td>
+                                            <td><input type="text" name="name" th:value="${student.name}"></td>
+                                            <td>
+                                                <select class="form-select" th:required="true" name="status">
+                                                    <option th:value="Present">Present</option>
+                                                    <option th:value="Absent">Absent</option>
+                                                    <option th:value="Leave">Leave</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- Attendance end here -->
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <script>
+            $(document).ready(function () {
+                $('#attendTable').DataTable();
+            });
+        </script>
+    </div>
+</body>
+
+</html>
