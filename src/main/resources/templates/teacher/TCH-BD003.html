@@ -282,9 +282,9 @@
                                     <h4>Attendance</h4>
                                 </div>
                                 <div>
-                                    <input type="date" id="datePicker">
-                                    <a href="teacher-createAttendance.html"
-                                       class="btn btn-primary text-light">Create</a>
+                                    
+                                    <a th:href="@{/teacher/createAttendance(batchId=${param.batchId})}" class="btn btn-outline-primary">
+                                        Create</a>
                                     <button type="button" class="btn btn-secondary">Export<i
                                             class="fas fa-file-export ms-2"></i></button>
                                 </div>
