@@ -1,147 +1,154 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:th="http://www.thymeleaf.org"
-      layout:decorate="~{layouts/AUTHENTICATED.html}">
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+    layout:decorate="~{layouts/AUTHENTICATED.html}">
+
 <head>
     <meta charset="UTF-8">
     <title>Course List</title>
 </head>
+
 <body class="bg-light">
-<div layout:fragment="content">
-    <div class="container p-3">
-        <div class="mb-3">
-            <h3 class="text-decoration-none text-center">
-                <span th:text="${courseName}"></span>
-                 Modules
-            </h3>
-        </div>
-        <div class="add-schedule d-flex justify-content-end mb-2">
-            <a th:href="@{/admin/course-list}" class="btn btn-outline-secondary me-2">
-                <i class="bi bi-list me-2"></i>Back to Courses
-            </a>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#moduleCreate">
-                <i class="bi bi-bookmark-plus me-2"></i>Create Module
-            </button>
-            <div th:replace="fragments/COM-FG001 :: module-create"></div>
-        </div>
-        <div class="card">
-            <p th:text="${message}" th:if="${message != null}" class="d-none" id="message"></p>
-            <div class="card-body shadow p-3">
-                <table id="moduleTable" class="table table-striped table-hovered">
-                    <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Module Name</th>
-                        <th class="text-end">Resource</th>
-                        <th class="text-end">Video</th>
-                        <th class="text-end"></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="module : ${modules}" style="vertical-align: middle">
-                        <td th:text="${module.id}"></td>
-                        <td th:text="${module.name}"></td>
-                        <td class="text-end">
-                            <a th:href="@{/admin/resource-list?moduleId=} + ${module.id}" class="btn btn-primary">
-                                <span th:text="${module.resourceCount}"></span> <span th:text="${module.resourceCount} > 1 ? 'resources' : 'resource'"></span>
-                            </a>
-                        </td>
-                        <td class="text-end">
-                            <a class="btn btn-success" th:href="@{/admin/video-list?moduleId=} + ${module.id}">
-                                <span th:text="${module.videoCount}"></span> <span th:text="${module.videoCount} > 1 ? 'videos' : 'video'"></span>
-                            </a>
-                        </td>
-                        <td class="text-end">
-                            <a class="btn btn-warning" th:attr="href='#edit-module-button' + ${module.id}" data-bs-toggle="modal"><i class="bi bi-pencil-square me-2"></i>Edit</a>
-                            <a th:attr="onclick=|deleteModuleAction('${module.id}')|" class="btn btn-danger" id="deleteBtn">
-                                <i class="bi bi-trash-fill me-2"></i>Delete
-                            </a>
-                        </td>
-                        <div th:replace="fragments/COM-FG001 :: module-edit"></div>
-                    </tr>
-                    </tbody>
-                </table>
+    <div layout:fragment="content">
+        <div class="container p-3">
+            <div class="mb-3">
+                <h3 class="text-decoration-none text-center">
+                    <span th:text="${courseName}"></span>
+                    Modules
+                </h3>
+            </div>
+            <div class="add-schedule d-flex justify-content-end mb-2">
+                <a th:href="@{/admin/course-list}" class="btn btn-outline-secondary me-2">
+                    <i class="bi bi-list me-2"></i>Back to Courses
+                </a>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#moduleCreate">
+                    <i class="bi bi-bookmark-plus me-2"></i>Create Module
+                </button>
+                <div th:replace="fragments/COM-FG001 :: module-create"></div>
+            </div>
+            <div class="card">
+                <p th:text="${message}" th:if="${message != null}" class="d-none" id="message"></p>
+                <div class="card-body shadow p-3">
+                    <table id="moduleTable" class="table table-striped table-hovered">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Module Name</th>
+                                <th class="text-end">Resource</th>
+                                <th class="text-end">Video</th>
+                                <th class="text-end"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="module, row : ${modules}" style="vertical-align: middle">
+                                <td th:text="${row.index} + 1"></td>
+                                <td th:text="${module.name}"></td>
+                                <td class="text-end">
+                                    <a th:href="@{/admin/resource-list?moduleId=} + ${module.id}"
+                                        class="btn btn-primary">
+                                        <span th:text="${module.resourceCount}"></span> <span
+                                            th:text="${module.resourceCount} > 1 ? 'resources' : 'resource'"></span>
+                                    </a>
+                                </td>
+                                <td class="text-end">
+                                    <a class="btn btn-success" th:href="@{/admin/video-list?moduleId=} + ${module.id}">
+                                        <span th:text="${module.videoCount}"></span> <span
+                                            th:text="${module.videoCount} > 1 ? 'videos' : 'video'"></span>
+                                    </a>
+                                </td>
+                                <td class="text-end">
+                                    <a class="btn btn-warning" th:attr="href='#edit-module-button' + ${module.id}"
+                                        data-bs-toggle="modal"><i class="bi bi-pencil-square me-2"></i>Edit</a>
+                                    <a th:attr="onclick=|deleteModuleAction('${module.id}')|" class="btn btn-danger"
+                                        id="deleteBtn">
+                                        <i class="bi bi-trash-fill me-2"></i>Delete
+                                    </a>
+                                </td>
+                                <div th:replace="fragments/COM-FG001 :: module-edit"></div>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            var myModal = document.getElementById('moduleCreate');
-            var myInput = document.getElementById('module');
-            var error = document.getElementById('error')
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                var myModal = document.getElementById('moduleCreate');
+                var myInput = document.getElementById('module');
+                var error = document.getElementById('error')
 
 
-            let message = document.getElementById('message');
-            if (message !== null && message.innerText !== "") {
-                const Toast = Swal.mixin({
-                    toast: true,
-                    position: 'top-end',
-                    showConfirmButton: false,
-                    timer: 2000,
-                    timerProgressBar: true,
-                    didOpen: (toast) => {
-                        toast.addEventListener('mouseenter', Swal.stopTimer)
-                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                let message = document.getElementById('message');
+                if (message !== null && message.innerText !== "") {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+
+                    Toast.fire({
+                        icon: 'success',
+                        title: message.innerText
+                    })
+                }
+
+                if (error != null) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: error.innerText
+                    })
+                }
+
+                myModal.addEventListener('shown.bs.modal', () => {
+                    myInput.focus()
+                })
+            })
+
+            const deleteModuleAction = (moduleId) => {
+                const swalWithBootstrapButtons = Swal.mixin({
+                    customClass: {
+                        confirmButton: 'btn btn-success',
+                        cancelButton: 'btn btn-danger me-2'
+                    },
+                    buttonsStyling: false
+                })
+
+                swalWithBootstrapButtons.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'No, cancel!',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location = `http://localhost:9090/admin/module-delete?moduleId=${moduleId}`;
+                    } else if (
+                        /* Read more about handling dismissals below */
+                        result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                        swalWithBootstrapButtons.fire(
+                            'Cancelled',
+                            'Your module data is safe :)',
+                            'error'
+                        )
                     }
                 })
-
-                Toast.fire({
-                    icon: 'success',
-                    title: message.innerText
-                })
             }
 
-            if(error != null){
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: error.innerText
-                })
-            }
-
-            myModal.addEventListener('shown.bs.modal', ()=> {
-                myInput.focus()
-            })
-        })
-
-        const deleteModuleAction = (moduleId) => {
-            const swalWithBootstrapButtons = Swal.mixin({
-                customClass: {
-                    confirmButton: 'btn btn-success',
-                    cancelButton: 'btn btn-danger me-2'
-                },
-                buttonsStyling: false
-            })
-
-            swalWithBootstrapButtons.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Yes, delete it!',
-                cancelButtonText: 'No, cancel!',
-                reverseButtons: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location = `http://localhost:9090/admin/module-delete?moduleId=${moduleId}`;
-                } else if (
-                    /* Read more about handling dismissals below */
-                    result.dismiss === Swal.DismissReason.cancel
-                ) {
-                    swalWithBootstrapButtons.fire(
-                        'Cancelled',
-                        'Your imaginary file is safe :)',
-                        'error'
-                    )
-                }
-            })
-        }
-
-        $(document).ready( function () {
-            $('#moduleTable').DataTable();
-        } );
-    </script>
-</div>
+            $(document).ready(function () {
+                $('#moduleTable').DataTable();
+            });
+        </script>
+    </div>
 </body>
+
 </html>

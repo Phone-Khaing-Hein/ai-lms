@@ -4,7 +4,6 @@ import com.ai.entity.*;
 import com.ai.entity.Module;
 import com.ai.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -15,10 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.transaction.Transactional;
-import java.io.File;
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -122,14 +118,15 @@ public class AdminController {
         course.setName(name);
         course.setDescription(description);
         courseService.save(course);
-
+        redirectAttrs.addFlashAttribute("cmessage", "%s course updated successfully!".formatted(course.getName()));
         return "redirect:/admin/course-list";
     }
 
     @GetMapping("course-delete")
-    public String deleteCourse(@RequestParam int courseId, @RequestParam String courseName)
+    public String deleteCourse(@RequestParam int courseId, @RequestParam String courseName, RedirectAttributes attributes)
             throws IOException {
         courseService.deleteById(courseId, courseName);
+        attributes.addFlashAttribute("cmessage", "%s course deleted successfully!".formatted(courseName));
         return "redirect:/admin/course-list";
     }
 
@@ -164,7 +161,7 @@ public class AdminController {
     }
 
     @PostMapping("module-edit")
-    public String moduleEdit(@RequestParam int moduleId, @RequestParam String name, @RequestParam int courseId) throws IOException {
+    public String moduleEdit(@RequestParam int moduleId, @RequestParam String name, @RequestParam int courseId,RedirectAttributes attr) throws IOException {
         var m = moduleService.findById(moduleId);
         var courseName = courseService.findById(courseId).getName();
         fileService.renameFolder(courseName.concat("\\").concat(m.getName()), name);
@@ -172,6 +169,7 @@ public class AdminController {
         m.setVideo(new MultipartFile[]{});
         m.setResource(new MultipartFile[]{});
         moduleService.edit(m);
+        attr.addFlashAttribute("message", "%s module updated successfully!".formatted(m.getName()));
         return "redirect:/admin/course-detail?courseId=%d".formatted(courseId);
     }
 

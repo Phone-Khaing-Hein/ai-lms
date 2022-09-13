@@ -33,23 +33,23 @@ public class AppUserInitializer {
             admin.setPhoto("default.png");
             repo.save(admin);
 
-            var teacher = new User();
-            teacher.setLoginId("TCH001");
-            teacher.setName("May Zwei");
-            teacher.setActive(true);
-            teacher.setEmail("mayzwei@gmail.com");
-            teacher.setPassword(passwordEncoder.encode("teacher"));
-            teacher.setRole(Role.Teacher);
-            repo.save(teacher);
+            // var teacher = new User();
+            // teacher.setLoginId("TCH001");
+            // teacher.setName("May Zwei");
+            // teacher.setActive(true);
+            // teacher.setEmail("mayzwei@gmail.com");
+            // teacher.setPassword(passwordEncoder.encode("teacher"));
+            // teacher.setRole(Role.Teacher);
+            // repo.save(teacher);
 
-            var student = new User();
-            student.setLoginId("STU001");
-            student.setName("Phone Khaing Hein");
-            student.setActive(true);
-            student.setEmail("pkh2662003@gmail.com");
-            student.setPassword(passwordEncoder.encode("student"));
-            student.setRole(Role.Student);
-            repo.save(student);
+            // var student = new User();
+            // student.setLoginId("STU001");
+            // student.setName("Phone Khaing Hein");
+            // student.setActive(true);
+            // student.setEmail("pkh2662003@gmail.com");
+            // student.setPassword(passwordEncoder.encode("student"));
+            // student.setRole(Role.Student);
+            // repo.save(student);
         }
     }
 }
