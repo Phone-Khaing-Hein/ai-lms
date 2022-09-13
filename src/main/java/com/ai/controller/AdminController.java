@@ -432,4 +432,38 @@ public class AdminController {
         m.put("teachers", teachers);
         return "ADM-TC001";
     }
+
+    @PostMapping("teacher-edit")
+    public String teacherEdit(@ModelAttribute User user, RedirectAttributes attributes){
+        var teacher = userService.findByLoginId(user.getLoginId());        
+        teacher.setName(user.getName());
+        teacher.setEmail(user.getEmail());
+        var batches = new ArrayList<Batch>();
+        for(var id : user.getBatchId()){
+            batches.add(batchService.findById(id));
+        }
+        System.out.println(batches);
+        teacher.setBatches(batches);
+        userService.save(teacher);
+        attributes.addFlashAttribute("message", "%s updated successfully!".formatted(teacher.getName()));
+        return "redirect:/admin/teacher-list";
+    }
+
+    @GetMapping("teacher-delete")
+    public String teacherDelete(@RequestParam String teacherId, @RequestParam String teacherName, RedirectAttributes attributes){
+        userService.deleteById(teacherId);
+        attributes.addFlashAttribute("message", "%s deleted successfully!".formatted(teacherName));
+        return "redirect:/admin/teacher-list";
+    }
+
+    //EXAM
+    @GetMapping("exam-list")
+    public String examList(){
+        return "ADM-ET001";
+    }
+    
+    @GetMapping("setupExamCreate")
+    public String examCreate(){
+        return "ADM-ET002";
+    }
 }
