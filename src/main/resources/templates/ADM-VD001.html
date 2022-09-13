@@ -48,7 +48,8 @@
                 <td th:text="${video.name}"></td>
                 <td>
                   <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                    th:attr="data-bs-target='#staticBackdrop' + ${video.id}" th:id="${video.id}">
+                    th:attr="data-bs-target='#staticBackdrop' + ${video.id}"
+                    th:onclick="openVideo[[${video.id}]]([[${video.id}]])">
                     open video
                   </button>
                   <div class="modal fade" th:attr="id='staticBackdrop' + ${video.id}" data-bs-backdrop="static"
@@ -75,16 +76,14 @@
                     class="btn btn-danger"><i class="bi bi-trash-fill me-2"></i>Delete</button>
                 </td>
                 <script>
-
-                  document.getElementById("[[${video.id}]]").addEventListener("click", () => {
-
-                    var video = document.getElementById("videoModel[[${video.id}]]");
+                  const openVideo[[${ video.id }]] = (videoId) => {
+                    var video = document.getElementById(`videoModel[[${video.id}]]`);
 
                     //For Video auto Open after open modelbox
-                    document.addEventListener("shown.bs.modal", playVideo);
-                    function playVideo() {
-                      video.play();
-                    }
+                    // document.addEventListener("shown.bs.modal", playVideo);
+                    // function playVideo() {
+                    //   video.play();
+                    // }
 
                     //For Video auto Close after close modelbox
                     document.addEventListener("hidden.bs.modal", stopVideo);
@@ -92,7 +91,8 @@
                       video.pause();
                       video.currentTime = 0;
                     }
-                  })
+                  }
+
                   document.getElementById('videoDeleteBtn' + [[${ video.id }]]).addEventListener('click', () => {
                     const swalWithBootstrapButtons = Swal.mixin({
                       customClass: {
