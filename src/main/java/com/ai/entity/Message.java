@@ -1,13 +1,19 @@
 package com.ai.entity;
 
+import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.*;
+
+import org.springframework.web.context.annotation.ApplicationScope;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
 @Data
+@Builder
+@ApplicationScope
 public class Message implements Serializable {
 
     private static final long serialVersionUID = 1L;
