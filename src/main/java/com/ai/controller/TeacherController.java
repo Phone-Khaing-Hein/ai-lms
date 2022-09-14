@@ -1,13 +1,11 @@
 package com.ai.controller;
 
 import com.ai.entity.Attendance;
-import com.ai.entity.Batch;
 import com.ai.entity.Module;
 import com.ai.entity.Schedule;
 import com.ai.entity.User;
 import com.ai.repository.ScheduleRepository;
 import com.ai.service.*;
-import net.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,7 +20,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.time.LocalDate;
 import java.util.List;
 
-import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 @Controller

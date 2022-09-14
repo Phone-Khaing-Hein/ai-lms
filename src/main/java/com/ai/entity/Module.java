@@ -1,8 +1,9 @@
 package com.ai.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,6 +17,9 @@ import java.util.List;
 @Table(name="module")
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Module implements Serializable {
 
     private static final long serialVersionUID = 1L;
