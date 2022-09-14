@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:th="http://www.thymeleaf.org"
-      layout:decorate="~{/layouts/STU-AUTH.html}">
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+    layout:decorate="~{/layouts/STU-AUTH.html}">
+
 <head>
     <meta charset="UTF-8">
     <title>Dashboard</title>
@@ -15,137 +15,143 @@
         }
     </style>
 </head>
-    <body class="bg-light overflow-hidden">
-        <div layout:fragment="content">
-            <section>
-                <div class="container" style="padding-top: 100px;">
-                    <h4 class="text-capitalize mb-3"><i class="bi bi-house-door me-2"></i>dashboard</h4>
-                    <div class="row gx-3" style="height: 100vh;">
-                        <div class="col-md-9">
-                            <div class="alert alert-primary alerts" role="alert">
-                                <div class="row text-capitalize align-items-center">
-                                    <div class="col-8">
-                                        <h5>Welcome Back! [[${user.name}]]</h5>
-                                        <p class="text-muted m-0">you have completed 60% of your goal this week!</p>
-                                    </div>
+
+<body class="bg-light overflow-hidden">
+    <div layout:fragment="content">
+        <section>
+            <div class="container" style="padding-top: 100px;">
+                <h4 class="text-capitalize mb-3"><i class="bi bi-house-door me-2"></i>dashboard</h4>
+                <div class="row gx-3" style="height: 100vh;">
+                    <div class="col-md-9">
+                        <div class="alert alert-primary alerts" role="alert">
+                            <div class="row text-capitalize align-items-center">
+                                <div class="col-8">
+                                    <h5>Welcome Back! [[${user.name}]]</h5>
+                                    <p class="text-muted m-0">you have completed 60% of your goal this week!</p>
                                 </div>
                             </div>
-                            <div class="row gx-2">
-                                <div class="col-md-4 mb-3">
-                                    <a th:href="@{/student/exam-list}" class="text-white text-decoration-none">
-                                        <div class="card p-2 cardhovers" style="background: red;">
-                                            <div class="card-body">
-                                                <span class="h4"><i class="bi bi-file-earmark-text me-2"></i>Exam</span>
-                                                <p class="mt-2">Total : 6</p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="col-md-4 mb-3">
-                                    <a th:href="@{/student/assignment-list}" class="text-white text-decoration-none">
-                                        <div class="card p-2 cardhovers" style="background: green;">
-                                            <div class="card-body">
-                                                <span class="h4"><i class="bi bi-file-earmark-zip me-2"></i>Assignment</span>
-                                                <p class="mt-2">Total : 6</p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="col-md-4 mb-3">
-                                    <a th:href="@{/student/chat#divider}" class="text-white text-decoration-none">
-                                        <div class="card p-2 cardhovers" style="background: blue;">
-                                            <div class="card-body">
-                                                <span class="h4"><i class="bi bi-chat-dots me-2"></i>Messages</span>
-                                                <p class="mt-2">messages : 0</p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="col mb-3">
-                                    <div class="card">
+                        </div>
+                        <div class="row gx-2">
+                            <div class="col-md-4 mb-3">
+                                <a th:href="@{/student/exam-list}" class="text-white text-decoration-none">
+                                    <div class="card p-2 cardhovers" style="background: red;">
                                         <div class="card-body">
-                                            <h5 class="card-title text-muted"><i class="bi bi-people me-2"></i>Instructors</h5>
-                                            <table class="table mb-0 table-hover">
-                                                <tbody>
+                                            <span class="h4"><i class="bi bi-file-earmark-text me-2"></i>Exam</span>
+                                            <p class="mt-2">Total : 6</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <a th:href="@{/student/assignment-list}" class="text-white text-decoration-none">
+                                    <div class="card p-2 cardhovers" style="background: green;">
+                                        <div class="card-body">
+                                            <span class="h4"><i
+                                                    class="bi bi-file-earmark-zip me-2"></i>Assignment</span>
+                                            <p class="mt-2">Total : [[${assignmentCount}]]</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <a th:href="@{/student/chat#divider}" class="text-white text-decoration-none">
+                                    <div class="card p-2 cardhovers" style="background: blue;">
+                                        <div class="card-body">
+                                            <span class="h4"><i class="bi bi-chat-dots me-2"></i>Messages</span>
+                                            <p class="mt-2">messages : 0</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col mb-3">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title text-muted"><i class="bi bi-people me-2"></i>Instructors
+                                        </h5>
+                                        <table class="table mb-0 table-hover">
+                                            <tbody>
                                                 <tr th:each="teacher : ${teachers}">
                                                     <th>
                                                         <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/avatar-5.webp"
-                                                             class="shadow-1-strong rounded-circle" alt="avatar 1"
-                                                             style="width: 40px; height: auto;">
+                                                            class="shadow-1-strong rounded-circle" alt="avatar 1"
+                                                            style="width: 40px; height: auto;">
                                                         <span class="ms-2">[[${teacher.name}]]</span>
                                                     </th>
-<!--                                                    <td class="align-middle">-->
-<!--                                                        <span>[[${teacher}]]</span>-->
-<!--                                                    </td>-->
+                                                    <!--                                                    <td class="align-middle">-->
+                                                    <!--                                                        <span>[[${teacher}]]</span>-->
+                                                    <!--                                                    </td>-->
                                                     <td class="align-middle">
                                                         <h6 class="mb-0"><span class="badge bg-success">active</span>
                                                         </h6>
                                                     </td>
                                                 </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                            </tbody>
+                                        </table>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="d-flex align-items-center position-relative">
-                                        <img th:src="@{/resources/profile/}+${user.photo}"
-                                             class="shadow bg-body rounded-circle" width="80" height="80px" alt="">
-                                        <div>
-                                            <h5 class="text-capitalize text-muted mx-3 text-nowrap">[[${user.name}]]</h5>
-                                            <span class="text-capitalize text-muted mx-3">Student</span>
-                                        </div>
-                                    </div>
-                                    <h6 class="text-capitalize text-muted my-2 d-grid">
-                                        <a th:href="@{/student/profile}" class="btn btn-outline-danger btn-sm"><i class="bi bi-sliders me-2"></i>manage your account</a>
-                                    </h6>
-                                    <hr />
-                                    <table class="table table-borderless">
-                                        <tr>
-                                            <td>
-                                                <h6 class="text-muted">Login ID : [[${user.loginId}]]</h6>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <h6 class="text-muted">Batch : [[${user.batches.get(0).name}]]</h6>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <h6 class="text-muted">Course : [[${user.batches.get(0).course.name}]]</h6>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                    <hr />
-                                    <h6 class="text-success"><i class="fal fa-shield-check me-1"></i>account is protected</h6>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <div class="col-md-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center position-relative">
+                                    <img th:src="@{/resources/profile/}+${user.photo}"
+                                        class="shadow bg-body rounded-circle" width="80" height="80px" alt="">
+                                    <div>
+                                        <h5 class="text-capitalize text-muted mx-3 text-nowrap">[[${user.name}]]</h5>
+                                        <span class="text-capitalize text-muted mx-3">Student</span>
+                                    </div>
+                                </div>
+                                <h6 class="text-capitalize text-muted my-2 d-grid">
+                                    <a th:href="@{/student/profile}" class="btn btn-outline-danger btn-sm"><i
+                                            class="bi bi-sliders me-2"></i>manage your account</a>
+                                </h6>
+                                <hr />
+                                <table class="table table-borderless">
+                                    <tr>
+                                        <td>
+                                            <h6 class="text-muted">Login ID : [[${user.loginId}]]</h6>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h6 class="text-muted">Batch : [[${user.batches.get(0).name}]]</h6>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h6 class="text-muted">Course : [[${user.batches.get(0).course.name}]]</h6>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <hr />
+                                <h6 class="text-success"><i class="fal fa-shield-check me-1"></i>account is protected
+                                </h6>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </section>
-            <script>
-                document.getElementById("logout").addEventListener("click", ()=>{
-                    Swal.fire({
-                        title: 'Are you sure to logout?',
-                        text: "You won't be able to revert this!",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Yes, logout!'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            document.getElementById("logoutForm").submit();
-                        }
-                    })
+            </div>
+        </section>
+        <script>
+            document.getElementById("logout").addEventListener("click", () => {
+                Swal.fire({
+                    title: 'Are you sure to logout?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, logout!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        document.getElementById("logoutForm").submit();
+                    }
                 })
-            </script>
-        </div>
-    </body>
+            })
+        </script>
+    </div>
+</body>
+
 </html>

@@ -198,7 +198,7 @@ public class TeacherController {
         var batch = batchService.findById(assignment.getBatchId());
         if(!assignment.getFiles().isEmpty()){
             fileService.createFolderForAssignment(batch.getName());
-            var fileName = fileService.createAssignmentFile(assignment.getFiles());
+            var fileName = fileService.createAssignmentFile(assignment.getFiles(), batch.getName());
             assignment.setFile(fileName);
         }
         assignment.setBatch(batch);

@@ -11,6 +11,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.LocalDateTime;
+
 import javax.servlet.annotation.MultipartConfig;
 
 @Controller
@@ -39,6 +41,9 @@ public class StudentController {
     @Autowired
     private CommentService commentService;
 
+    @Autowired
+    private AssignmentService assignmentService;
+
     @GetMapping("home")
     public String home(ModelMap m){
         var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -48,6 +53,7 @@ public class StudentController {
                 .filter(t -> t.getBatches().contains(batchService.findById(user.getBatches().get(0).getId()))).toList();
         m.put("user", user);
         m.put("teachers", teachers);
+        m.put("assignmentCount", assignmentService.count());
         m.put("nav", "dashboard");
         return "student/STU-DB001";
     }
@@ -143,8 +149,15 @@ public class StudentController {
     }
 
     @GetMapping("assignment-list")
-    public String assignments(){
+    public String assignments(ModelMap m){
+        m.put("assignments", assignmentService.findAll().stream().filter(a -> a.getStart().isAfter(LocalDateTime.now())).toList());
         return "student/STU-AS007";
+    }
+
+    @GetMapping("assignment-detail/{id}")
+    public String assignmentDetail(@PathVariable int id, ModelMap m){
+        m.put("assignment", assignmentService.findByEmail(id));
+        return "student/STU-AD008";
     }
 
     @GetMapping("delete-comment")
