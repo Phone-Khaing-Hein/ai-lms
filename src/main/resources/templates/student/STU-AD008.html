@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+    layout:decorate="~{/layouts/STU-AUTH.html}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Course</title>
+</head>
+
+<body class="bg-light">
+    <div layout:fragment="content">
+        <section>
+            <div class="container" style="padding-top: 100px;">
+                <nav aria-label="breadcrumb" class="d-flex justify-content-end">
+                    <ol class="breadcrumb text-capitalize">
+                        <li class="breadcrumb-item"><a th:href="@{/student/home}">dashboard</a></li>
+                        <li class="breadcrumb-item"><a th:href="@{/student/assignment-list}">assignment-list</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">assignment-view</li>
+                    </ol>
+                </nav>
+                <div class="row">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="position-relative">
+                                    <i class="fas fa-file-alt me-2"></i>
+                                    [[${assignment.title}]]
+                                    <h6 class="position-absolute top-0 end-0 p-3 text-primary">Assign</h6>
+                                </h5>
+                                <span class="text-muted">[[${#temporals.format(assignment.start, 'yyyy-MM-dd hh:mm
+                                    a')}]]</span>
+                                <div class="d-flex align-items-center">
+                                    <p class="me-5 mb-0">[[${assignment.mark}]] points</p>
+                                    <span class="mb-0">Due [[${#temporals.format(assignment.end, 'yyyy-MM-dd hh:mm
+                                        a')}]]</span>
+                                    <form action="" enctype="multipart/form-data">
+                                        <div class="input-group">
+                                            <div class="input-group-text bg-transparent border-0">
+                                                <button id="uploadBtn" class="btn btn-light text-secondary">
+                                                    <i class="fas fa-paperclip"></i>
+                                                </button>
+                                            </div>
+                                            <form action="" class="d-none" id="uploadForm"
+                                                enctype="multipart/form-data">
+                                                <input type="file" class="d-none" id="uploadInput" />
+                                            </form>
+                                        </div>
+                                        <div class="d-block">
+                                            <button class="btn btn-dark btn-sm text-capitalize">make it done</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <hr>
+
+                                <div class="card shadow rounded mt-3">
+                                    <div class="card-body p-4">
+                                        <p style="color: rgb(71, 68, 68)" class="ms-1">
+                                            <i class="fas fa-user me-2"></i>Private Comments
+                                        </p>
+                                        <textarea name="" cols="30" rows="10" style="max-height: 100px; height: 70px"
+                                            placeholder="Add private comment ..." class="form-control"></textarea>
+                                        <button class="btn btn-primary mt-2 btn-sm float float-end">
+                                            Comment
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                document.getElementById("uploadBtn").addEventListener("click", () => {
+                    document.getElementById("uploadInput").click();
+                });
+            });
+        </script>
+    </div>
+</body>
+
+</html>

@@ -28,10 +28,10 @@ public class FileService {
         return fileName;
     }
 
-    public String  createAssignmentFile(MultipartFile file) throws IllegalStateException, IOException {
-        var fileName =  "assignment-".concat(String.valueOf(Math.random() * 100)).concat(".").concat(file.getOriginalFilename().split("\\.")[1]);
+    public String  createAssignmentFile(MultipartFile file, String foldername) throws IllegalStateException, IOException {
+        var fileName =  String.valueOf(Math.random() * 100).concat(".").concat(file.getOriginalFilename());
         file.transferTo(
-                new File( assignmentFilePath + "\\" + fileName));
+                new File( assignmentFilePath + "\\" + foldername + "\\" + fileName));
         return fileName;
     }
 
