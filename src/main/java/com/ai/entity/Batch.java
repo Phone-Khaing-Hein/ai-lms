@@ -54,4 +54,7 @@ public class Batch implements Serializable {
     @OneToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy = "batch")
     private List<Schedule> schedules;
 
+    @OneToMany(mappedBy = "batch", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
+    private List<Assignment> assignments;
+
 }

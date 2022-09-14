@@ -16,6 +16,10 @@ public class AttendanceService {
         attendanceRepository.save(attendance);
     }
 
+    public Object findAll() {
+        return attendanceRepository.findAll();
+    }
+
     // public Attendance findByDate(LocalDate date){
     //     return attendanceRepository.findByDate(date);
     // }

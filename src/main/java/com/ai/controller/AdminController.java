@@ -47,6 +47,9 @@ public class AdminController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private AttendanceService attendanceService;
+
     @GetMapping("home")
     public String home(ModelMap m){
         m.put("courseCount", courseService.getCount());
@@ -278,7 +281,7 @@ public class AdminController {
 
     @GetMapping("batch-close")
     @Transactional
-    public String closeBatch(@RequestParam int id){
+    public String closeBatch(@RequestParam int id, RedirectAttributes attributes){
         var batch = batchService.findById(id);
         batch.setClose(true);
         for(var student : batch.getUsers()){
@@ -286,12 +289,13 @@ public class AdminController {
             student.setActive(false);
         }
         batchService.save(batch);
+        attributes.addFlashAttribute("message", "%s is successfully closed!".formatted(batch.getName()));
         return "redirect:/admin/batch-list";
     }
 
     @GetMapping("batch-open")
     @Transactional
-    public String openBatch(@RequestParam int id){
+    public String openBatch(@RequestParam int id, RedirectAttributes attributes){
         var batch = batchService.findById(id);
         batch.setClose(false);
         for(var student : batch.getUsers()){
@@ -299,6 +303,7 @@ public class AdminController {
             student.setActive(true);
         }
         batchService.save(batch);
+        attributes.addFlashAttribute("message", "%s is successfully closed!".formatted(batch.getName()));
         return "redirect:/admin/batch-list";
     }
 
@@ -454,6 +459,12 @@ public class AdminController {
         userService.deleteById(teacherId);
         attributes.addFlashAttribute("message", "%s deleted successfully!".formatted(teacherName));
         return "redirect:/admin/teacher-list";
+    }
+
+    @GetMapping("attendance-list")
+    public String attendanceList(ModelMap m){
+        m.put("attendance", attendanceService.findAll());
+        return "ADM-AT001";
     }
 
     //EXAM

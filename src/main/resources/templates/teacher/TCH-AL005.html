@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+    layout:decorate="~{layouts/AUTHENTICATED.html}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Batch List</title>
+</head>
+
+<body class="bg-light">
+    <div layout:fragment="content">
+        <div class="container">
+            <div class="mt-5 pt-3">
+                <h3 class="text-decoration-none text-center"><i class="fas fa-laptop-code me-2"></i>
+                    Exam List
+                </h3>
+            </div>
+            <div class="add-schedule d-flex justify-content-end mb-2">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#assignmentCreate">
+                    <i class="bi bi-journal-bookmark me-2"></i>Create Assignment
+                </button>
+                <div th:replace="fragments/COM-FG001 :: assignment-create"></div>
+            </div>
+            <p class="d-none" th:text="${message}" th:if="${message} != null" id="successMessage"></p>
+            <div class="container bg-white shadow p-3 mt-4">
+                <div>
+                    <table id="examTable" class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Title</th>
+                                <th scope="col">Start Date</th>
+                                <th scope="col">End Date</th>
+                                <th scope="col">Batch Name</th>
+                                <th scope="col">Points</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="a, row : ${assignments}">
+                                <td>[[${row.index} + 1]]</td>
+                                <td>[[${a.title}]]</td>
+                                <td>[[${#temporals.format(a.start, 'yyyy-MM-dd hh:mm a')}]]</td>
+                                <td>[[${#temporals.format(a.end, 'yyyy-MM-dd hh:mm a')}]]</td>
+                                <td>[[${a.batch.name}]]</td>
+                                <td>[[${a.mark}]]</td>
+                                <td><a href="" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
+                                    <a href="" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <script>
+            $(document).ready(function () {
+                $('#examTable').DataTable();
+            });
+        </script>
+    </div>
+</body>
+
+</html>
