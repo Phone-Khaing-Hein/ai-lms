@@ -1,6 +1,5 @@
 package com.ai.controller;
 
-import com.ai.entity.Message;
 import com.ai.entity.User;
 import com.ai.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.annotation.MultipartConfig;
-import java.util.List;
 
 @Controller
 @RequestMapping("student")
