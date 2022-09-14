@@ -1,13 +1,12 @@
 package com.ai.controller;
 
+import com.ai.entity.Assignment;
 import com.ai.entity.Attendance;
-import com.ai.entity.Batch;
 import com.ai.entity.Module;
 import com.ai.entity.Schedule;
 import com.ai.entity.User;
 import com.ai.repository.ScheduleRepository;
 import com.ai.service.*;
-import net.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,17 +15,21 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 
-import javax.transaction.Transactional;
+import javax.servlet.annotation.MultipartConfig;
 import javax.validation.Valid;
 
 @Controller
 @RequestMapping("teacher")
+@MultipartConfig
 public class TeacherController {
 
     @Autowired
@@ -58,6 +61,9 @@ public class TeacherController {
 
     @Autowired
     private AttendanceService attendanceService;
+
+    @Autowired
+    private AssignmentService assignmentService;
 
     @GetMapping("home")
     public String home(){
@@ -98,13 +104,6 @@ public class TeacherController {
             @RequestParam List<String> status,
             @RequestParam List<String> loginId,
             ModelMap m) {
-        //Attendance attend = attendanceRepository.findByDate(date);
-
-        // if (attend.getDate().equals(date)) {
-        //     System.out.println("Date already existed !! =>" + date);
-        //     m.put("error", "Attendance for " + date + " already created!!");
-        //     return "TCH-AT001";
-        // }
         var batch = batchService.findById(batchId);
 
         for (var i = 0; i < status.size(); i++) {
@@ -184,5 +183,36 @@ public class TeacherController {
     @GetMapping("chat")
     public String chat(){
         return "student/STU-CH004";
+    }
+
+    @GetMapping("assignment-list")
+    public String exams(ModelMap m){
+        m.put("assignments", assignmentService.findAll());
+        m.put("openBatches", batchService.findAll().stream().filter(b -> b.isClose() == false).toList());
+        return "teacher/TCH-AL005";
+    }
+
+    @PostMapping("assignment-create")
+    public String createAssignment(@Validated @ModelAttribute Assignment assignment, 
+                                    BindingResult bs, 
+                                    RedirectAttributes attributes) throws IllegalStateException, IOException{
+        if(bs.hasErrors()){
+            return "teacher/TCH-AL005";
+        }
+        var batch = batchService.findById(assignment.getBatchId());
+        if(!assignment.getFiles().isEmpty()){
+            fileService.createFolderForAssignment(batch.getName());
+            var fileName = fileService.createAssignmentFile(assignment.getFiles());
+            assignment.setFile(fileName);
+        }
+        assignment.setBatch(batch);
+        assignmentService.save(assignment);
+        attributes.addFlashAttribute("message", "%s created successfully!".formatted(assignment.getTitle()));
+        return "redirect:/teacher/assignment-list";
+    }
+
+    @ModelAttribute("assignment")
+    public Assignment assignment(){
+        return new Assignment();
     }
 }

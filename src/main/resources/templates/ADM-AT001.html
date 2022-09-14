@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+    layout:decorate="~{layouts/AUTHENTICATED.html}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Course List</title>
+</head>
+
+<body class="bg-light">
+    <div layout:fragment="content">
+        <div class="mb-2 mt-5 pt-3">
+            <h3 class="text-decoration-none text-center">
+                <i class="bi bi-person-check me-2"></i>Attendance List
+            </h3>
+        </div>
+        <div class="container bg-white shadow p-3 mt-5">
+
+            <div class="table">
+                <table id="attendanceTable" class="table">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Student Id</th>
+                            <th>Student Name</th>
+                            <th>Date</th>
+                            <th>Attendance Status</th>
+                            <th>Batch</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="a, row : ${attendance}">
+                            <td>[[${row.index} + 1]]</td>
+                            <td>[[${a.user.loginId}]]</td>
+                            <td>[[${a.user.name}]]</td>
+                            <td>[[${a.date}]]</td>
+                            <td>[[${a.attendanceStatus}]]</td>
+                            <td>[[${a.batch.name}]]</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <script>
+            $(document).ready(function () {
+                $('#attendanceTable').DataTable();
+            });
+        </script>
+    </div>
+</body>
+
+</html>

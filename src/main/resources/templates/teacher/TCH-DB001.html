@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:th="http://www.thymeleaf.org"
-      layout:decorate="~{layouts/AUTHENTICATED.html}">
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+  layout:decorate="~{layouts/AUTHENTICATED.html}">
+
 <head>
   <meta charset="UTF-8">
   <title>Dashboard</title>
@@ -15,85 +15,87 @@
     }
   </style>
 </head>
-<body class="bg-light">
-<div layout:fragment="content">
-  <section class="paddings">
-    <div class="container">
-      <div class="row ms-3 gx-2">
-        <div class="col-md-3 col-sm-12 mb-3">
-          <a th:href="@{/teacher/batch-list}" class="text-white text-decoration-none">
-            <div class="card bg-success p-2 cardhovers">
-              <div class="card-body d-flex justify-content-between">
-                <span class="h4"><i class="fas fa-user-friends me-2"></i>Batches</span>
-                <p class="mt-1">Total : 6</p>
-              </div>
-            </div>
-          </a>
-        </div>
 
-        <div class="col-md-3 col-sm-12 mb-3">
-          <a th:href="@{/teacher/chat}" class="text-white text-decoration-none">
-            <div class="card bg-primary p-2 cardhovers">
-              <div class="card-body d-flex justify-content-between">
-                <span class="h4"><i class="fas fa-comment me-2"></i>Chats</span>
-                <p class="mt-1">10</p>
+<body class="bg-light">
+  <div layout:fragment="content">
+    <section class="paddings">
+      <div class="container">
+        <div class="row ms-3 gx-2">
+          <div class="col-md-3 col-sm-12 mb-3">
+            <a th:href="@{/teacher/batch-list}" class="text-white text-decoration-none">
+              <div class="card bg-success p-2 cardhovers">
+                <div class="card-body d-flex justify-content-between">
+                  <span class="h4"><i class="fas fa-user-friends me-2"></i>Batches</span>
+                  <p class="mt-1">Total : 6</p>
+                </div>
+              </div>
+            </a>
+          </div>
+
+          <div class="col-md-3 col-sm-12 mb-3">
+            <a th:href="@{/teacher/chat}" class="text-white text-decoration-none">
+              <div class="card bg-primary p-2 cardhovers">
+                <div class="card-body d-flex justify-content-between">
+                  <span class="h4"><i class="fas fa-comment me-2"></i>Chats</span>
+                  <p class="mt-1">10</p>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="col-md-3 col-sm-12 mb-3">
+            <a href="teacher-examlist.html" class="text-white text-decoration-none">
+              <div class="card bg-secondary p-2 cardhovers">
+                <div class="card-body d-flex justify-content-between">
+                  <span class="h4"><i class="fas fa-laptop-code me-2"></i>Exams</span>
+                  <p class="mt-1">6</p>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="col-md-3 col-sm-12 mb-3">
+            <a th:href="@{/teacher/assignment-list}" class="text-white text-decoration-none">
+              <div class="card bg-warning p-2 cardhovers">
+                <div class="card-body d-flex justify-content-between">
+                  <span class="h4"><i class="fas fa-book me-2"></i>Assignments</span>
+                  <p class="mt-1">6</p>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+        <div class="row ms-3 gx-2">
+          <div class="col-md-7 col-sm-12 mb-3">
+            <div class="card">
+              <div class="card-body">
+                <div class="d-flex justify-content-between">
+                  <h5 class="text-muted ms-3">Number of Students per current opening Batches</h5>
+                  <a href=""><i class="fas fa-ellipsis-v fs-6 text-muted"></i></a>
+                </div>
+                <!--              <canvas id="myChart"></canvas>-->
               </div>
             </div>
-          </a>
-        </div>
-        <div class="col-md-3 col-sm-12 mb-3">
-          <a href="teacher-examlist.html" class="text-white text-decoration-none">
-            <div class="card bg-secondary p-2 cardhovers">
-              <div class="card-body d-flex justify-content-between">
-                <span class="h4"><i class="fas fa-laptop-code me-2"></i>Exams</span>
-                <p class="mt-1">6</p>
+          </div>
+          <div class="col-md-5 col-sm-12">
+            <div class="card">
+              <div class="card-body">
+                <div class="d-flex justify-content-between">
+                  <h5 class="text-muted ms-3">Comments Notification</h5>
+                  <a href=""><i class="fas fa-ellipsis-v fs-6 text-muted"></i></a>
+                </div>
+                <hr>
+                <div class="d-flex justify-content-center align-items-center flex-column">
+                  <p class="text-warning fw-bold">New Comments Found</p>
+                  <a href="teacher-comments.html" class="text-decoration-none text-danger">
+                    <img src="./img/comment.svg" width="250" alt="">
+                  </a>
+                </div>
               </div>
-            </div>
-          </a>
-        </div>
-        <div class="col-md-3 col-sm-12 mb-3">
-          <a th:href="@{/teacher/course-list}" class="text-white text-decoration-none">
-            <div class="card bg-warning p-2 cardhovers">
-              <div class="card-body d-flex justify-content-between">
-                <span class="h4"><i class="fas fa-book me-2"></i>Attendence</span>
-                <p class="mt-1">6</p>
-              </div>
-            </div>
-          </a>
-        </div>
-      </div>
-      <div class="row ms-3 gx-2">
-        <div class="col-md-7 col-sm-12 mb-3">
-          <div class="card">
-            <div class="card-body">
-              <div class="d-flex justify-content-between">
-                <h5 class="text-muted ms-3">Number of Students per current opening Batches</h5>
-                <a href=""><i class="fas fa-ellipsis-v fs-6 text-muted"></i></a>
-              </div>
-<!--              <canvas id="myChart"></canvas>-->
             </div>
           </div>
         </div>
-        <div class="col-md-5 col-sm-12">
-          <div class="card">
-            <div class="card-body">
-              <div class="d-flex justify-content-between">
-                <h5 class="text-muted ms-3">Comments Notification</h5>
-                <a href=""><i class="fas fa-ellipsis-v fs-6 text-muted"></i></a>
-              </div>
-              <hr>
-              <div class="d-flex justify-content-center align-items-center flex-column">
-                <p class="text-warning fw-bold">New Comments Found</p>
-                <a href="teacher-comments.html" class="text-decoration-none text-danger">
-                  <img src="./img/comment.svg" width="250" alt="">
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
-    </div>
-  </section>
-</div>
+    </section>
+  </div>
 </body>
+
 </html>

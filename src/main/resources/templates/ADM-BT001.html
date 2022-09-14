@@ -1,207 +1,203 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:th="http://www.thymeleaf.org"
-      layout:decorate="~{layouts/AUTHENTICATED.html}">
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+    layout:decorate="~{layouts/AUTHENTICATED.html}">
+
 <head>
     <meta charset="UTF-8">
     <title>Batch List</title>
 </head>
+
 <body class="bg-light">
-<div layout:fragment="content">
-    <div class="container p-3 mt-5">
-        <div class="">
-            <h3 class="text-decoration-none text-center">
-                Batch List
-            </h3>
-        </div>
-        <div class="add-schedule d-flex justify-content-end mb-2">
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#batchCreate">
-                <i class="bi bi-journal-bookmark me-2"></i>Create Batch
-            </button>
-            <div th:replace="fragments/COM-FG001 :: batch-create"></div>
-        </div>
-        <p class="d-none" th:text="${message}" th:if="${message} != null" id="successMessage"></p>
-        <div class="card">
-            <div class="card-body shadow p-3">
-                <table id="batchTable" class="table table-striped table-hovered">
-                    <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Batch Name</th>
-                        <th>Course</th>
-                        <th>Start Date</th>
-                        <th>End Date</th>
-                        <th>Status</th>
-                        <th class="text-end"></th>
-                    </tr>
-                    </thead>
-                    <tbody id="app">
-                    <tr th:each="batch : ${batches}" style="vertical-align: middle">
-                        <td th:text="${batch.id}"></td>
-                        <td th:text="${batch.name}"></td>
-                        <td th:text="${batch.course.name}"></td>
-                        <td th:text="${batch.startDate}"></td>
-                        <td th:text="${batch.endDate}"></td>
-                        <td th:text="${batch.close} ? 'Suspend' : 'Active'"></td>
-                        <td class="text-end">
-                            <button class="btn btn-outline-danger" th:if="${!batch.close}" th:attr="id=|close${batch.id}|,batchId=|${batch.id}|">
-                                <i class="bi bi-exclamation-circle me-2"></i>Close Batch
-                            </button>
-                            <button class="btn btn-outline-success" th:if="${batch.close}" th:attr="id=|open${batch.id}|,batchId=|${batch.id}|">
-                                <i class="bi bi-exclamation-circle me-2"></i>Open Batch
-                            </button>
-                            <a class="btn btn-warning"
-                               th:attr="href='#edit-batch-button' + ${batch.id}"
-                               data-bs-toggle="modal">
-                                <i class="bi bi-pencil-square me-2"></i>Edit
-                            </a>
-                            <a class="btn btn-danger" id="deleteBtn"
-                               th:attr="onclick=|deleteAction('${batch.id}', '${batch.name}')|"><i class="bi bi-trash-fill me-2"></i>Delete
-                            </a>
-                        </td>
-                        <div th:replace="fragments/COM-FG001 :: batch-edit"></div>
-                        <script>
-                            if(document.getElementById(`close[[${batch.id}]]`) !== null){
-                                document.getElementById(`close[[${batch.id}]]`).addEventListener('click',()=>{
-                                    Swal.fire({
-                                        title: 'Are you sure?',
-                                        text: "You won't be able to revert this!",
-                                        icon: 'warning',
-                                        showCancelButton: true,
-                                        confirmButtonColor: '#3085d6',
-                                        cancelButtonColor: '#d33',
-                                        confirmButtonText: 'Yes, delete it!'
-                                    }).then((result) => {
-                                        if (result.isConfirmed) {
-                                            var id = document.getElementById(`close[[${batch.id}]]`).getAttribute("batchId")
-                                            window.location = `http://localhost:9090/admin/batch-close?id=${id}`;
-                                            Swal.fire(
-                                                'Batch Closed!',
-                                                'Your batch is now closed!',
-                                                'success'
-                                            )
-                                        }
-                                    })
-                                })
-                            }
-                            if(document.getElementById(`open[[${batch.id}]]`) !== null){
-                                document.getElementById(`open[[${batch.id}]]`).addEventListener('click',()=>{
-                                    Swal.fire({
-                                        title: 'Are you sure?',
-                                        text: "You won't be able to revert this!",
-                                        icon: 'warning',
-                                        showCancelButton: true,
-                                        confirmButtonColor: '#3085d6',
-                                        cancelButtonColor: '#d33',
-                                        confirmButtonText: 'Yes, delete it!'
-                                    }).then((result) => {
-                                        if (result.isConfirmed) {
-                                            var id = document.getElementById(`open[[${batch.id}]]`).getAttribute("batchId")
-                                            window.location = `http://localhost:9090/admin/batch-open?id=${id}`;
-                                            Swal.fire(
-                                                'Batch Opened!',
-                                                'Your batch is now active!',
-                                                'success'
-                                            )
-                                        }
-                                    })
-                                })
-                            }
-                        </script>
-                    </tr>
-                    </tbody>
-                </table>
+    <div layout:fragment="content">
+        <div class="container p-3 mt-5">
+            <div class="">
+                <h3 class="text-decoration-none text-center">
+                    Batch List
+                </h3>
+            </div>
+            <div class="add-schedule d-flex justify-content-end mb-2">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#batchCreate">
+                    <i class="bi bi-journal-bookmark me-2"></i>Create Batch
+                </button>
+                <div th:replace="fragments/COM-FG001 :: batch-create"></div>
+            </div>
+            <p class="d-none" th:text="${message}" th:if="${message} != null" id="successMessage"></p>
+            <div class="card">
+                <div class="card-body shadow p-3">
+                    <table id="batchTable" class="table table-striped table-hovered">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Batch Name</th>
+                                <th>Course</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Status</th>
+                                <th class="text-end"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="app">
+                            <tr th:each="batch : ${batches}" style="vertical-align: middle">
+                                <td th:text="${batch.id}"></td>
+                                <td th:text="${batch.name}"></td>
+                                <td th:text="${batch.course.name}"></td>
+                                <td th:text="${batch.startDate}"></td>
+                                <td th:text="${batch.endDate}"></td>
+                                <td th:text="${batch.close} ? 'Suspend' : 'Active'"></td>
+                                <td class="text-end">
+                                    <button class="btn btn-outline-danger" th:if="${!batch.close}"
+                                        th:attr="id=|close${batch.id}|,batchId=|${batch.id}|">
+                                        <i class="bi bi-exclamation-circle me-2"></i>Close Batch
+                                    </button>
+                                    <button class="btn btn-outline-success" th:if="${batch.close}"
+                                        th:attr="id=|open${batch.id}|,batchId=|${batch.id}|">
+                                        <i class="bi bi-exclamation-circle me-2"></i>Open Batch
+                                    </button>
+                                    <a class="btn btn-warning" th:attr="href='#edit-batch-button' + ${batch.id}"
+                                        data-bs-toggle="modal">
+                                        <i class="bi bi-pencil-square me-2"></i>Edit
+                                    </a>
+                                    <a class="btn btn-danger" id="deleteBtn"
+                                        th:attr="onclick=|deleteAction('${batch.id}', '${batch.name}')|"><i
+                                            class="bi bi-trash-fill me-2"></i>Delete
+                                    </a>
+                                </td>
+                                <div th:replace="fragments/COM-FG001 :: batch-edit"></div>
+                                <script>
+                                    if (document.getElementById(`close[[${batch.id}]]`) !== null) {
+                                        document.getElementById(`close[[${batch.id}]]`).addEventListener('click', () => {
+                                            Swal.fire({
+                                                title: 'Are you sure?',
+                                                text: "You want to close this batch!",
+                                                icon: 'warning',
+                                                showCancelButton: true,
+                                                confirmButtonColor: '#3085d6',
+                                                cancelButtonColor: '#d33',
+                                                confirmButtonText: 'Yes, close it!'
+                                            }).then((result) => {
+                                                if (result.isConfirmed) {
+                                                    var id = document.getElementById(`close[[${batch.id}]]`).getAttribute("batchId")
+                                                    window.location = `http://localhost:9090/admin/batch-close?id=${id}`;
+
+                                                }
+                                            })
+                                        })
+                                    }
+                                    if (document.getElementById(`open[[${batch.id}]]`) !== null) {
+                                        document.getElementById(`open[[${batch.id}]]`).addEventListener('click', () => {
+                                            Swal.fire({
+                                                title: 'Are you sure?',
+                                                text: "You want to open this batch!",
+                                                icon: 'warning',
+                                                showCancelButton: true,
+                                                confirmButtonColor: '#3085d6',
+                                                cancelButtonColor: '#d33',
+                                                confirmButtonText: 'Yes, open it!'
+                                            }).then((result) => {
+                                                if (result.isConfirmed) {
+                                                    var id = document.getElementById(`open[[${batch.id}]]`).getAttribute("batchId")
+                                                    window.location = `http://localhost:9090/admin/batch-open?id=${id}`;
+
+                                                }
+                                            })
+                                        })
+                                    }
+                                </script>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            var myModal = document.getElementById('batchCreate');
-            var myInput = document.getElementById('name');
-            var duplicateError = document.getElementById("duplicateError")
-            var startDate = document.getElementById('start')
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                var myModal = document.getElementById('batchCreate');
+                var myInput = document.getElementById('name');
+                var duplicateError = document.getElementById("duplicateError")
+                var startDate = document.getElementById('start')
 
-            var today = new Date();
-            var dd = String(today.getDate()).padStart(2, '0');
-            var mm = String(today.getMonth() + 1).padStart(2, '0');
-            var yyyy = today.getFullYear();
+                var today = new Date();
+                var dd = String(today.getDate()).padStart(2, '0');
+                var mm = String(today.getMonth() + 1).padStart(2, '0');
+                var yyyy = today.getFullYear();
 
-            today = yyyy + '-' + mm + '-' + dd;
-            startDate.setAttribute("min", today)
+                today = yyyy + '-' + mm + '-' + dd;
+                startDate.setAttribute("min", today)
 
 
-            let message = document.getElementById('successMessage');
-            if (message !== null && message.innerText !== "") {
-                const Toast = Swal.mixin({
-                    toast: true,
-                    position: 'top-end',
-                    showConfirmButton: false,
-                    timer: 2000,
-                    timerProgressBar: true,
-                    didOpen: (toast) => {
-                        toast.addEventListener('mouseenter', Swal.stopTimer)
-                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                let message = document.getElementById('successMessage');
+                if (message !== null && message.innerText !== "") {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+
+                    Toast.fire({
+                        icon: 'success',
+                        title: message.innerText
+                    })
+                }
+
+                if (duplicateError != null) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: duplicateError.innerText
+                    })
+                }
+
+                myModal.addEventListener('shown.bs.modal', () => {
+                    myInput.focus()
+                })
+            })
+
+            $(document).ready(function () {
+                $('#batchTable').DataTable();
+            });
+
+
+            const deleteAction = (batchId, batchName) => {
+                const swalWithBootstrapButtons = Swal.mixin({
+                    customClass: {
+                        confirmButton: 'btn btn-success',
+                        cancelButton: 'btn btn-danger me-2'
+                    },
+                    buttonsStyling: false
+                })
+
+                swalWithBootstrapButtons.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'No, cancel!',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location = `http://localhost:9090/admin/batch-delete?batchId=${batchId}&batchName=${batchName}`;
+                    } else if (
+                        /* Read more about handling dismissals below */
+                        result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                        swalWithBootstrapButtons.fire(
+                            'Cancelled',
+                            'Your batch data is safe :)',
+                            'error'
+                        )
                     }
                 })
-
-                Toast.fire({
-                    icon: 'success',
-                    title: message.innerText
-                })
             }
-
-            if(duplicateError != null){
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: duplicateError.innerText
-                })
-            }
-
-            myModal.addEventListener('shown.bs.modal', ()=> {
-                myInput.focus()
-            })
-        })
-
-        $(document).ready( function () {
-            $('#batchTable').DataTable();
-        } );
-
-
-        const deleteAction = (batchId, batchName) => {
-            const swalWithBootstrapButtons = Swal.mixin({
-                customClass: {
-                    confirmButton: 'btn btn-success',
-                    cancelButton: 'btn btn-danger me-2'
-                },
-                buttonsStyling: false
-            })
-
-            swalWithBootstrapButtons.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Yes, delete it!',
-                cancelButtonText: 'No, cancel!',
-                reverseButtons: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location = `http://localhost:9090/admin/batch-delete?batchId=${batchId}&batchName=${batchName}`;
-                } else if (
-                    /* Read more about handling dismissals below */
-                    result.dismiss === Swal.DismissReason.cancel
-                ) {
-                    swalWithBootstrapButtons.fire(
-                        'Cancelled',
-                        'Your data is safe :)',
-                        'error'
-                    )
-                }
-            })
-        }
-    </script>
-</div>
+        </script>
+    </div>
 </body>
+
 </html>

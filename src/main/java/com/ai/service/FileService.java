@@ -14,6 +14,7 @@ public class FileService {
 
     private String courseFilePath = new File("src\\main\\resources\\static\\courses\\").getAbsolutePath();
     private String profileFilePath = new File("src\\main\\resources\\static\\profile\\").getAbsolutePath();
+    private String assignmentFilePath = new File("src\\main\\resources\\static\\assignment\\").getAbsolutePath();
 
     public void createFile(MultipartFile file, String folderName) throws IllegalStateException, IOException {
         file.transferTo(
@@ -24,6 +25,13 @@ public class FileService {
         var fileName =  "profile-".concat(loginId).concat(".").concat(file.getOriginalFilename().split("\\.")[1]);
         file.transferTo(
                 new File( profileFilePath + "\\" + fileName));
+        return fileName;
+    }
+
+    public String  createAssignmentFile(MultipartFile file) throws IllegalStateException, IOException {
+        var fileName =  "assignment-".concat(String.valueOf(Math.random() * 100)).concat(".").concat(file.getOriginalFilename().split("\\.")[1]);
+        file.transferTo(
+                new File( assignmentFilePath + "\\" + fileName));
         return fileName;
     }
 
@@ -44,6 +52,13 @@ public class FileService {
         var resourceFolder = new File(courseFilePath + "\\"+courseName + "\\resources");
         if (!resourceFolder.exists()) {
             resourceFolder.mkdirs();
+        }
+    }
+
+    public void createFolderForAssignment(String folderName){
+        var theDir = new File(assignmentFilePath + "\\"+folderName);
+        if (!theDir.exists()) {
+            theDir.mkdirs();
         }
     }
 
