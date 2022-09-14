@@ -6,7 +6,6 @@ import static org.mockito.Mockito.verify;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -91,22 +90,40 @@ public class UserServiceTest {
         assertEquals(3, userList.size());
         verify(userRepository, times(1)).findAll();
     }
-
-//    @Test
-//    public void findByLoginIdTest(){
-//        User user = userObj();
-//        Mockito.when(userRepository.findById("STU001")).thenReturn(Optional.of(user));
-//        User getUser = userService.findByLoginId("STU001");
-//        assertEquals("Admin User", getUser.getName());
-//        assertEquals("admin", getUser.getPassword());
-//        assertEquals(Role.Admin, getUser.getRole());
-//        assertEquals("phyuthin2004@gmail.com", getUser.getEmail());
-//        assertEquals(true, getUser.isActive);
-//    }
+//    .loginId("ADM001")
+//    .name("Admin User")
+//    .password("admin")
+//    .role(Role.Admin)
+//    .email("phyuthin2004@gmail.com")
+//    .isActive(true)
+   @Test
+   public void findByLoginIdTest(){
+       User user = userObj();
+       Mockito.when(userRepository.findByLoginId("ADM001")).thenReturn((user));
+       User getUser = userService.findByLoginId("ADM001");
+       assertEquals("Admin User", getUser.getName());
+       assertEquals("admin", getUser.getPassword());
+       assertEquals(Role.Admin, getUser.getRole());
+       assertEquals("phyuthin2004@gmail.com", getUser.getEmail());
+       assertEquals(true, getUser.isActive);
+   }
 
     @Test
     public void findUserByTeacherRoleTest(){
         List<User> teacher = userList().stream().filter(a -> a.getRole().equals(User.Role.Teacher)).toList();
         assertEquals(teacher.size(), 1);
+    }
+    
+    @Test
+	public void deleteTest() {
+		userService.deleteById("STU001");
+		verify(userRepository,times(1)).deleteById("STU001");
+	}
+
+    @Test
+    public void getCountTest(){
+        int serviceCount = userService.getCount();
+        int repositoryCount = (int) userRepository.count();
+        assertEquals(serviceCount, repositoryCount);
     }
 }

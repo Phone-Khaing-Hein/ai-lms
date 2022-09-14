@@ -1,16 +1,23 @@
 package com.ai.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import groovy.transform.builder.Builder;
 
 import java.io.Serializable;
 import java.util.List;
 
 @Entity
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name="video")
 public class Video implements Serializable {
 

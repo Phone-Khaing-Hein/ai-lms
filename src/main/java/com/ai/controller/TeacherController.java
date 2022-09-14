@@ -17,19 +17,15 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
-
-import javax.servlet.annotation.MultipartConfig;
 import javax.validation.Valid;
 
 @Controller
 @RequestMapping("teacher")
-@MultipartConfig
 public class TeacherController {
 
     @Autowired
