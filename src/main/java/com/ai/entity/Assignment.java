@@ -4,12 +4,14 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Min;
@@ -48,6 +50,9 @@ public class Assignment implements Serializable {
 
     @ManyToOne
     private Batch batch;
+
+    @OneToMany(mappedBy = "assignment", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
+    private List<AssignmentAnswer> assignmentAnswers;
 
     @Transient
     private int batchId;
