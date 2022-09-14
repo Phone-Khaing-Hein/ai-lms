@@ -15,6 +15,7 @@ public class FileService {
     private String courseFilePath = new File("src\\main\\resources\\static\\courses\\").getAbsolutePath();
     private String profileFilePath = new File("src\\main\\resources\\static\\profile\\").getAbsolutePath();
     private String assignmentFilePath = new File("src\\main\\resources\\static\\assignment\\").getAbsolutePath();
+    private String assignmentAnswerFilePath = new File("src\\main\\resources\\static\\assignmentAnswer\\").getAbsolutePath();
 
     public void createFile(MultipartFile file, String folderName) throws IllegalStateException, IOException {
         file.transferTo(
@@ -29,9 +30,16 @@ public class FileService {
     }
 
     public String  createAssignmentFile(MultipartFile file, String foldername) throws IllegalStateException, IOException {
-        var fileName =  String.valueOf(Math.random() * 100).concat(".").concat(file.getOriginalFilename());
+        var fileName =  String.valueOf(Math.round(Math.random() * 10000)).concat("-").concat(file.getOriginalFilename());
         file.transferTo(
                 new File( assignmentFilePath + "\\" + foldername + "\\" + fileName));
+        return fileName;
+    }
+
+    public String  createAssignmentAnswerFile(MultipartFile file) throws IllegalStateException, IOException {
+        var fileName =  String.valueOf(Math.round(Math.random() * 10000)).concat("-").concat(file.getOriginalFilename());
+        file.transferTo(
+                new File( assignmentAnswerFilePath + "\\" + fileName));
         return fileName;
     }
 
@@ -52,6 +60,13 @@ public class FileService {
         var resourceFolder = new File(courseFilePath + "\\"+courseName + "\\resources");
         if (!resourceFolder.exists()) {
             resourceFolder.mkdirs();
+        }
+    }
+
+    public void createFolderForAssignmentAnswer(){
+        var theDir = new File(assignmentAnswerFilePath);
+        if (!theDir.exists()) {
+            theDir.mkdirs();
         }
     }
 

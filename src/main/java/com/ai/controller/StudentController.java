@@ -1,5 +1,6 @@
 package com.ai.controller;
 
+import com.ai.entity.AssignmentAnswer;
 import com.ai.entity.User;
 import com.ai.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +10,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.servlet.annotation.MultipartConfig;
 
@@ -43,6 +47,12 @@ public class StudentController {
 
     @Autowired
     private AssignmentService assignmentService;
+
+    @Autowired
+    private AssignmentAnswerService assignmentAnswerService;
+
+    @Autowired
+    private FileService fileService;
 
     @GetMapping("home")
     public String home(ModelMap m){
@@ -150,13 +160,13 @@ public class StudentController {
 
     @GetMapping("assignment-list")
     public String assignments(ModelMap m){
-        m.put("assignments", assignmentService.findAll().stream().filter(a -> a.getStart().isAfter(LocalDateTime.now())).toList());
+        m.put("assignments", assignmentService.findAll().stream().filter(a -> a.getStart().isBefore(LocalDateTime.now())).toList());
         return "student/STU-AS007";
     }
 
-    @GetMapping("assignment-detail/{id}")
-    public String assignmentDetail(@PathVariable int id, ModelMap m){
-        m.put("assignment", assignmentService.findByEmail(id));
+    @GetMapping("assignment-detail")
+    public String assignmentDetail(@RequestParam int id, ModelMap m){
+        m.put("assignment", assignmentService.findById(id));
         return "student/STU-AD008";
     }
 
@@ -165,6 +175,22 @@ public class StudentController {
         commentService.delete(commentId);
         attributes.addFlashAttribute("message", "Your comment deleted successfully!");
         return "redirect:/student/course";
+    }
+
+    @PostMapping("assignment-submit")
+    public String assignmentSubmit(@RequestParam(required = false) MultipartFile file, @RequestParam int id, RedirectAttributes attributes) throws IllegalStateException, IOException{
+        var assignment = assignmentService.findById(id);
+        var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
+        var user = userService.findByLoginId(loginId);
+        var answer = new AssignmentAnswer();
+        answer.setUser(user);
+        answer.setAssignment(assignment);
+        fileService.createFolderForAssignmentAnswer();
+        var fileName = fileService.createAssignmentAnswerFile(file);
+        answer.setAnswer(fileName);
+        assignmentAnswerService.save(answer);
+        attributes.addFlashAttribute("message", "Your answer is submitted successfully!");
+        return "redirect:/student/assignment-list";
     }
 
     @ModelAttribute("user")

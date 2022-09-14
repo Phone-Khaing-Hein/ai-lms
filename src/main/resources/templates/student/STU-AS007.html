@@ -17,6 +17,7 @@
             <li class="breadcrumb-item active" aria-current="page">exam-list</li>
           </ol>
         </nav>
+        <p th:text="${message}" class="d-none alert alert-success" id="message"></p>
         <table class="table mb-0">
           <thead>
             <tr>
@@ -39,13 +40,34 @@
                     a')}]]</span></h6>
               </td>
               <td class="align-middle">
-                <a th:href="@{/student/assignment-detail/}+${a.id}" class="text-decoration-none">view assignment</a>
+                <a th:href="@{/student/assignment-detail?id=}+${a.id}" class="text-decoration-none">view assignment</a>
               </td>
             </tr>
           </tbody>
         </table>
       </div>
     </section>
+    <script>
+      let message = document.getElementById('message');
+      if (message !== null && message.innerText !== "") {
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 2000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+        })
+
+        Toast.fire({
+          icon: 'success',
+          title: message.innerText
+        })
+      }
+    </script>
   </div>
 </body>
 

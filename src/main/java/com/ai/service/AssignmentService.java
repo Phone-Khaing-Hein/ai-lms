@@ -24,11 +24,11 @@ public class AssignmentService {
     }
 
     public int count() {
-        var assignment = assignmentRepository.findAll().stream().filter(a -> a.getStart().isAfter(LocalDateTime.now())).toList();
+        var assignment = assignmentRepository.findAll().stream().filter(a -> a.getStart().isBefore(LocalDateTime.now())).toList();
         return assignment.size();
     }
 
-    public Assignment findByEmail(int id) {
+    public Assignment findById(int id) {
         return assignmentRepository.findById(id).get();
     }
     
