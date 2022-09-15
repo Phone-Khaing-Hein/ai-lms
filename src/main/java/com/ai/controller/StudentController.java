@@ -193,6 +193,11 @@ public class StudentController {
         return "redirect:/student/assignment-list";
     }
 
+    @GetMapping("exam-detail")
+    public String examDetail(){
+        return "student/STU-EF009";
+    }
+
     @ModelAttribute("user")
     public User user(){
         var loginId = SecurityContextHolder.getContext().getAuthentication().getName();

@@ -47,7 +47,7 @@
                             </div>
                             <form th:action="@{/student/assignment-submit}" method="post" enctype="multipart/form-data">
                                 <input type="hidden" name="id" th:value="${param.id}">
-                                <input type="file" class="form-control" name="file" id="file" />
+                                <input type="file" class="form-control mb-2" name="file" id="file" />
                                 <button class="btn btn-dark w-100" type="submit">Mark As Done</button>
                             </form>
                         </div>
