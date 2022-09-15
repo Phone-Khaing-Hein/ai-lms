@@ -41,6 +41,7 @@ public class AttendanceServiceTest {
         .name("Admin User")
         .password("admin")
         .role(Role.Admin)
+        .photo("photo.png")
         .email("phyuthin2004@gmail.com")
         .isActive(true)
         .build();

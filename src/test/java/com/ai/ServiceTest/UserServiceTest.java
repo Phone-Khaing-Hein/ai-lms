@@ -84,8 +84,8 @@ public class UserServiceTest {
 
     @Test
     public void findAllUserTest(){
-        List<User> user = userList();
-        Mockito.when(userRepository.findAll()).thenReturn(user);
+        List<User> users = userList();
+        Mockito.when(userRepository.findAll()).thenReturn(users);
         List<User> userList = userService.findAll();
         assertEquals(3, userList.size());
         verify(userRepository, times(1)).findAll();
