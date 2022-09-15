@@ -1,65 +1,52 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:th="http://www.thymeleaf.org"
-      layout:decorate="~{/layouts/STU-AUTH.html}">
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+    layout:decorate="~{/layouts/STU-AUTH.html}">
+
 <head>
     <meta charset="UTF-8">
     <title>Course</title>
 </head>
+
 <body class="bg-light">
-<div layout:fragment="content">
-    <section>
-        <div class="container" style="padding-top: 100px;">
-            <nav aria-label="breadcrumb" class="d-flex justify-content-end">
-                <ol class="breadcrumb text-capitalize">
-                    <li class="breadcrumb-item"><a href="dashboard.html">dashboard</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">exam-list</li>
-                </ol>
-            </nav>
-            <table class="table mb-0">
-                <thead>
-                <tr>
-                    <th scope="col">Post Date</th>
-                    <th scope="col">Task</th>
-                    <th scope="col">Due Date</th>
-                    <th scope="col">Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr class="text-capitalize">
-                    <td>
-                        <span>May Zwei•Jul 8</span>
-                    </td>
-                    <td class="align-middle">
-                        <span>Student Management System Assignment with SpringDataJPA</span>
-                    </td>
-                    <td class="align-middle">
-                        <h6 class="mb-0"><span class="badge bg-primary">Due Jul 7, 6:29 PM</span></h6>
-                    </td>
-                    <td class="align-middle">
-                        <a href="assignment-view.html" class="text-decoration-none">view assignment</a>
-                    </td>
-                </tr>
-                <tr class="text-capitalize">
-                    <td>
-                            <span>May Zwei
-                                •
-                                Jun 17</span>
-                    </td>
-                    <td class="align-middle">
-                        <span>Student Management System Assignment with Database</span>
-                    </td>
-                    <td class="align-middle">
-                        <h6 class="mb-0"><span class="badge bg-success">Due Jun 20, 6:29 PM</span></h6>
-                    </td>
-                    <td class="align-middle">
-                        <a href="examform.html" class="text-decoration-none">view exam</a>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </section>
-</div>
+    <div layout:fragment="content">
+        <section>
+            <div class="container" style="padding-top: 100px;">
+                <nav aria-label="breadcrumb" class="d-flex justify-content-end">
+                    <ol class="breadcrumb text-capitalize">
+                        <li class="breadcrumb-item"><a href="dashboard.html">dashboard</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">exam-list</li>
+                    </ol>
+                </nav>
+                <table class="table mb-0">
+                    <thead>
+                        <tr>
+                            <th scope="col">Post Date</th>
+                            <th scope="col">Task</th>
+                            <th scope="col">Due Date</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="text-capitalize">
+                            <td>
+                                <span>May Zwei•Jul 8</span>
+                            </td>
+                            <td class="align-middle">
+                                <span>Student Management System Assignment with SpringDataJPA</span>
+                            </td>
+                            <td class="align-middle">
+                                <h6 class="mb-0"><span class="badge bg-primary">Due Jul 7, 6:29 PM</span></h6>
+                            </td>
+                            <td class="align-middle">
+                                <a th:href="@{/student/exam-detail?examId=}" class="text-decoration-none">view
+                                    assignment</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
 </body>
+
 </html>

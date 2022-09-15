@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
-    layout:decorate="~{/layouts/STU-AUTH.html}">
+    layout:decorate="~{layouts/AUTHENTICATED.html}">
 
 <head>
     <meta charset="UTF-8">
@@ -9,45 +9,41 @@
 
 <body class="bg-light">
     <div layout:fragment="content">
-        <div class="container mt-5 pt-5">
-            <nav aria-label="breadcrumb" class="d-flex justify-content-start mb-2">
-                <ol class="breadcrumb text-capitalize">
-                    <li class="breadcrumb-item"><a th:href="@{/student/home}">dashboard</a></li>
-                    <li class="breadcrumb-item"><a th:href="@{/student/assignment-list}">assignment-list</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">assignment-view</li>
-                </ol>
-            </nav>
+        <div class="container mt-5 pt-3">
             <div class="row">
                 <div class="col-sm-12 col-md-9">
                     <h3 class="fw-bolder">
-                        <i class="fas fa-file-alt me-3"></i>[[${assignment.title}]]
+                        <i class="fas fa-file-alt me-3"></i>[[${assignmentAnswer.assignment.title}]]
                     </h3>
-                    <span class="text-muted">[[${#temporals.format(assignment.start, 'yyyy-MM-dd hh:mm a')}]]</span>
+                    <span class="text-muted">[[${#temporals.format(assignmentAnswer.assignment.start, 'yyyy-MM-dd
+                        hh:mm a')}]]</span>
                     <p style="color: rgb(71, 68, 68)" class="d-flex justify-content-between align-items-center mt-2">
-                        <span>[[${assignment.mark}]] points</span><span>Due [[${#temporals.format(assignment.end,
+                        <span>[[${assignmentAnswer.assignment.mark}]] points</span><span>Due
+                            [[${#temporals.format(assignmentAnswer.assignment.end,
                             'yyyy-MM-dd hh:mm
                             a')}]]</span>
                     </p>
                     <hr />
-                    <a th:href="@{/resources/assignment/}+${assignment.batch.name}+@{/}+${assignment.file}"
-                        class="border rounded-3 w-50 h-25 d-flex align-items-center py-3 px-4 shadow text-decoration-none text-black"
-                        style="cursor: pointer;" th:unless="${#strings.isEmpty(assignment.file)}">
+                    <a th:href="@{/resources/assignmentAnswer/}+${assignmentAnswer.answer}"
+                        class="border rounded-3 w-50 h-25 d-flex align-items-center py-5 px-3 shadow text-decoration-none text-black"
+                        style="cursor: pointer;">
                         <h1><i class="bi bi-file-earmark-text me-3"></i></h1>
-                        <p>[[${assignment.file}]]</p>
+                        <p>[[${assignmentAnswer.answer}]]</p>
                     </a>
                 </div>
                 <div class="col-sm-12 col-md-3">
                     <div class="card shadow rounded">
                         <div class="card-body p-4">
                             <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h4 style="margin-bottom: 0; color: rgb(71, 68, 68)">
-                                    Your work
-                                </h4>
-                                <span class="text-success">Assign</span>
+                                <h5 style="margin-bottom: 0; color: rgb(71, 68, 68);" class="text-nowrap">
+                                    [[${assignmentAnswer.user.name}]]
+                                </h5>
                             </div>
                             <form th:action="@{/student/assignment-submit}" method="post" enctype="multipart/form-data">
                                 <input type="hidden" name="id" th:value="${param.id}">
-                                <input type="file" class="form-control mb-2" name="file" id="file" />
+                                <label for="mark">Give mark</label>
+                                <input type="number" class="form-control mb-2" name="mark" id="mark"
+                                    placeholder="100" />
                                 <button class="btn btn-dark w-100" type="submit">Mark As Done</button>
                             </form>
                         </div>
@@ -67,18 +63,8 @@
                 </div>
             </div>
         </div>
-        <!-- <script>
-            // Get a reference to the file input element
-            const inputElement = document.querySelector('input[type="file"]');
 
-            // Create a FilePond instance
-            const pond = FilePond.create(inputElement);
-            document.addEventListener("DOMContentLoaded", () => {
-                document.querySelector(".filepond--credits").removeAttribute("class")
-            })
-        </script> -->
     </div>
-
     </div>
 </body>
 

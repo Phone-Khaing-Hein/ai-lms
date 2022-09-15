@@ -61,6 +61,9 @@ public class TeacherController {
     @Autowired
     private AssignmentService assignmentService;
 
+    @Autowired
+    private AssignmentAnswerService assignmentAnswerService;
+
     @GetMapping("home")
     public String home(){
         return "teacher/TCH-DB001";
@@ -81,6 +84,7 @@ public class TeacherController {
         m.put("students", batch.getUsers().stream().filter(u -> u.getRole().equals(User.Role.Student)).toList());
         m.put("modules", batch.getCourse().getModules());
         m.put("schedule",new Schedule());
+        m.put("assignmentAnswers", assignmentAnswerService.findAll());
         return "teacher/TCH-BD003";
     }
 
@@ -205,6 +209,12 @@ public class TeacherController {
         assignmentService.save(assignment);
         attributes.addFlashAttribute("message", "%s created successfully!".formatted(assignment.getTitle()));
         return "redirect:/teacher/assignment-list";
+    }
+
+    @GetMapping("assignment-detail")
+    public String detail(ModelMap m, @RequestParam int id){
+        m.put("assignmentAnswer", assignmentAnswerService.findById(id));
+        return "teacher/TCH-AD006";
     }
 
     @ModelAttribute("assignment")

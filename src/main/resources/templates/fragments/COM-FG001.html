@@ -408,6 +408,7 @@
             </form>
         </div>
     </div>
+
 </div>
 
 <div th:fragment="student-edit" class="modal fade" data-bs-backdrop="static"
@@ -422,6 +423,46 @@
             <form th:action="@{/admin/student-edit}" method="post">
                 <input type="hidden" name="id" th:value="${student.loginId}">
                 <div class="modal-body">
+
+    <div th:fragment="batch-edit" class="modal fade" data-bs-backdrop="static"
+        th:attr="id='edit-batch-button'+${batch.id}" tabindex="-1" aria-labelledby="batchCreateLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="batchCreateLabel"><i class="bi bi-journal-bookmark me-2"></i>Batch Edit
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form th:action="@{/admin/batch-edit}" method="post">
+                    <input type="hidden" name="id" th:value="${batch.id}">
+                    <div class="modal-body">
+                        <div class="form-group mb-3">
+                            <select class="form-select" th:required="true" name="course">
+                                <option value="">Select Course</option>
+                                <option th:selected="${#strings.equals(batch.course.name, course.name)}"
+                                    th:each="course : ${courses}" th:value="${course.id}" th:text="${course.name}">
+                                </option>
+                            </select>
+                            <span class="text-danger" th:errors="*{course}"></span>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="name">Batch Name</label>
+                            <input type="text" required placeholder="Enter Batch Name" id="name"
+                                class="form-control mt-2" th:required="true" name="name" th:value="${batch.name}">
+                            <span class="text-danger" th:if="${error}" th:text="${error}" id="duplicateError"></span>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="start">Start Date</label>
+                            <input type="date" id="start" th:min="${#temporals.format(batch.startDate, 'yyyy-MM-dd')}"
+                                class="form-control" name="startDate" th:required="true"
+                                th:value="${#temporals.format(batch.startDate, 'yyyy-MM-dd')}">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="end">End Date</label>
+                            <input type="date" id="end" class="form-control" name="endDate" th:required="true"
+                                th:value="${#temporals.format(batch.endDate, 'yyyy-MM-dd')}">
+                        </div>
 
                     <div class="form-group mb-3">
                         <label for="id">Student ID</label>

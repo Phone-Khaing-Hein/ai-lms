@@ -1,5 +1,7 @@
 package com.ai.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,14 @@ public class AssignmentAnswerService {
 
     public void save(AssignmentAnswer answer) {
         assignmentAnswerRepository.save(answer);
+    }
+
+    public List<AssignmentAnswer> findAll() {
+        return assignmentAnswerRepository.findAll();
+    }
+
+    public AssignmentAnswer findById(int id) {
+        return assignmentAnswerRepository.findById(id).get();
     }
     
 }

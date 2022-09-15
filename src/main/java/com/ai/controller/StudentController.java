@@ -15,7 +15,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.List;
 
 import javax.servlet.annotation.MultipartConfig;
 
@@ -188,9 +187,15 @@ public class StudentController {
         fileService.createFolderForAssignmentAnswer();
         var fileName = fileService.createAssignmentAnswerFile(file);
         answer.setAnswer(fileName);
+        answer.setCreated(LocalDateTime.now());
         assignmentAnswerService.save(answer);
         attributes.addFlashAttribute("message", "Your answer is submitted successfully!");
         return "redirect:/student/assignment-list";
+    }
+
+    @GetMapping("exam-detail")
+    public String examDetail(){
+        return "student/STU-EF009";
     }
 
     @ModelAttribute("user")
