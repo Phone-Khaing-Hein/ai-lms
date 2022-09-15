@@ -13,7 +13,6 @@ import javax.persistence.Transient;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -46,4 +45,5 @@ public class Comment implements Serializable{
 
     @Transient
     private int videoId;
+
 }

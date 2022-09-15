@@ -4,9 +4,11 @@ import com.ai.entity.*;
 import com.ai.entity.Module;
 import com.ai.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -467,7 +469,8 @@ public class AdminController {
         return "ADM-AT001";
     }
 
-    //EXAM
+//  --------------------------------------EXAM----------------------------------------------------------------------
+
     @GetMapping("exam-list")
     public String examList(){
         return "ADM-ET001";
@@ -476,5 +479,46 @@ public class AdminController {
     @GetMapping("setupExamCreate")
     public String examCreate(){
         return "ADM-ET002";
+    }
+
+//    ---------------------------------------Profile------------------------------------------------------------------
+    @GetMapping("profile")
+    public String profile(ModelMap m) {
+        var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
+        var user = userService.findByLoginId(loginId);
+        m.put("user", user);
+        return "ADM-PF001";
+    }
+
+    @PostMapping("change-password")
+    public String changePassword(@RequestParam String oldPassword, @RequestParam String newPassword, ModelMap m, RedirectAttributes attributes) {
+
+        var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
+        var user = userService.findByLoginId(loginId);
+        m.put("user", user);
+        m.put("oldPassword", oldPassword);
+        m.put("newPassword", newPassword);
+
+        if (!StringUtils.hasLength(oldPassword)) {
+            m.put("oldPasswordError", "Old Password is required!");
+            return "admin/ADM-PF001";
+        }
+        if (!StringUtils.hasLength(newPassword)) {
+            m.put("newPasswordError", "New Password is required!");
+            return "admin/ADM-PF001";
+        }
+        if (oldPassword.equals(newPassword)) {
+            m.put("newPasswordError", "Old Password and New Password are same!");
+            return "admin/ADM-PF001";
+        }
+
+        if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
+            m.put("oldPasswordError", "Old Password is incorrect!");
+            return "admin/ADM-PF001";
+        }
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userService.save(user);
+        attributes.addFlashAttribute("message", "Changed Password successfully!");
+        return "redirect:/admin/profile";
     }
 }
