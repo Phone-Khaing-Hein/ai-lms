@@ -37,7 +37,7 @@
                                 alt="">
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="profile.html">My Profile</a></li>
+                            <li><a class="dropdown-item" th:href="@{/admin/profile}">My Profile</a></li>
                             <li><input class="dropdown-item" type="submit" value="Sign Out" form="logoutForm"></li>
                         </ul>
                         <form id="logoutForm" th:action="@{/logout}" method="post" th:hidden="true"></form>
