@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -16,8 +17,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.ai.repository.CourseRepository;
 import com.ai.service.CourseService;
-
-import com.ai.entity.Course;;
+import com.ai.service.FileService;
+import com.ai.entity.Course;
 
 @SpringBootTest
 public class CourseServiceTest {
@@ -28,7 +29,8 @@ public class CourseServiceTest {
     @InjectMocks
     CourseService courseService;
 
-
+    @Mock
+    FileService fileService;
 
     public Course courseObj(){
         Course course = Course.builder()
@@ -101,11 +103,13 @@ public class CourseServiceTest {
         assertEquals("description", getCourse.getDescription());
     }
 
-    // @Test
-	// public void deleteByIdTest() {
-	// 	courseService.deleteById("1");
-	// 	verify(courseRepository,times(1)).deleteById("1");
-	// }
+    @Test
+	public void deleteByIdTest() throws IOException {
+        fileService.deleteFolder("folderName");
+        courseRepository.deleteById(1);
+		courseService.deleteById(1, "folderName");
+		verify(courseRepository,times(2)).deleteById(1);
+	}
 
     @Test
     public void getCountTest(){
