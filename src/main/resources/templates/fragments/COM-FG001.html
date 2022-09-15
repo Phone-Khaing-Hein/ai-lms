@@ -78,10 +78,12 @@
                                 class="bi bi-chat-dots me-2"></i>Chat</a>
                     </li>
                 </ul>
-                <form th:action="@{/logout}" method="post" id="logoutForm">
-                    <button class="me-4 btn btn-outline-danger btn-sm" type="button" id="logout"><i
-                            class="bi bi-door-open me-2"></i>Log Out</button>
-                </form>
+                <div>
+                    <a href="javascript: document.logoutForm.submit()" class="btn btn-outline-danger me-3">Log Out</a>
+                    <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+                        <input hidden type="submit" class="" value="Sign Out">
+                    </form>
+                </div>
             </div>
         </nav>
     </header>
