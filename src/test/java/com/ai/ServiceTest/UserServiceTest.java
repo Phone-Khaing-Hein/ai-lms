@@ -84,18 +84,13 @@ public class UserServiceTest {
 
     @Test
     public void findAllUserTest(){
-        List<User> users = userList();
-        Mockito.when(userRepository.findAll()).thenReturn(users);
-        List<User> userList = userService.findAll();
-        assertEquals(3, userList.size());
+        List<User> userList = userList();
+        Mockito.when(userRepository.findAll()).thenReturn(userList);
+        List<User> users = userService.findAll();
+        assertEquals(3, users.size());
         verify(userRepository, times(1)).findAll();
     }
-//    .loginId("ADM001")
-//    .name("Admin User")
-//    .password("admin")
-//    .role(Role.Admin)
-//    .email("phyuthin2004@gmail.com")
-//    .isActive(true)
+
    @Test
    public void findByLoginIdTest(){
        User user = userObj();

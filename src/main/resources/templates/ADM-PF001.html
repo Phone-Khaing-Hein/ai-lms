@@ -8,8 +8,8 @@
 </head>
 <body class="bg-light overflow-hidden">
 <div layout:fragment="content">
-  <section class="mt-5 pt-4">
-    <div class="container mt-5">
+  <section class="mt-3 pt-3">
+    <div class="container">
       <div class="row justify-content-center">
         <div class="col-md-8 col-sm-12 text-center">
           <div class="d-flex align-items-top justify-content-center">
@@ -42,7 +42,9 @@
                   <div class="col-md-5 col-sm-12">
                     <span th:if="${message}" class="alert alert-success d-none" id="message">[[${message}]]</span>
                     <h5><i class="fas fa-key me-2"></i>Change Password</h5>
-                    <form th:action="@{/student/change-password}" method="post">
+
+                    
+                    <form th:action="@{/admin/change-password}" method="post">
                       <div class="form-group mb-2">
                         <label class="form-label">Old Password</label>
                         <input type="password" name="oldPassword" class="form-control"
