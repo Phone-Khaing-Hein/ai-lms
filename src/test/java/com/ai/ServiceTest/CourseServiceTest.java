@@ -28,6 +28,8 @@ public class CourseServiceTest {
     @InjectMocks
     CourseService courseService;
 
+
+
     public Course courseObj(){
         Course course = Course.builder()
         .id(1)
@@ -104,4 +106,11 @@ public class CourseServiceTest {
 	// 	courseService.deleteById("1");
 	// 	verify(courseRepository,times(1)).deleteById("1");
 	// }
+
+    @Test
+    public void getCountTest(){
+        int serviceCount = courseService.getCount();
+        int repositoryCount = (int) courseRepository.count();
+        assertEquals(serviceCount, repositoryCount);
+    }
 }
