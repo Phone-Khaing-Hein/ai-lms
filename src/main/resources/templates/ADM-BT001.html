@@ -45,22 +45,24 @@
                                 <td th:text="${batch.endDate}"></td>
                                 <td th:text="${batch.close} ? 'Suspend' : 'Active'"></td>
                                 <td class="text-end">
-                                    <button class="btn btn-outline-danger" th:if="${!batch.close}"
-                                        th:attr="id=|close${batch.id}|,batchId=|${batch.id}|">
-                                        <i class="bi bi-exclamation-circle me-2"></i>Close Batch
-                                    </button>
-                                    <button class="btn btn-outline-success" th:if="${batch.close}"
-                                        th:attr="id=|open${batch.id}|,batchId=|${batch.id}|">
-                                        <i class="bi bi-exclamation-circle me-2"></i>Open Batch
-                                    </button>
-                                    <a class="btn btn-warning" th:attr="href='#edit-batch-button' + ${batch.id}"
-                                        data-bs-toggle="modal">
-                                        <i class="bi bi-pencil-square me-2"></i>Edit
-                                    </a>
-                                    <a class="btn btn-danger" id="deleteBtn"
-                                        th:attr="onclick=|deleteAction('${batch.id}', '${batch.name}')|"><i
-                                            class="bi bi-trash-fill me-2"></i>Delete
-                                    </a>
+                                    <div class="d-flex">
+                                        <button class="btn btn-outline-danger me-2 btn-sm" th:if="${!batch.close}"
+                                            th:attr="id=|close${batch.id}|,batchId=|${batch.id}|">
+                                            <i class="bi bi-exclamation-circle me-2"></i>Close Batch
+                                        </button>
+                                        <button class="btn btn-outline-success me-2 btn-sm" th:if="${batch.close}"
+                                            th:attr="id=|open${batch.id}|,batchId=|${batch.id}|">
+                                            <i class="bi bi-exclamation-circle me-2"></i>Open Batch
+                                        </button>
+                                        <a class="btn btn-warning me-2 btn-sm" th:attr="href='#edit-batch-button' + ${batch.id}"
+                                            data-bs-toggle="modal">
+                                            <i class="bi bi-pencil-square me-2"></i>Edit
+                                        </a>
+                                        <a class="btn btn-danger me-2 btn-sm" id="deleteBtn"
+                                            th:attr="onclick=|deleteAction('${batch.id}', '${batch.name}')|"><i
+                                                class="bi bi-trash-fill me-2"></i>Delete
+                                        </a>
+                                    </div>
                                 </td>
                                 <div th:replace="fragments/COM-FG001 :: batch-edit"></div>
                                 <script>
