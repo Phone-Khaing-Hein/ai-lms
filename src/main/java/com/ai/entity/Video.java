@@ -1,14 +1,13 @@
 package com.ai.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import groovy.transform.builder.Builder;
 
 import java.io.Serializable;
 import java.util.List;
