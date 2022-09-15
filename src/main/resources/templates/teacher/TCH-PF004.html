@@ -1,89 +1,66 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:th="http://www.thymeleaf.org"
-      layout:decorate="~{layouts/AUTHENTICATED.html}">
+      layout:decorate="~{layouts/AUTHENTICATED-TEACHER.html}">
 <head>
   <meta charset="UTF-8">
-  <title>Profile</title>
+  <title>Course</title>
 </head>
-<body class="bg-light">
+<body class="bg-light overflow-hidden">
 <div layout:fragment="content">
-  <section>
-    <div class="container paddings">
-      <div class="row">
-        <div class="col-md-4 col-sm-12">
-          <div class="card">
-            <div class="card-body py-4">
-              <div class="d-flex justify-content-center">
-                <img src="https://coderthemes.com/hyper/creative/assets/images/users/avatar-1.jpg"
-                     class="rounded-circle" width="70px" alt="">
-              </div>
-              <h5 class="text-center text-muted mt-2 mb-0">[[${user.name}]]</h5>
-              <h6 class="text-center text-muted">[[${user.role}]]</h6>
+  <section class="mt-3 pt-3">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-8 col-sm-12 text-center">
+          <div class="d-flex align-items-top justify-content-center">
+            <img th:src="@{/resources/profile/}+${user.photo}" class="shadow bg-body rounded-circle" width="80" height="80px" alt="profile" id="profile">
+            <i class="bi bi-pencil-square" id="photo"></i>
+          </div>
+          <form th:action="@{/teacher/profile-change}" enctype="multipart/form-data" class="d-none" id="profileForm" method="post">
+            <input type="file" class="d-none" name="photo" id="profileInput" accept="image/png, image/jpeg">
+          </form>
+          <h3 class="fs-4 lead mt-2">Welcome, [[${user.name}]]</h3>
+          <p class="text-muted">Manage your info, privacy, and security to make work better for you.</p>
 
-              <h6 class="fs-6 text-muted">ABOUT ME :</h6>
-              <div class="mt-4 text-muted">
-                <h6 class="mb-3">Email : <span class="ms-3">[[${user.email}]]</span></h6>
-                <h6 class="mb-3">Location : <span class="ms-3" id="location"></span></h6>
-              </div>
-            </div>
-          </div>
         </div>
-        <!-- <div class="col-sm-6">
-            <button class="btn btn-dark" id="changepassword">Change Password</button>
-        </div>
-    -->
-        <div class="col-md-8 col-sm-12">
-          <div class="card">
-            <div class="card-body">
-              <div class="row">
-                <div class="col-12">
-                  <h5>Joined Class</h5>
-                  <table class="table">
-                    <thead>
-                    <tr>
-                      <th>Batch</th>
-                      <th>Course</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="batch : ${batches}">
-                      <td>[[${batch.name}]]</td>
-                      <td>[[${batch.course.name}]]</td>
-                    </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="card mt-2">
-            <div class="card-body">
-              <div class="row">
-                <div class="col-12">
-                  <h5>Profile Change Password</h5>
-                  <hr>
-                  <div class="row justify-content-center">
-                    <div class="col-md-6 col-sm-12" id="password">
-                      <span th:if="${message}" class="alert alert-success d-none" id="message">[[${message}]]</span>
-                      <form th:action="@{/teacher/change-password}" method="post">
-                        <div class="form-group">
-                          <label for="old">Old Password</label>
-                          <input type="password" class="form-control form-control-sm" id="old" name="oldPassword" th:value="${oldPassword}">
-                          <span th:if="${oldPasswordError}" class="text-danger">[[${oldPasswordError}]]</span>
-                        </div>
-                        <div class="form-group">
-                          <label for="new">New Password</label>
-                          <input type="password" class="form-control form-control-sm" id="new" name="newPassword" th:value="${newPassword}">
-                          <span th:if="${newPasswordError}" class="text-danger">[[${newPasswordError}]]</span>
-                        </div>
-                        <div class="form-group d-flex justify-content-end mt-2">
-                          <button type="submit"
-                                  class="btn btn-outline-success">Change</button>
-                        </div>
-                      </form>
+        <div class="row justify-content-center mt-2">
+          <div class="col-md-8 col-sm-12 mb-2">
+            <div class="card">
+              <div class="card-body">
+                <div class="row gx-2 align-items-center">
+                  <div class="col-md-6 col-sm-12">
+                    <h4 class=""><i class="fas fa-user-check me-2"></i>User Infomation</h4>
+                    <div class="text-muted mt-4">
+                      <p class="mb-3"><i
+                              class="fas fa-check text-success me-2"></i>ID: [[${user.loginId}]]</p>
+                      <p class="mb-3"><i
+                              class="fas fa-check text-success me-2"></i>Email: <span th:text="${#strings.toLowerCase(user.email)}"></span></p>
+                      <p class="mb-3"><i
+                              class="fas fa-check text-success me-2"></i>Role: [[${user.role}]]</p>
                     </div>
                   </div>
+                  <div class="col-md-5 col-sm-12">
+                    <span th:if="${message}" class="alert alert-success d-none" id="message">[[${message}]]</span>
+                    <h5><i class="fas fa-key me-2"></i>Change Password</h5>
+                    <form th:action="@{/teacher/change-password}" method="post">
+                      <div class="form-group mb-2">
+                        <label class="form-label">Old Password</label>
+                        <input type="password" name="oldPassword" class="form-control"
+                               placeholder="Enter Old Password" th:value="${oldPassword}">
+                        <span th:if="${oldPasswordError}" class="text-danger">[[${oldPasswordError}]]</span>
+                      </div>
+                      <div class="form-group mb-2">
+                        <label class="form-label">New Password</label>
+                        <input type="password" name="newPassword" class="form-control"
+                               placeholder="Enter New Password" th:value="${newPassword}">
+                      </div>
+                      <span th:if="${newPasswordError}" class="text-danger">[[${newPasswordError}]]</span>
+                      <div class="form-group d-grid">
+                        <button type="submit" class="btn btn-primary mb-2">Save</button>
+                      </div>
+                    </form>
+                  </div>
+
                 </div>
               </div>
             </div>
@@ -93,16 +70,6 @@
     </div>
   </section>
   <script>
-    document.addEventListener("DOMContentLoaded", ()=>{
-      fetch('https://api.ipregistry.co/2a09:bac0:497::822:ca7a?key=qr0ise9ibghuo39c')
-              .then(function (response) {
-                return response.json();
-              })
-              .then(function (payload) {
-                document.getElementById("location").innerText = payload.location.country.name + ', ' + payload.location.city
-              });
-    })
-
     var message = document.getElementById("message");
     if(message !== null){
       const Toast = Swal.mixin({
@@ -122,6 +89,33 @@
         title: message.innerText
       })
     }
+
+    document.getElementById("photo").addEventListener("click", ()=>{
+      document.getElementById("profileInput").click()
+    })
+
+    document.getElementById("profileInput").addEventListener("change", (e)=>{
+      // document.getElementById("profileForm").submit()
+      const reader = new FileReader();
+      reader.readAsDataURL(e.target.files[0]);
+      reader.onload = () => {
+        const preview = document.getElementById('profile');
+        preview.src = reader.result;
+      };
+
+      let file = e.target.files[0]
+      let formData = new FormData();
+      formData.append("profile", file);
+      axios.post('http://localhost:9090/student/profile-change', formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }).then(function (response) {
+        // document.getElementById("profile").src = response.data;
+      }).catch(function (error) {
+        console.log(error);
+      });
+    })
   </script>
 </div>
 </body>

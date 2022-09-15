@@ -1,10 +1,11 @@
 package com.ai.service;
 
+import com.ai.entity.Attendance;
+import com.ai.repository.AttendanceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ai.entity.Attendance;
-import com.ai.repository.AttendanceRepository;
+import java.util.List;
 
 @Service
 public class AttendanceService {
@@ -16,12 +17,7 @@ public class AttendanceService {
         attendanceRepository.save(attendance);
     }
 
-    public Object findAll() {
+    public List<Attendance> findAllAttendance(){
         return attendanceRepository.findAll();
     }
-
-    // public Attendance findByDate(LocalDate date){
-    //     return attendanceRepository.findByDate(date);
-    // }
-    
 }

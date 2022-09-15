@@ -137,7 +137,7 @@ public class TeacherController {
         return "redirect:/teacher/batch-detail?batchId="+batchId;
     }
 
-
+//----------------------------------Profile---------------------------------------------------------------
 
     @GetMapping("profile")
     public String profile(ModelMap m){
