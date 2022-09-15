@@ -19,6 +19,7 @@ import com.ai.entity.Batch;
 import com.ai.entity.User;
 import com.ai.entity.User.Role;
 import com.ai.repository.AttendanceRepository;
+import com.ai.service.AttendanceService;
 
 @SpringBootTest
 public class AttendanceServiceTest {

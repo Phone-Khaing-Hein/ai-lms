@@ -5,126 +5,104 @@
 </head>
 
 <body>
-<header th:fragment="admin-header" style="margin-bottom: 100px">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow">
-        <div class="container-fluid">
-            <a class="navbar-brand" th:href="@{/admin/home}"><img
-                    src="https://aceinspiration.com/wp-content/themes/acinspiration/images/logo.PNG" alt=""
-                    width="160px"></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+    <header th:fragment="admin-header" style="margin-bottom: 100px">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow">
+            <div class="container-fluid">
+                <a class="navbar-brand" th:href="@{/admin/home}"><img
+                        src="https://aceinspiration.com/wp-content/themes/acinspiration/images/logo.PNG" alt=""
+                        width="160px"></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <h5 class="role" style="color: lightslategray;">ADMIN</h5>
-            <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarSupportedContent">
-                <div class="menu">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" th:href="@{/admin/home}">Dashboard</a>
-                        </li>
-                        <li class="nav-item">
-                            <a th:href="@{/admin/teacher-list}" class="nav-link">Teacher</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="@{/admin/student-list}">Student</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="nav-item dropdown">
-                    <a class="nav-link me-5 " href="#" data-bs-toggle="dropdown">
-                        <img th:src="@{/resources/profile/default.png}" class="rounded-circle cricles" width="40px"
-                             alt="">
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" th:href="@{/admin/profile}">My Profile</a></li>
-                        <li><a class="dropdown-item" href="javascript: document.logoutForm.submit()">Log Out</a></li>
-                        <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
-                            <input hidden type="submit" class="" value="Sign Out">
-                        </form>
-                    </ul>
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <h5 class="role" style="color: lightslategray;">ADMIN</h5>
+                <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarSupportedContent">
+                    <div class="menu">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" th:href="@{/admin/home}">Dashboard</a>
+                            </li>
+                            <li class="nav-item">
+                                <a th:href="@{/admin/teacher-list}" class="nav-link">Teacher</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/admin/student-list}">Student</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="nav-item dropdown">
+                        <a class="nav-link me-5 " href="#" data-bs-toggle="dropdown">
+                            <img th:src="@{/resources/profile/default.png}" class="rounded-circle cricles" width="40px"
+                                alt="">
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" th:href="@{/admin/profile}">My Profile</a></li>
+                            <li><a class="dropdown-item" href="javascript: document.logoutForm.submit()">Log Out</a>
+                            </li>
+                            <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+                                <input hidden type="submit" class="" value="Sign Out">
+                            </form>
+                        </ul>
+                    </div>
                 </div>
             </div>
-        </div>
-    </nav>
-</header>
+        </nav>
+    </header>
 
-<header th:fragment="teacher-header" style="margin-bottom: 100px">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow">
-        <div class="container-fluid">
-            <a class="navbar-brand" th:href="@{/teacher/home}"><img
-                    src="https://aceinspiration.com/wp-content/themes/acinspiration/images/logo.PNG" alt=""
-                    width="160px"></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+    <header th:fragment="teacher-header" style="margin-bottom: 100px">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow">
+            <div class="container-fluid">
+                <a class="navbar-brand" th:href="@{/teacher/home}"><img
+                        src="https://aceinspiration.com/wp-content/themes/acinspiration/images/logo.PNG" alt=""
+                        width="160px"></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <h5 class="role" style="color: lightslategray;">INSTRUCTOR</h5>
-            <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarSupportedContent">
-                <div class="menu">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" th:href="@{/teacher/home}"><i
-                                    class="bi bi-house-door me-2 fs-5"></i>Dashboard</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="nav-item dropdown">
-                    <a class="nav-link me-5 " href="#" data-bs-toggle="dropdown">
-                        <img th:src="@{/resources/profile/default.png}" class="rounded-circle cricles" width="40px"
-                             alt="">
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" th:href="@{/teacher/profile}">My Profile</a></li>
-                        <li><a class="dropdown-item" href="javascript: document.logoutForm.submit()">Log Out</a></li>
-                        <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
-                            <input hidden type="submit" class="" value="Sign Out">
-                        </form>
-                    </ul>
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <h5 class="role" style="color: lightslategray;">INSTRUCTOR</h5>
+                <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarSupportedContent">
+                    <div class="menu">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" th:href="@{/teacher/home}"><i
+                                        class="bi bi-house-door me-2 fs-5"></i>Dashboard</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="nav-item dropdown">
+                        <a class="nav-link me-5 " href="#" data-bs-toggle="dropdown">
+                            <img th:src="@{/resources/profile/default.png}" class="rounded-circle cricles" width="40px"
+                                alt="">
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" th:href="@{/teacher/profile}">My Profile</a></li>
+                            <li><a class="dropdown-item" href="javascript: document.logoutForm.submit()">Log Out</a>
+                            </li>
+                            <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+                                <input hidden type="submit" class="" value="Sign Out">
+                            </form>
+                        </ul>
+                    </div>
                 </div>
             </div>
-        </div>
-    </nav>
-</header>
+        </nav>
+    </header>
 
-<header th:fragment="student-header">
-    <nav class="navbar navbar-expand-md navbar-light bg-light shadow-sm bg-light fixed-top">
+    <header th:fragment="student-header">
+        <nav class="navbar navbar-expand-md navbar-light bg-light shadow-sm bg-light fixed-top">
 
-        <a th:href="@{/student/home}" class="navbar-brand mx-4">
-            <img src="https://aceinspiration.com/wp-content/themes/acinspiration/images/logo.PNG" alt="brand-logo"
-                 width="170px">
-        </a>
+            <a th:href="@{/student/home}" class="navbar-brand mx-4">
+                <img src="https://aceinspiration.com/wp-content/themes/acinspiration/images/logo.PNG" alt="brand-logo"
+                    width="170px">
+            </a>
 
-        <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav"><i
-                class="navbar-toggler-icon"></i></button>
+            <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav"><i
+                    class="navbar-toggler-icon"></i></button>
 
 
-        <div class="navbar-collapse collapse justify-content-between" id="nav">
-            <ul class="navbar-nav px-3">
-                <li class="nav-item"><a th:href="@{/student/home}" class="nav-link text-uppercase"
-                                        th:classappend="${#strings.equals(nav, 'dashboard')} ? 'active' : ''"><i
-                        class="bi bi-house-door me-2"></i>dashboard</a>
-                </li>
-                <li class="nav-item"><a th:href="@{/student/course}" class="nav-link text-uppercase"
-                                        th:classappend="${#strings.equals(nav, 'video')} ? 'active' : ''"><i
-                        class="bi bi-camera-reels me-2"></i>video</a>
-                </li>
-                <li class="nav-item"><a th:href="@{/student/members}" class="nav-link text-uppercase"
-                                        th:classappend="${#strings.equals(nav, 'participants')} ? 'active' : ''"><i
-                        class="bi bi-people me-2"></i>participants</a>
-                </li>
-                <li class="nav-item"><a th:href="@{/student/chat#divider}" class="nav-link text-uppercase"
-                                        th:classappend="${#strings.equals(nav, 'chat')} ? 'active' : ''"><i
-                        class="bi bi-chat-dots me-2"></i>Chat</a>
-                </li>
-            </ul>
-            <div>
-                <a href="javascript: document.logoutForm.submit()" class="btn btn-outline-danger me-3">Log Out</a>
-                <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
-                    <input hidden type="submit" class="" value="Sign Out">
-                </form>
-          <div class="navbar-collapse collapse justify-content-between" id="nav">
+            <div class="navbar-collapse collapse justify-content-between" id="nav">
                 <ul class="navbar-nav px-3">
                     <li class="nav-item"><a th:href="@{/student/home}" class="nav-link text-uppercase"
                             th:classappend="${#strings.equals(nav, 'dashboard')} ? 'active' : ''"><i
@@ -149,280 +127,213 @@
                         <input hidden type="submit" class="" value="Sign Out">
                     </form>
                 </div>
+        </nav>
+    </header>
 
-            </div>
-        </div>
-    </nav>
-</header>
-
-<div th:fragment="course-create" class="modal fade" data-bs-backdrop="static" id="courseCreate" tabindex="-1"
-     aria-labelledby="courseCreateLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="courseCreateLabel"><i class="bi bi-book me-2"></i>Course Create</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form th:action="@{/admin/course-create}" th:object="${course}" method="post" id="courseCreateForm">
-                    <div class="form-group mb-3">
-                        <label for="name">Course Name</label>
-                        <input type="text" required
-                               placeholder="Example: Java Foundation, Web Development with Java" id="name"
-                               th:field="*{name}" class="form-control mt-2" th:required="true">
-                        <span class="text-danger" th:errors="*{name}" id="emptyError"></span>
-                        <span class="text-danger" th:if="${error}" th:text="${error}" id="duplicateError"></span>
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="description">Description</label>
-                        <textarea class="form-control mt-2" th:field="*{description}" id="description"
-                                  style="resize: none; height: 150px" placeholder="Enter Course Description [Optional]">
+    <div th:fragment="course-create" class="modal fade" data-bs-backdrop="static" id="courseCreate" tabindex="-1"
+        aria-labelledby="courseCreateLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="courseCreateLabel"><i class="bi bi-book me-2"></i>Course Create</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form th:action="@{/admin/course-create}" th:object="${course}" method="post" id="courseCreateForm">
+                        <div class="form-group mb-3">
+                            <label for="name">Course Name</label>
+                            <input type="text" required
+                                placeholder="Example: Java Foundation, Web Development with Java" id="name"
+                                th:field="*{name}" class="form-control mt-2" th:required="true">
+                            <span class="text-danger" th:errors="*{name}" id="emptyError"></span>
+                            <span class="text-danger" th:if="${error}" th:text="${error}" id="duplicateError"></span>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="description">Description</label>
+                            <textarea class="form-control mt-2" th:field="*{description}" id="description"
+                                style="resize: none; height: 150px" placeholder="Enter Course Description [Optional]">
                         </textarea>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
-                <button type="submit" class="btn btn-primary" form="courseCreateForm">Create</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary" form="courseCreateForm">Create</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<div th:fragment="course-edit" class="modal fade" data-bs-backdrop="static"
-     th:attr="id='edit-course-button' + ${course.id}" tabindex="-1" aria-labelledby="courseEditLabel"
-     aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title"><i class="bi bi-book me-2"></i>Course Edit</h5>
-                </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form th:action="@{/admin/course-edit}" method="post">
-                <div class="modal-body">
-                    <input type="hidden" name="id" th:value="${course?.id}">
-                    <div class="form-group">
-                        <label for="name">Course Name</label>
-                        <input type="text" name="name" class="form-control mb-3" required maxlength="100"
-                               minlength="1" id="name" th:value="${course?.name}"
-                               placeholder="Example: Java Foundation, Web Development with Java">
-                    </div>
+    <div th:fragment="course-edit" class="modal fade" data-bs-backdrop="static"
+        th:attr="id='edit-course-button' + ${course.id}" tabindex="-1" aria-labelledby="courseEditLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="bi bi-book me-2"></i>Course Edit</h5>
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form th:action="@{/admin/course-edit}" method="post">
+                    <div class="modal-body">
+                        <input type="hidden" name="id" th:value="${course?.id}">
+                        <div class="form-group">
+                            <label for="name">Course Name</label>
+                            <input type="text" name="name" class="form-control mb-3" required maxlength="100"
+                                minlength="1" id="name" th:value="${course?.name}"
+                                placeholder="Example: Java Foundation, Web Development with Java">
+                        </div>
 
-                    <div class="form-group">
-                        <label for="description">Description</label>
-                        <textarea type="text" name="description" id="description" class="form-control mb-3"
-                                  th:text="${course?.description}" maxlength="1000"
-                                  style="max-height:150px;height: 150px;resize: none;"
-                                  placeholder="Enter Course Description [Optional]">
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <textarea type="text" name="description" id="description" class="form-control mb-3"
+                                th:text="${course?.description}" maxlength="1000"
+                                style="max-height:150px;height: 150px;resize: none;"
+                                placeholder="Enter Course Description [Optional]">
                             </textarea>
+                        </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-light" data-bs-dismiss="modal" aria-label="Close"
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal" aria-label="Close"
                             style="margin-right: 13px;">
-                        Cancel
-                    </button>
-                    <button class="btn btn-primary" type="submit">
-                        Update
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<div th:fragment="module-create" class="modal fade" data-bs-backdrop="static" id="moduleCreate" tabindex="-1"
-     aria-labelledby="moduleCreateLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="moduleCreateLabel"><i class="bi bi-bookmark-plus me-2"></i>Module Create
-                </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form th:action="@{/admin/module-create}" method="post" enctype="multipart/form-data"
-                      th:object="${module}" id="moduleCreateForm">
-                    <input type="hidden" name="courseId" th:value="${param.courseId}">
-                    <div class="mb-3">
-                        <div class="form-group mb-3">
-                            <label for="module">Module Name</label>
-                            <input type="text" th:field="*{name}" class="form-control mt-2"
-                                   placeholder="Enter Module Name" id="module" th:required="true"/>
-                            <span th:errors="*{name}" class="text-danger"></span>
-                            <span th:text="${error}" class="text-danger" th:if="${error != null}" id="error"></span>
-                        </div>
-                        <div class="form-group mb-3">
-                            <label for="video">Video Upload</label>
-                            <input type="file" th:field="*{video}" id="video" accept="video/*, .ts"
-                                   class="form-control form-control-sm mt-2" multiple th:required="true"/>
-                            <span th:errors="*{video}" class="text-danger"></span>
-                        </div>
-                        <div class="form-group mb-3">
-                            <label for="file">Resource Upload</label>
-                            <input type="file" th:field="*{resource}" id="file"
-                                   class="form-control form-control-sm mt-2" accept=".doc,.docx,.pptx,.pdf,.xlsx"
-                                   multiple th:required="true"/>
-                            <span th:errors="*{resource}" class="text-danger"></span>
-                        </div>
+                            Cancel
+                        </button>
+                        <button class="btn btn-primary" type="submit">
+                            Update
+                        </button>
                     </div>
                 </form>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
-                <button type="submit" class="btn btn-outline-primary" form="moduleCreateForm">
-                    Create
-                </button>
-            </div>
         </div>
     </div>
-</div>
 
-<div th:fragment="module-edit" class="modal fade" data-bs-backdrop="static"
-     th:attr="id='edit-module-button' + ${module.id}" tabindex="-1" aria-labelledby="moduleEditLabel"
-     aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="moduleEditLabel"><i class="bi bi-bookmark-plus me-2"></i>Module Edit
-                </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form th:action="@{/admin/module-edit}" method="post" enctype="multipart/form-data">
+    <div th:fragment="module-create" class="modal fade" data-bs-backdrop="static" id="moduleCreate" tabindex="-1"
+        aria-labelledby="moduleCreateLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="moduleCreateLabel"><i class="bi bi-bookmark-plus me-2"></i>Module Create
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
                 <div class="modal-body">
-                    <input type="hidden" name="courseId" th:value="${param.courseId}">
-                    <input type="hidden" name="moduleId" th:value="${module.id}">
-                    <div class="mb-3">
-                        <div class="form-group mb-3">
-                            <label for="module">Module Name</label>
-                            <input type="text" name="name" class="form-control mt-2" th:value="${module.name}"
-                                   placeholder="Enter Module Name" id="module" th:required="true"/>
+                    <form th:action="@{/admin/module-create}" method="post" enctype="multipart/form-data"
+                        th:object="${module}" id="moduleCreateForm">
+                        <input type="hidden" name="courseId" th:value="${param.courseId}">
+                        <div class="mb-3">
+                            <div class="form-group mb-3">
+                                <label for="module">Module Name</label>
+                                <input type="text" th:field="*{name}" class="form-control mt-2"
+                                    placeholder="Enter Module Name" id="module" th:required="true" />
+                                <span th:errors="*{name}" class="text-danger"></span>
+                                <span th:text="${error}" class="text-danger" th:if="${error != null}" id="error"></span>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="video">Video Upload</label>
+                                <input type="file" th:field="*{video}" id="video" accept="video/*, .ts"
+                                    class="form-control form-control-sm mt-2" multiple th:required="true" />
+                                <span th:errors="*{video}" class="text-danger"></span>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="file">Resource Upload</label>
+                                <input type="file" th:field="*{resource}" id="file"
+                                    class="form-control form-control-sm mt-2" accept=".doc,.docx,.pptx,.pdf,.xlsx"
+                                    multiple th:required="true" />
+                                <span th:errors="*{resource}" class="text-danger"></span>
+                            </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-outline-primary">
-                        Update
+                    <button type="submit" class="btn btn-outline-primary" form="moduleCreateForm">
+                        Create
                     </button>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
-</div>
 
-<div th:fragment="batch-create" class="modal fade" data-bs-backdrop="static" id="batchCreate" tabindex="-1"
-     aria-labelledby="batchCreateLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="batchCreateLabel"><i class="bi bi-journal-bookmark me-2"></i>Batch
-                    Create
-                </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form th:action="@{/admin/batch-create}" th:object="${batch}" method="post" id="batchCreateForm">
-                    <div class="form-group mb-3">
-                        <select class="form-select" th:field="*{course}" th:required="true">
-                            <option value="">Select Course</option>
-                            <option th:each="course : ${courses}" th:value="${course.id}" th:text="${course.name}">
-                            </option>
-                        </select>
-                        <span class="text-danger" th:errors="*{course}"></span>
+    <div th:fragment="module-edit" class="modal fade" data-bs-backdrop="static"
+        th:attr="id='edit-module-button' + ${module.id}" tabindex="-1" aria-labelledby="moduleEditLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="moduleEditLabel"><i class="bi bi-bookmark-plus me-2"></i>Module Edit
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form th:action="@{/admin/module-edit}" method="post" enctype="multipart/form-data">
+                    <div class="modal-body">
+                        <input type="hidden" name="courseId" th:value="${param.courseId}">
+                        <input type="hidden" name="moduleId" th:value="${module.id}">
+                        <div class="mb-3">
+                            <div class="form-group mb-3">
+                                <label for="module">Module Name</label>
+                                <input type="text" name="name" class="form-control mt-2" th:value="${module.name}"
+                                    placeholder="Enter Module Name" id="module" th:required="true" />
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group mb-3">
-                        <label for="name">Batch Name</label>
-                        <input type="text" required placeholder="Enter Batch Name" id="name" th:field="*{name}"
-                               class="form-control mt-2" th:required="true">
-                        <span class="text-danger" th:errors="*{name}"></span>
-                        <span class="text-danger" th:if="${error}" th:text="${error}" id="duplicateError"></span>
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="start">Start Date</label>
-                        <input type="date" th:field="*{startDate}" id="start" class="form-control"
-                               th:required="true">
-                        <span class="text-danger" th:errors="*{startDate}"></span>
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="end">End Date</label>
-                        <input type="date" th:field="*{endDate}" id="end" class="form-control" th:required="true">
-                        <span class="text-danger" th:errors="*{endDate}"></span>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-outline-primary">
+                            Update
+                        </button>
                     </div>
                 </form>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
-                <button type="submit" class="btn btn-primary" form="batchCreateForm">Create</button>
-            </div>
         </div>
     </div>
-</div>
 
-<div th:fragment="batch-edit" class="modal fade" data-bs-backdrop="static"
-     th:attr="id='edit-batch-button'+${batch.id}" tabindex="-1" aria-labelledby="batchCreateLabel"
-     aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="batchCreateLabel"><i class="bi bi-journal-bookmark me-2"></i>Batch Edit
-                </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form th:action="@{/admin/batch-edit}" method="post">
-                <input type="hidden" name="id" th:value="${batch.id}">
+    <div th:fragment="batch-create" class="modal fade" data-bs-backdrop="static" id="batchCreate" tabindex="-1"
+        aria-labelledby="batchCreateLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="batchCreateLabel"><i class="bi bi-journal-bookmark me-2"></i>Batch
+                        Create
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
                 <div class="modal-body">
-                    <div class="form-group mb-3">
-                        <select class="form-select" th:required="true" name="course">
-                            <option value="">Select Course</option>
-                            <option th:selected="${#strings.equals(batch.course.name, course.name)}"
-                                    th:each="course : ${courses}" th:value="${course.id}" th:text="${course.name}">
-                            </option>
-                        </select>
-                        <span class="text-danger" th:errors="*{course}"></span>
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="name">Batch Name</label>
-                        <input type="text" required placeholder="Enter Batch Name" id="name"
-                               class="form-control mt-2" th:required="true" name="name" th:value="${batch.name}">
-                        <span class="text-danger" th:if="${error}" th:text="${error}" id="duplicateError"></span>
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="start">Start Date</label>
-                        <input type="date" id="start" th:min="${#temporals.format(batch.startDate, 'yyyy-MM-dd')}"
-                               class="form-control" name="startDate" th:required="true"
-                               th:value="${#temporals.format(batch.startDate, 'yyyy-MM-dd')}">
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="end">End Date</label>
-                        <input type="date" id="end" class="form-control" name="endDate" th:required="true"
-                               th:value="${#temporals.format(batch.endDate, 'yyyy-MM-dd')}">
-                    </div>
-
+                    <form th:action="@{/admin/batch-create}" th:object="${batch}" method="post" id="batchCreateForm">
+                        <div class="form-group mb-3">
+                            <select class="form-select" th:field="*{course}" th:required="true">
+                                <option value="">Select Course</option>
+                                <option th:each="course : ${courses}" th:value="${course.id}" th:text="${course.name}">
+                                </option>
+                            </select>
+                            <span class="text-danger" th:errors="*{course}"></span>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="name">Batch Name</label>
+                            <input type="text" required placeholder="Enter Batch Name" id="name" th:field="*{name}"
+                                class="form-control mt-2" th:required="true">
+                            <span class="text-danger" th:errors="*{name}"></span>
+                            <span class="text-danger" th:if="${error}" th:text="${error}" id="duplicateError"></span>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="start">Start Date</label>
+                            <input type="date" th:field="*{startDate}" id="start" class="form-control"
+                                th:required="true">
+                            <span class="text-danger" th:errors="*{startDate}"></span>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="end">End Date</label>
+                            <input type="date" th:field="*{endDate}" id="end" class="form-control" th:required="true">
+                            <span class="text-danger" th:errors="*{endDate}"></span>
+                        </div>
+                    </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Update</button>
+                    <button type="submit" class="btn btn-primary" form="batchCreateForm">Create</button>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
-
-</div>
-
-<div th:fragment="student-edit" class="modal fade" data-bs-backdrop="static"
-     th:attr="id='edit-student-button'+${student.loginId}" tabindex="-1" aria-labelledby="studentEditLabel"
-     aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="studentEditLabel"><i class="bi bi-people me-2"></i>Student Edit</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form th:action="@{/admin/student-edit}" method="post">
-                <input type="hidden" name="id" th:value="${student.loginId}">
-                <div class="modal-body">
 
     <div th:fragment="batch-edit" class="modal fade" data-bs-backdrop="static"
         th:attr="id='edit-batch-button'+${batch.id}" tabindex="-1" aria-labelledby="batchCreateLabel"
@@ -464,233 +375,336 @@
                                 th:value="${#temporals.format(batch.endDate, 'yyyy-MM-dd')}">
                         </div>
 
-                    <div class="form-group mb-3">
-                        <label for="id">Student ID</label>
-                        <input type="text" required placeholder="Enter Student ID" id="id" class="form-control mt-2"
-                               th:required="true" readonly name="loginId" th:value="${student.loginId}">
                     </div>
-                    <div class="form-group mb-3">
-                        <label for="batch">Batch</label>
-                        <select class="form-select" th:required="true" name="batchId">
-                            <option value="">Select Batch</option>
-                            <option th:selected="${#strings.equals(batch.name, student?.batches?.get(0)?.name)}"
-                                    th:each="batch : ${batches}" th:value="${batch.id}" th:text="${batch.name}">
-                            </option>
-                        </select>
-                        <span class="text-danger" th:if="${batchError}" th:text="${batchError}"
-                              id="duplicateError"></span>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Update</button>
                     </div>
-                    <div class="form-group mb-3">
-                        <label for="name">Student Name</label>
-                        <input type="text" required placeholder="Enter Student Name" id="name"
-                               class="form-control mt-2" th:required="true" name="name" th:value="${student.name}">
-                        <span class="text-danger" th:if="${error}" th:text="${error}" id="duplicateError"></span>
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="email">Student Email</label>
-                        <input type="email" required placeholder="Enter Student Email" id="email"
-                               class="form-control mt-2" th:required="true" name="email" th:value="${student.email}">
-                        <span class="text-danger" th:if="${emailError}" th:text="${emailError}"
-                              id="duplicateError"></span>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Update</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<div th:fragment="teacher-register" class="modal fade" data-bs-backdrop="static" id="teacherRegister" tabindex="-1"
-     aria-labelledby="moduleCreateLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="teacherRegisterLabel"><i
-                        class="fa-solid fa-chalkboard-user me-2"></i>Register
-                    Teacher
-                </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </form>
             </div>
-            <div class="modal-body">
-                <form th:action="@{/admin/teacher-create}" method="post" th:object="${teacher}"
-                      id="teacherRegisterForm">
+        </div>
 
-                    <div class="mb-3">
+    </div>
+
+    <div th:fragment="student-edit" class="modal fade" data-bs-backdrop="static"
+        th:attr="id='edit-student-button'+${student.loginId}" tabindex="-1" aria-labelledby="studentEditLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="studentEditLabel"><i class="bi bi-people me-2"></i>Student Edit</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form th:action="@{/admin/student-edit}" method="post">
+                    <input type="hidden" name="id" th:value="${student.loginId}">
+                    <div class="modal-body">
+
                         <div class="form-group mb-3">
-                            <label for="name">Teacher ID</label>
-                            <input type="text" th:field="*{loginId}" class="form-control mt-2"
-                                   placeholder="Enter ID" id="id" th:required="true"/>
-                            <span th:errors="*{loginId}" class="text-danger"></span>
-                            <span th:text="${error}" class="text-danger" th:if="${error != null}" id="error"></span>
+                            <label for="id">Student ID</label>
+                            <input type="text" required placeholder="Enter Student ID" id="id" class="form-control mt-2"
+                                th:required="true" readonly name="loginId" th:value="${student.loginId}">
                         </div>
                         <div class="form-group mb-3">
-                            <label for="name">Teacher Name</label>
-                            <input type="text" th:field="*{name}" class="form-control mt-2"
-                                   placeholder="Enter Teacher Name" id="teacher" th:required="true"/>
-                            <span th:errors="*{name}" class="text-danger"></span>
-                            <span th:text="${error}" class="text-danger" th:if="${error != null}" id="error"></span>
-                        </div>
-                        <div class="form-group mb-3">
-                            <label for="email">Email</label>
-                            <input type="email" th:field="*{email}" class="form-control mt-2"
-                                   placeholder="Enter Email" id="email" th:required="true"/>
-                            <span th:errors="*{email}" class="text-danger"></span>
-                            <span th:text="${error}" class="text-danger" th:if="${error != null}" id="error"></span>
-                        </div>
-                        <div class="form-group mb-3">
-                            <label for="batchId">Select Batch</label>
-                            <select name="batchId" id="batchId" multiple class="form-control mt-2"
-                                    th:required="true">
-                                <option th:each="batch : ${openBatches}" th:value="${batch.id}">[[${batch.name}]]
+                            <label for="batch">Batch</label>
+                            <select class="form-select" th:required="true" name="batchId">
+                                <option value="">Select Batch</option>
+                                <option th:selected="${#strings.equals(batch.name, student?.batches?.get(0)?.name)}"
+                                    th:each="batch : ${batches}" th:value="${batch.id}" th:text="${batch.name}">
                                 </option>
                             </select>
-                            <span class="text-danger"></span>
+                            <span class="text-danger" th:if="${batchError}" th:text="${batchError}"
+                                id="duplicateError"></span>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="name">Student Name</label>
+                            <input type="text" required placeholder="Enter Student Name" id="name"
+                                class="form-control mt-2" th:required="true" name="name" th:value="${student.name}">
+                            <span class="text-danger" th:if="${error}" th:text="${error}" id="duplicateError"></span>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="email">Student Email</label>
+                            <input type="email" required placeholder="Enter Student Email" id="email"
+                                class="form-control mt-2" th:required="true" name="email" th:value="${student.email}">
+                            <span class="text-danger" th:if="${emailError}" th:text="${emailError}"
+                                id="duplicateError"></span>
                         </div>
                     </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
-                <button type="submit" class="btn btn-outline-primary" form="teacherRegisterForm">
-                    Register
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<div th:fragment="teacher-edit" class="modal fade" data-bs-backdrop="static"
-     th:attr="id='edit-teacher-button' + ${teacher.loginId}" tabindex="-1" aria-labelledby="courseEditLabel"
-     aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title"><i class="fa-thin fa-person-chalkboard me-2"></i>Teacher Edit</h5>
-                </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form th:action="@{/admin/teacher-edit}" method="post">
-
-                    <div class="form-group mb-3">
-                        <label for="id">Teacher ID</label>
-                        <input type="text" required placeholder="Enter Student ID" id="id" class="form-control mt-2"
-                               th:required="true" readonly name="loginId" th:value="${teacher.loginId}">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="name" style="text-align: left; margin-bottom: 5px;display: block">Teacher
-                            Name</label>
-                        <input type="text" name="name" class="form-control mb-3" required maxlength="100"
-                               minlength="1" id="name" th:value="${teacher?.name}">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="email" style="text-align: left; margin-bottom: 5px;display: block">Email</label>
-                        <input type="email" name="email" class="form-control mb-3" required maxlength="100"
-                               minlength="1" id="email" th:value="${teacher?.email}">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="batch">Batch</label>
-                        <select name="batchId" id="batchId" multiple class="form-control mt-2">
-                            <option th:each="batch: ${openBatches}" th:selected="${teacher.batches.contains(batch)}"
-                                    th:value="${batch.id}">
-                                [[${batch.name}]]
-                            </option>
-                        </select>
-                    </div>
-
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-light" data-bs-dismiss="modal" aria-label="Close"
-                                style="margin-right: 13px;">
-                            Cancel
-                        </button>
-                        <button class="btn btn-primary" type="submit">
-                            Update
-                        </button>
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Update</button>
                     </div>
                 </form>
             </div>
-
         </div>
     </div>
-</div>
 
-<div th:fragment="assignment-create" class="modal fade" data-bs-backdrop="static" id="assignmentCreate"
-     tabindex="-1" aria-labelledby="moduleCreateLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="assignmentCreateLabel"><i
-                        class="fa-solid fa-chalkboard-user me-2"></i>Assignment Create
-                </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div th:fragment="batch-edit" class="modal fade" data-bs-backdrop="static"
+        th:attr="id='edit-batch-button'+${batch.id}" tabindex="-1" aria-labelledby="batchCreateLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="batchCreateLabel"><i class="bi bi-journal-bookmark me-2"></i>Batch Edit
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form th:action="@{/admin/batch-edit}" method="post">
+                    <input type="hidden" name="id" th:value="${batch.id}">
+                    <div class="modal-body">
+                        <div class="form-group mb-3">
+                            <select class="form-select" th:required="true" name="course">
+                                <option value="">Select Course</option>
+                                <option th:selected="${#strings.equals(batch.course.name, course.name)}"
+                                    th:each="course : ${courses}" th:value="${course.id}" th:text="${course.name}">
+                                </option>
+                            </select>
+                            <span class="text-danger" th:errors="*{course}"></span>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="name">Batch Name</label>
+                            <input type="text" required placeholder="Enter Batch Name" id="name"
+                                class="form-control mt-2" th:required="true" name="name" th:value="${batch.name}">
+                            <span class="text-danger" th:if="${error}" th:text="${error}" id="duplicateError"></span>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="start">Start Date</label>
+                            <input type="date" id="start" th:min="${#temporals.format(batch.startDate, 'yyyy-MM-dd')}"
+                                class="form-control" name="startDate" th:required="true"
+                                th:value="${#temporals.format(batch.startDate, 'yyyy-MM-dd')}">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="end">End Date</label>
+                            <input type="date" id="end" class="form-control" name="endDate" th:required="true"
+                                th:value="${#temporals.format(batch.endDate, 'yyyy-MM-dd')}">
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="id">Student ID</label>
+                            <input type="text" required placeholder="Enter Student ID" id="id" class="form-control mt-2"
+                                th:required="true" readonly name="loginId" th:value="${student.loginId}">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="batch">Batch</label>
+                            <select class="form-select" th:required="true" name="batchId">
+                                <option value="">Select Batch</option>
+                                <option th:selected="${#strings.equals(batch.name, student?.batches?.get(0)?.name)}"
+                                    th:each="batch : ${batches}" th:value="${batch.id}" th:text="${batch.name}">
+                                </option>
+                            </select>
+                            <span class="text-danger" th:if="${batchError}" th:text="${batchError}"
+                                id="duplicateError"></span>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="name">Student Name</label>
+                            <input type="text" required placeholder="Enter Student Name" id="name"
+                                class="form-control mt-2" th:required="true" name="name" th:value="${student.name}">
+                            <span class="text-danger" th:if="${error}" th:text="${error}" id="duplicateError"></span>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="email">Student Email</label>
+                            <input type="email" required placeholder="Enter Student Email" id="email"
+                                class="form-control mt-2" th:required="true" name="email" th:value="${student.email}">
+                            <span class="text-danger" th:if="${emailError}" th:text="${emailError}"
+                                id="duplicateError"></span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Update</button>
+                    </div>
+                </form>
             </div>
-            <div class="modal-body">
-                <form th:action="@{/teacher/assignment-create}" method="post" th:object="${assignment}"
-                      id="assignmentCreateForm" enctype="multipart/form-data">
-                    <div class="mb-2">
-                        <div class="form-group mb-3">
-                            <label for="title">Assignment Title</label>
-                            <input type="text" th:field="*{title}" class="form-control mt-2"
-                                   placeholder="Enter Title" id="title" th:required="true"/>
-                            <span th:errors="*{title}" class="text-danger"></span>
-                        </div>
-                        <div class="form-group mb-3">
-                            <label for="file">Assignment File</label>
-                            <input type="file" name="files" class="form-control mt-2" id="file"/>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-6">
+        </div>
+    </div>
+
+    <div th:fragment="teacher-register" class="modal fade" data-bs-backdrop="static" id="teacherRegister" tabindex="-1"
+        aria-labelledby="moduleCreateLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="teacherRegisterLabel"><i
+                            class="fa-solid fa-chalkboard-user me-2"></i>Register
+                        Teacher
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form th:action="@{/admin/teacher-create}" method="post" th:object="${teacher}"
+                        id="teacherRegisterForm">
+
+                        <div class="mb-3">
+                            <div class="form-group mb-3">
+                                <label for="name">Teacher ID</label>
+                                <input type="text" th:field="*{loginId}" class="form-control mt-2"
+                                    placeholder="Enter ID" id="id" th:required="true" />
+                                <span th:errors="*{loginId}" class="text-danger"></span>
+                                <span th:text="${error}" class="text-danger" th:if="${error != null}" id="error"></span>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="name">Teacher Name</label>
+                                <input type="text" th:field="*{name}" class="form-control mt-2"
+                                    placeholder="Enter Teacher Name" id="teacher" th:required="true" />
+                                <span th:errors="*{name}" class="text-danger"></span>
+                                <span th:text="${error}" class="text-danger" th:if="${error != null}" id="error"></span>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="email">Email</label>
+                                <input type="email" th:field="*{email}" class="form-control mt-2"
+                                    placeholder="Enter Email" id="email" th:required="true" />
+                                <span th:errors="*{email}" class="text-danger"></span>
+                                <span th:text="${error}" class="text-danger" th:if="${error != null}" id="error"></span>
+                            </div>
+                            <div class="form-group mb-3">
                                 <label for="batchId">Select Batch</label>
-                                <select name="batchId" id="batchId" class="form-control mt-2" th:required="true">
-                                    <option value="">Select Batch</option>
-                                    <option th:each="batch : ${openBatches}" th:value="${batch.id}">
-                                        [[${batch.name}]]
+                                <select name="batchId" id="batchId" multiple class="form-control mt-2"
+                                    th:required="true">
+                                    <option th:each="batch : ${openBatches}" th:value="${batch.id}">[[${batch.name}]]
                                     </option>
                                 </select>
                                 <span class="text-danger"></span>
                             </div>
-
-                            <div class="col-6">
-                                <label for="mark">Full Mark</label>
-                                <input type="number" th:field="*{mark}" class="form-control mt-2"
-                                       placeholder="Enter Full Mark" id="mark" th:required="true"/>
-                                <span th:errors="*{mark}" class="text-danger"></span>
-                            </div>
                         </div>
-
-                        <div class="mb-3 row">
-                            <div class="col-6">
-                                <label for="start">Start Date</label>
-                                <input type="datetime-local" th:field="*{start}" class="form-control mt-2"
-                                       placeholder="Enter Teacher Name" id="start" th:required="true"/>
-                                <span th:errors="*{start}" class="text-danger"></span>
-                            </div>
-                            <div class="col-6">
-                                <label for="end">End Date</label>
-                                <input type="datetime-local" th:field="*{end}" class="form-control mt-2"
-                                       placeholder="Enter Teacher Name" id="end" th:required="true"/>
-                                <span th:errors="*{end}" class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
-                <button type="submit" class="btn btn-outline-primary" form="assignmentCreateForm">
-                    Create
-                </button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-outline-primary" form="teacherRegisterForm">
+                        Register
+                    </button>
+                </div>
             </div>
         </div>
     </div>
-</div>
+
+
+    <div th:fragment="teacher-edit" class="modal fade" data-bs-backdrop="static"
+        th:attr="id='edit-teacher-button' + ${teacher.loginId}" tabindex="-1" aria-labelledby="courseEditLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fa-thin fa-person-chalkboard me-2"></i>Teacher Edit</h5>
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form th:action="@{/admin/teacher-edit}" method="post">
+
+                        <div class="form-group mb-3">
+                            <label for="id">Teacher ID</label>
+                            <input type="text" required placeholder="Enter Student ID" id="id" class="form-control mt-2"
+                                th:required="true" readonly name="loginId" th:value="${teacher.loginId}">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="name" style="text-align: left; margin-bottom: 5px;display: block">Teacher
+                                Name</label>
+                            <input type="text" name="name" class="form-control mb-3" required maxlength="100"
+                                minlength="1" id="name" th:value="${teacher?.name}">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email" style="text-align: left; margin-bottom: 5px;display: block">Email</label>
+                            <input type="email" name="email" class="form-control mb-3" required maxlength="100"
+                                minlength="1" id="email" th:value="${teacher?.email}">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="batch">Batch</label>
+                            <select name="batchId" id="batchId" multiple class="form-control mt-2">
+                                <option th:each="batch: ${openBatches}" th:selected="${teacher.batches.contains(batch)}"
+                                    th:value="${batch.id}">
+                                    [[${batch.name}]]
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-light" data-bs-dismiss="modal" aria-label="Close"
+                                style="margin-right: 13px;">
+                                Cancel
+                            </button>
+                            <button class="btn btn-primary" type="submit">
+                                Update
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div th:fragment="assignment-create" class="modal fade" data-bs-backdrop="static" id="assignmentCreate"
+        tabindex="-1" aria-labelledby="moduleCreateLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="assignmentCreateLabel"><i
+                            class="fa-solid fa-chalkboard-user me-2"></i>Assignment Create
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form th:action="@{/teacher/assignment-create}" method="post" th:object="${assignment}"
+                        id="assignmentCreateForm" enctype="multipart/form-data">
+                        <div class="mb-2">
+                            <div class="form-group mb-3">
+                                <label for="title">Assignment Title</label>
+                                <input type="text" th:field="*{title}" class="form-control mt-2"
+                                    placeholder="Enter Title" id="title" th:required="true" />
+                                <span th:errors="*{title}" class="text-danger"></span>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="file">Assignment File</label>
+                                <input type="file" name="files" class="form-control mt-2" id="file" />
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-6">
+                                    <label for="batchId">Select Batch</label>
+                                    <select name="batchId" id="batchId" class="form-control mt-2" th:required="true">
+                                        <option value="">Select Batch</option>
+                                        <option th:each="batch : ${openBatches}" th:value="${batch.id}">
+                                            [[${batch.name}]]
+                                        </option>
+                                    </select>
+                                    <span class="text-danger"></span>
+                                </div>
+
+                                <div class="col-6">
+                                    <label for="mark">Full Mark</label>
+                                    <input type="number" th:field="*{mark}" class="form-control mt-2"
+                                        placeholder="Enter Full Mark" id="mark" th:required="true" />
+                                    <span th:errors="*{mark}" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="mb-3 row">
+                                <div class="col-6">
+                                    <label for="start">Start Date</label>
+                                    <input type="datetime-local" th:field="*{start}" class="form-control mt-2"
+                                        placeholder="Enter Teacher Name" id="start" th:required="true" />
+                                    <span th:errors="*{start}" class="text-danger"></span>
+                                </div>
+                                <div class="col-6">
+                                    <label for="end">End Date</label>
+                                    <input type="datetime-local" th:field="*{end}" class="form-control mt-2"
+                                        placeholder="Enter Teacher Name" id="end" th:required="true" />
+                                    <span th:errors="*{end}" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-outline-primary" form="assignmentCreateForm">
+                        Create
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>
