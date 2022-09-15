@@ -188,6 +188,7 @@ public class StudentController {
         fileService.createFolderForAssignmentAnswer();
         var fileName = fileService.createAssignmentAnswerFile(file);
         answer.setAnswer(fileName);
+        answer.setCreated(LocalDateTime.now());
         assignmentAnswerService.save(answer);
         attributes.addFlashAttribute("message", "Your answer is submitted successfully!");
         return "redirect:/student/assignment-list";
