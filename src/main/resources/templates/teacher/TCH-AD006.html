@@ -39,7 +39,7 @@
                                     [[${assignmentAnswer.user.name}]]
                                 </h5>
                             </div>
-                            <form th:action="@{/student/assignment-submit}" method="post" enctype="multipart/form-data">
+                            <form th:action="@{/teacher/assignment-check}" method="post">
                                 <input type="hidden" name="id" th:value="${param.id}">
                                 <label for="mark">Give mark</label>
                                 <input type="number" class="form-control mb-2" name="mark" id="mark"

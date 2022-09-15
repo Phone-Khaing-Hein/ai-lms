@@ -217,6 +217,14 @@ public class TeacherController {
         return "teacher/TCH-AD006";
     }
 
+    @PostMapping("assignment-check")
+    public String check(@RequestParam int id, @RequestParam int mark){
+        var assignmentAnswer = assignmentAnswerService.findById(id);
+        assignmentAnswer.setMark(mark);
+        assignmentAnswerService.save(assignmentAnswer);
+        return "redirect:/teacher/batch-detail?batchId=%d".formatted(assignmentAnswer.getAssignment().getBatch().getId());
+    }
+
     @ModelAttribute("assignment")
     public Assignment assignment(){
         return new Assignment();

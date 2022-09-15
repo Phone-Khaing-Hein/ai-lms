@@ -32,5 +32,8 @@ public class AssignmentAnswer {
 
     @ManyToOne
     private Assignment assignment;
+
+    @Column(nullable = false)
+    private int mark;
     
 }

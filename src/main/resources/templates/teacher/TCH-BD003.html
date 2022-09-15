@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:th="http://www.thymeleaf.org"
-      layout:decorate="~{layouts/AUTHENTICATED-TEACHER.html}">
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+    layout:decorate="~{layouts/AUTHENTICATED-TEACHER.html}">
 
 <head>
     <meta charset="UTF-8">
@@ -199,7 +198,7 @@
                                             <td>[[${a.user.name}]]</td>
                                             <td>[[${a.assignment.title}]]</td>
                                             <td>Hand in</td>
-                                            <td></td>
+                                            <td>[[${a.mark}]]</td>
                                             <td><a th:href="@{/teacher/assignment-detail?id=}+${a.id}"
                                                     class="btn btn-outline-info btn-sm">Details<i
                                                         class="fas fa-angle-double-right ms-2"></i></a></td>
