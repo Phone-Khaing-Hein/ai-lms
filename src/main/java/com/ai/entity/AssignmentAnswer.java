@@ -35,5 +35,4 @@ public class AssignmentAnswer {
 
     @Column(nullable = false)
     private int mark;
-    
 }

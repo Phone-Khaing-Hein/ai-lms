@@ -7,6 +7,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -47,6 +49,8 @@ public class Assignment implements Serializable {
     @Min(value = 1,message = "Full mark is required!")
     private int mark;
     private String file;
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
     @ManyToOne
     private Batch batch;
@@ -59,4 +63,8 @@ public class Assignment implements Serializable {
 
     @Transient
     private MultipartFile files;
+    
+    public enum Status{
+        Assigned, TurnedIn, Late, Missing 
+    }
 }
