@@ -465,7 +465,7 @@ public class AdminController {
 
     @GetMapping("attendance-list")
     public String attendanceList(ModelMap m){
-        m.put("attendance", attendanceService.findAll());
+        m.put("attendance", attendanceService.findAllAttendance());
         return "ADM-AT001";
     }
 

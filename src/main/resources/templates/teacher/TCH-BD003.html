@@ -8,332 +8,354 @@
 </head>
 
 <body class="bg-light">
-    <div layout:fragment="content">
-        <section class="container mb-3">
-            <div class="row paddings">
-                <div class="">
-                    <div class="text-center">
-                        <h2 style="color:darkblue; font-weight: bold;" class="mb-3"><i
-                                class="fas fa-user-friends me-2"></i>Welcome
-                            To
-                            [[${batch.name}]]
-                        </h2>
-                    </div>
+<div layout:fragment="content">
+    <section class="container mb-3">
+        <div class="row paddings">
+            <div class="">
+                <div class="text-center">
+                    <h2 style="color:darkblue; font-weight: bold;" class="mb-3"><i class="fas fa-user-friends me-2"></i>Welcome
+                        To
+                        [[${batch.name}]]
+                    </h2>
+                </div>
 
-                    <div>
-                        <div id="mytag">
-                            <ul class="nav nav-pills bg-nav-pills">
-                                <li class="nav-item">
-                                    <a class="nav-link" data-toggle="tab" href="#student-tab">Student</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" data-toggle="tab" href="#exam-tab">Exam</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" data-toggle="tab" aria-current="page"
-                                        href="#assignment-tab">Assignment</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" data-toggle="tab" aria-current="page"
-                                        href="#schedule-tab">Schedule</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" data-toggle="tab" aria-current="page"
-                                        href="#attendance-tab">Attendance</a>
-                                </li>
-                            </ul>
+                <div>
+                    <div id="mytag">
+                        <ul class="nav nav-pills bg-nav-pills">
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#student-tab">Student</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#exam-tab">Exam</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" aria-current="page"
+                                   href="#assignment-tab">Assignment</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" aria-current="page"
+                                   href="#schedule-tab">Schedule</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" aria-current="page"
+                                   href="#attendance-tab">Attendance</a>
+                            </li>
+                        </ul>
 
-                            <!-- Student start here -->
-                            <div id="student-tab">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="mb-2">
-                                        <h4>Student List</h4>
-                                    </div>
+                        <!-- Student start here -->
+                        <div id="student-tab">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="mb-2">
+                                    <h4>Student List</h4>
                                 </div>
-                                <hr>
-
-                                <table class="table table-striped display" id="student">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">#</th>
-                                            <th scope="col">ID</th>
-                                            <th scope="col">Name</th>
-                                            <th scope="col">Email</th>
-                                            <th scope="col">Status</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr th:each="student, row : ${students}">
-                                            <td>[[${row.index}+1]]</td>
-                                            <td>[[${student.loginId}]]</td>
-                                            <td>[[${student.name}]]</td>
-                                            <td>[[${student.email}]]</td>
-                                            <td th:text="${student.active} ? 'Active' : 'Suspend'"></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
                             </div>
-                            <!-- Student end here -->
+                            <hr>
 
-                            <!-- Exam start here -->
-                            <div class="exam-list" id="exam-tab">
-                                <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <div>
-                                        <h4>Exam List</h4>
-                                    </div>
-                                    <div></div>
-                                    <div class="add-schedule d-flex justify-content-end">
-                                        <a href="create-exam.html" class="btn btn-danger text-light me-2">Create<i
-                                                class="fas fa-upload ms-2"></i> </a>
-                                        <a href="examTable.html" class="btn btn-primary text-light">View All</a>
-                                    </div>
+                            <table class="table table-striped display" id="student">
+                                <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Status</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="student, row : ${students}">
+                                    <td>[[${row.index}+1]]</td>
+                                    <td>[[${student.loginId}]]</td>
+                                    <td>[[${student.name}]]</td>
+                                    <td>[[${student.email}]]</td>
+                                    <td th:text="${student.active} ? 'Active' : 'Suspend'"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- Student end here -->
+
+                        <!-- Exam start here -->
+                        <div class="exam-list" id="exam-tab">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <div>
+                                    <h4>Exam List</h4>
                                 </div>
-                                <hr>
-                                <div class="mb-3 d-flex justify-content-between">
-                                    <span></span>
-                                    <span>
-                                        <select class="form-select me-2" aria-label="Disabled select example">
-                                            <option selected disabled>Select Exam Type</option>
-                                            <option value="1">Mid Term</option>
-                                            <option value="2">Final</option>
-                                            <option value="3">Optional</option>
-                                        </select>
-                                    </span>
-                                </div>
-                                <table class="table table-striped display" id="exam">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">#</th>
-                                            <th scope="col">Title</th>
-                                            <th scope="col">Datetime</th>
-                                            <th scope="col">Students</th>
-                                            <th scope="col">Marks</th>
-                                            <th scope="col">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <th scope="row">1</th>
-                                            <td>Mid-Term</td>
-                                            <td>2022-03-03 1:00pm</td>
-                                            <td>
-                                                Phyu Phyu Thin
-                                            </td>
-                                            <td>-</td>
-                                            <td><a href="teacher-examcheck.html"
-                                                    class="btn btn-outline-info btn-sm">Details<i
-                                                        class="fas fa-angle-double-right ms-2"></i></a></td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">2</th>
-                                            <td>Final-Exam</td>
-                                            <td>2022-03-03 1:00pm</td>
-                                            <td>
-                                                Swam Thu Marn
-                                            </td>
-                                            <td>95</td>
-                                            <td><a href="teacher-examcheck.html"
-                                                    class="btn btn-outline-info btn-sm">Details<i
-                                                        class="fas fa-angle-double-right ms-2"></i></a></td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">3</th>
-                                            <td>Mid-Term</td>
-                                            <td>2022-03-03 1:00pm</td>
-                                            <td>
-                                                Thet Aung Zan
-                                            </td>
-                                            <td>-</td>
-                                            <td><a href="teacher-examcheck.html"
-                                                    class="btn btn-outline-info btn-sm">Details<i
-                                                        class="fas fa-angle-double-right ms-2"></i></a></td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">4</th>
-                                            <td>Final-Exam</td>
-                                            <td>2022-03-03 1:00pm</td>
-                                            <td>
-                                                Phone Khaing Hein
-                                            </td>
-                                            <td>95</td>
-                                            <td><a href="teacher-examcheck.html"
-                                                    class="btn btn-outline-info btn-sm">Details<i
-                                                        class="fas fa-angle-double-right ms-2"></i></a></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <!-- Exam end here -->
-
-                            <!-- Assignment start here -->
-                            <div id="assignment-tab">
-
-                                <div class="add-schedule d-flex justify-content-end mb-2">
-                                    <select class="form-select me-2" aria-label="Disabled select example"
-                                        style="width:20%;">
-                                        <option selected disabled>Select Status</option>
-                                        <option value="1">Marked</option>
-                                        <option value="2">Handed in</option>
-                                        <option value="3">Assigned</option>
-                                    </select>
-                                    <a href="createAssignment.html" class="btn btn-danger text-light me-2">Create<i
+                                <div></div>
+                                <div class="add-schedule d-flex justify-content-end">
+                                    <a href="create-exam.html" class="btn btn-danger text-light me-2">Create<i
                                             class="fas fa-upload ms-2"></i> </a>
-                                    <a href="assignmentTable.html" class="btn btn-primary text-light">View All</a>
+                                    <a href="examTable.html" class="btn btn-primary text-light">View All</a>
                                 </div>
-                                <hr />
-                                <table class="table display" id="assignment">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">No</th>
-                                            <th scope="col">Student</th>
-                                            <th scope="col">Title</th>
-                                            <th scope="col">Status</th>
-                                            <th scope="col">Mark</th>
-                                            <th scope="col">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr th:each="a, row : ${assignmentAnswers}">
-                                            <td>[[${row.index} + 1]]</td>
-                                            <td>[[${a.user.name}]]</td>
-                                            <td>[[${a.assignment.title}]]</td>
-                                            <td>Hand in</td>
-                                            <td>[[${a.mark}]]</td>
-                                            <td><a th:href="@{/teacher/assignment-detail?id=}+${a.id}"
-                                                    class="btn btn-outline-info btn-sm">Details<i
-                                                        class="fas fa-angle-double-right ms-2"></i></a></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
                             </div>
-                            <!-- Assignment end here -->
+                            <hr>
+                            <div class="mb-3 d-flex justify-content-between">
+                                <span></span>
+                                <span>
+                                    <select class="form-select me-2" aria-label="Disabled select example">
+                                        <option selected disabled>Select Exam Type</option>
+                                        <option value="1">Mid Term</option>
+                                        <option value="2">Final</option>
+                                        <option value="3">Optional</option>
+                                    </select>
+                                </span>
+                            </div>
+                            <table class="table table-striped display" id="exam">
+                                <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">Datetime</th>
+                                    <th scope="col">Students</th>
+                                    <th scope="col">Marks</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <th scope="row">1</th>
+                                    <td>Mid-Term</td>
+                                    <td>2022-03-03 1:00pm</td>
+                                    <td>
+                                        Phyu Phyu Thin
+                                    </td>
+                                    <td>-</td>
+                                    <td><a href="teacher-examcheck.html"
+                                           class="btn btn-outline-info btn-sm">Details<i
+                                            class="fas fa-angle-double-right ms-2"></i></a></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">2</th>
+                                    <td>Final-Exam</td>
+                                    <td>2022-03-03 1:00pm</td>
+                                    <td>
+                                        Swam Thu Marn
+                                    </td>
+                                    <td>95</td>
+                                    <td><a href="teacher-examcheck.html"
+                                           class="btn btn-outline-info btn-sm">Details<i
+                                            class="fas fa-angle-double-right ms-2"></i></a></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">3</th>
+                                    <td>Mid-Term</td>
+                                    <td>2022-03-03 1:00pm</td>
+                                    <td>
+                                        Thet Aung Zan
+                                    </td>
+                                    <td>-</td>
+                                    <td><a href="teacher-examcheck.html"
+                                           class="btn btn-outline-info btn-sm">Details<i
+                                            class="fas fa-angle-double-right ms-2"></i></a></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">4</th>
+                                    <td>Final-Exam</td>
+                                    <td>2022-03-03 1:00pm</td>
+                                    <td>
+                                        Phone Khaing Hein
+                                    </td>
+                                    <td>95</td>
+                                    <td><a href="teacher-examcheck.html"
+                                           class="btn btn-outline-info btn-sm">Details<i
+                                            class="fas fa-angle-double-right ms-2"></i></a></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- Exam end here -->
 
-                            <!-- Schedule start here -->
-                            <div id="schedule-tab">
-                                <div class="add-schedule d-flex justify-content-between mb-2">
-                                    <div>
-                                        <h4>Schedule</h4>
-                                    </div>
+                        <!-- Assignment start here -->
+                        <div id="assignment-tab">
+
+                            <div class="add-schedule d-flex justify-content-end mb-2">
+                                <select class="form-select me-2" aria-label="Disabled select example"
+                                        style="width:20%;">
+                                    <option selected disabled>Select Status</option>
+                                    <option value="1">Marked</option>
+                                    <option value="2">Handed in</option>
+                                    <option value="3">Assigned</option>
+                                </select>
+                                <a href="createAssignment.html" class="btn btn-danger text-light me-2">Create<i
+                                        class="fas fa-upload ms-2"></i> </a>
+                                <a href="assignmentTable.html" class="btn btn-primary text-light">View All</a>
+                            </div>
+                            <hr/>
+                            <table class="table display" id="assignment">
+                                <thead>
+                                <tr>
+                                    <th scope="col">No</th>
+                                    <th scope="col">Student</th>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">Submit Datetime</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Mark</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Thet Aung Zan</td>
+                                    <td>MyBatis</td>
+                                    <td>12/8/2022 1:00:00 AM</td>
+                                    <td>Hand in</td>
+                                    <td>-</td>
+                                    <td><a href="teacher-assignmentDetail.html"
+                                           class="btn btn-outline-info btn-sm">Details<i
+                                            class="fas fa-angle-double-right ms-2"></i></a></td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Phone Khaing Hein</td>
+                                    <td>Spring MVC</td>
+                                    <td>12/8/2022 1:00:00 AM</td>
+                                    <td>Marked</td>
+                                    <td>90</td>
+                                    <td><a href="#" class="btn btn-outline-info btn-sm">Details<i
+                                            class="fas fa-angle-double-right ms-2"></i></a></td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>Swam Thu Marn</td>
+                                    <td>JPA</td>
+                                    <td>12/8/2022 1:00:00 AM</td>
+                                    <td>Hand in</td>
+                                    <td>-</td>
+                                    <td><a href="#" class="btn btn-outline-info btn-sm">Details<i
+                                            class="fas fa-angle-double-right ms-2"></i></a></td>
+                                <tr>
+                                    <td>4</td>
+                                    <td>Phyu Phyu Thin</td>
+                                    <td>MyBatis</td>
+                                    <td>-</td>
+                                    <td>Assigned</td>
+                                    <td>-</td>
+                                    <td><a href="#" class="btn btn-outline-info btn-sm">Details<i
+                                            class="fas fa-angle-double-right ms-2"></i></a></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- Assignment end here -->
+
+                        <!-- Schedule start here -->
+                        <div id="schedule-tab">
+                            <div class="add-schedule d-flex justify-content-between mb-2">
+                                <div>
+                                    <h4>Schedule</h4>
                                 </div>
-                                <hr>
-                                <table class="table display text-center" id="schedule">
-                                    <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th scope="col">Module Name</th>
-                                            <th scope="col">Date</th>
-                                            <th scope="col">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr th:each="module, row : ${modules}" style="vertical-align: middle;">
-                                            <td scope="col">[[${row.index}+1]]</td>
-                                            <td scope="col">[[${module.name}]]</td>
-                                            <form action="#" th:action="@{save-schedule}" th:object="${schedule}"
-                                                method="post">
-                                                <td>
-                                                    <input type="date" id="scheduleDate" class="form-control"
-                                                        name="scheduleDate" th:required="true"
-                                                        th:value="${#temporals.format(schedule.scheduleDate, 'yyyy-MM-dd')}">
-                                                </td>
-                                                <td>
-                                                    <input type="hidden" name="moduleId" th:value="${module.id}">
-                                                    <input type="hidden" name="batchId" th:value="${batch.id}">
-                                                    <input type="submit" class="btn btn-primary" value="Save" />
-                                                </td>
-                                            </form>
-                                        </tr>
-                                    </tbody>
-                                </table>
                             </div>
-                            <!-- Schedule end here -->
+                            <hr>
+                            <table class="table display text-center" id="schedule">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th scope="col">Module Name</th>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="module, row : ${modules}" style="vertical-align: middle;">
+                                    <td scope="col">[[${row.index}+1]]</td>
+                                    <td scope="col">[[${module.name}]]</td>
+                                    <form action="#" th:action="@{save-schedule}" th:object="${schedule}" method="post">
+                                        <td>
+                                            <input type="date" id="scheduleDate" class="form-control" name="scheduleDate" th:required="true"
+                                                   th:value="${#temporals.format(schedule.scheduleDate, 'yyyy-MM-dd')}">
+                                        </td>
+                                        <td>
+                                            <input type="hidden" name="moduleId" th:value="${module.id}">
+                                            <input type="hidden" name="batchId" th:value="${batch.id}">
+                                            <input type="submit" class="btn btn-primary" value="Save"/>
+                                        </td>
+                                    </form>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- Schedule end here -->
 
-                            <!-- Attendence start here-->
-                            <div class="attendance-list" id="attendance-tab">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <h4>Attendance</h4>
-                                    </div>
-                                    <div>
-
-                                        <a th:href="@{/teacher/createAttendance(batchId=${param.batchId})}"
-                                            class="btn btn-outline-primary">
-                                            Create</a>
-                                        <button type="button" class="btn btn-secondary">Export<i
-                                                class="fas fa-file-export ms-2"></i></button>
-                                    </div>
+                        <!-- Attendence start here-->
+                        <div class="attendance-list" id="attendance-tab">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h4>Attendance</h4>
                                 </div>
-                                <hr>
-                                <table class="table table-striped display" id="attendTable">
-                                    <thead>
-                                        <tr>
-                                            <th>Id</th>
-                                            <th>Student Id</th>
-                                            <th>Student Name</th>
-                                            <th>Date</th>
-                                            <th>Attendance Status</th>
-                                            <th>Batch</th>
-                                            <th>..</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>STU001</td>
-                                            <td>Mary</td>
-                                            <td>01-06-2022</td>
-                                            <td>Present</td>
-                                            <td>OJT Batch 2</td>
-                                            <td><a href="" class="btn btn-primary btn-sm text-light"><i
-                                                        class="fas fa-edit"></i></a>
-                                                <a href="" class="btn btn-danger btn-sm text-light"><i
-                                                        class="fas fa-trash-alt"></i></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>2</td>
-                                            <td>STU002</td>
-                                            <td>Mary</td>
-                                            <td>02-06-2022</td>
-                                            <td>Absent</td>
-                                            <td>OJT Batch 2</td>
-                                            <td><a href="" class="btn btn-primary btn-sm text-light"><i
-                                                        class="fas fa-edit"></i></a>
-                                                <a href="" class="btn btn-danger btn-sm text-light"><i
-                                                        class="fas fa-trash-alt"></i></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>3</td>
-                                            <td>STU003</td>
-                                            <td>Tun Tun</td>
-                                            <td>01-06-2022</td>
-                                            <td>Leave</td>
-                                            <td>OJT Batch 2</td>
-                                            <td><a href="" class="btn btn-primary btn-sm text-light"><i
-                                                        class="fas fa-edit"></i></a>
-                                                <a href="" class="btn btn-danger btn-sm text-light"><i
-                                                        class="fas fa-trash-alt"></i></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>4</td>
-                                            <td>STU004</td>
-                                            <td>John</td>
-                                            <td>01-06-2022</td>
-                                            <td>Present</td>
-                                            <td>OJT Batch 2</td>
-                                            <td><a href="" class="btn btn-primary btn-sm text-light"><i
-                                                        class="fas fa-edit"></i></a>
-                                                <a href="" class="btn btn-danger btn-sm text-light"><i
-                                                        class="fas fa-trash-alt"></i></a>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                <div>
+                                    <a type="button" th:href="@{'/create-attendance/'+${batch.id}}" class="btn btn-secondary mb-3">Create</a>
+                                </div>
                             </div>
-                            <!-- Attendence end here -->
-
+                            <hr>
+                            <table class="table table-striped display" id="attendTable">
+                                <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Student Id</th>
+                                    <th>Student Name</th>
+                                    <th>Date</th>
+                                    <th>Attendance Status</th>
+                                    <th>Batch</th>
+                                    <th>..</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>STU001</td>
+                                    <td>Mary</td>
+                                    <td>01-06-2022</td>
+                                    <td>Present</td>
+                                    <td>OJT Batch 2</td>
+                                    <td><a href="" class="btn btn-primary btn-sm text-light"><i
+                                            class="fas fa-edit"></i></a>
+                                        <a href="" class="btn btn-danger btn-sm text-light"><i
+                                                class="fas fa-trash-alt"></i></a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>STU002</td>
+                                    <td>Mary</td>
+                                    <td>02-06-2022</td>
+                                    <td>Absent</td>
+                                    <td>OJT Batch 2</td>
+                                    <td><a href="" class="btn btn-primary btn-sm text-light"><i
+                                            class="fas fa-edit"></i></a>
+                                        <a href="" class="btn btn-danger btn-sm text-light"><i
+                                                class="fas fa-trash-alt"></i></a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>STU003</td>
+                                    <td>Tun Tun</td>
+                                    <td>01-06-2022</td>
+                                    <td>Leave</td>
+                                    <td>OJT Batch 2</td>
+                                    <td><a href="" class="btn btn-primary btn-sm text-light"><i
+                                            class="fas fa-edit"></i></a>
+                                        <a href="" class="btn btn-danger btn-sm text-light"><i
+                                                class="fas fa-trash-alt"></i></a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>STU004</td>
+                                    <td>John</td>
+                                    <td>01-06-2022</td>
+                                    <td>Present</td>
+                                    <td>OJT Batch 2</td>
+                                    <td><a href="" class="btn btn-primary btn-sm text-light"><i
+                                            class="fas fa-edit"></i></a>
+                                        <a href="" class="btn btn-danger btn-sm text-light"><i
+                                                class="fas fa-trash-alt"></i></a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- Attendence end here -->
                         </div>
                     </div>
 
