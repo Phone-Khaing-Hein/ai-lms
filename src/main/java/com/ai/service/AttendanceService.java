@@ -20,4 +20,8 @@ public class AttendanceService {
     public List<Attendance> findAllAttendance(){
         return attendanceRepository.findAll();
     }
+
+    public Object findAll() {
+        return null;
+    }
 }

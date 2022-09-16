@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+    layout:decorate="~{/layouts/STU-AUTH.html}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Course</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto Slab', serif;
+        }
+
+        p {
+            margin: 0%
+        }
+
+        body {
+            height: 100vh;
+            background-color: #fff;
+            padding: 50px
+        }
+
+        .container {
+            margin: 30px auto;
+            background: white;
+            padding: 20px 15px
+        }
+
+        label.box {
+            display: flex;
+            margin-top: 10px;
+            padding: 10px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            border: 1px solid #ddd
+        }
+
+        #one:checked~label.first,
+        #two:checked~label.second,
+        #three:checked~label.third,
+        #four:checked~label.forth,
+        #five:checked~label.fifth,
+        #six:checked~label.sixth,
+        #seven:checked~label.seveth,
+        #eight:checked~label.eighth {
+            border-color: #8e498e
+        }
+
+        #one:checked~label.first .circle,
+        #two:checked~label.second .circle,
+        #three:checked~label.third .circle,
+        #four:checked~label.forth .circle,
+        #five:checked~label.fifth .circle,
+        #six:checked~label.sixth .circle,
+        #seven:checked~label.seveth .circle,
+        #eight:checked~label.eighth .circle {
+            border: 6px solid #8e498e;
+            background-color: #fff
+        }
+
+        label.box:hover {
+            background: #d5bbf7
+        }
+
+        label.box .course {
+            display: flex;
+            align-items: center;
+            width: 100%
+        }
+
+        label.box .circle {
+            height: 22px;
+            width: 22px;
+            border-radius: 50%;
+            margin-right: 15px;
+            border: 2px solid #ddd;
+            display: inline-block
+        }
+
+        input[type="radio"] {
+            display: none
+        }
+
+        .btn.btn-primary {
+            border-radius: 25px;
+            margin-top: 20px
+        }
+
+        @media(max-width: 450px) {
+            .subject {
+                font-size: 12px
+            }
+        }
+
+        .cardhovers {
+            transition: transform 0.2s;
+        }
+
+        .cardhovers:hover {
+            transform: translateX(5px);
+        }
+
+        .alerts {
+            transition: transform 0.2s;
+        }
+
+        .alerts:hover {
+            transform: translateY(3px);
+        }
+    </style>
+</head>
+
+<body class="bg-light">
+    <div layout:fragment="content">
+        <section>
+            <div class="container mb-5">
+                <nav aria-label="breadcrumb" class="d-flex justify-content-end">
+                    <ol class="breadcrumb text-capitalize">
+                        <li class="breadcrumb-item"><a href="dashboard.html">dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="examlist.html">exam-list</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">exam form</li>
+                    </ol>
+                </nav>
+                <div class="row">
+                    <div class="col-12">
+                        <p class="fw-bold">1. Which of the following sentences is correct</p>
+                        <div> <input type="radio" name="box" id="one"> <input type="radio" name="box" id="two"> <input
+                                type="radio" name="box" id="three"> <input type="radio" name="box" id="four"> <label
+                                for="one" class="box first">
+                                <div class="course"> <span class="circle"></span> <span class="subject"> When its
+                                        raining
+                                        ,people's umbrella are all you're going to see from above </span> </div>
+                            </label> <label for="two" class="box second">
+                                <div class="course"> <span class="circle"></span> <span class="subject"> When its
+                                        raining,people's umbrella are all your going to see from above </span> </div>
+                            </label> <label for="three" class="box third">
+                                <div class="course"> <span class="circle"></span> <span class="subject"> When its
+                                        raining,peoples umbrella's are all you're going to see from above </span> </div>
+                            </label> <label for="four" class="box forth">
+                                <div class="course"> <span class="circle"></span> <span class="subject"> None of the
+                                        above
+                                    </span> </div>
+                            </label> </div>
+                    </div>
+                    <div class="col-12">
+                        <p class="fw-bold mt-5">2. Complete the following sentences:Alice couldn't _______ the
+                            humilation
+                            any longer and stormed out of the room red as a bed</p>
+                        <div>
+                            <div class="row">
+                                <div class="col-md-6"> <input type="radio" name="box" id="five"> <label for="five"
+                                        class="box fifth w-100">
+                                        <div class="course"> <span class="circle"></span> <span
+                                                class="subject">is</span>
+                                        </div>
+                                    </label> </div>
+                                <div class="col-md-6"> <input type="radio" name="box" id="six"> <label for="six"
+                                        class="box sixth w-100">
+                                        <div class="course"> <span class="circle"></span> <span class="subject"> was
+                                            </span>
+                                        </div>
+                                    </label> </div>
+                                <div class="col-md-6"> <input type="radio" name="box" id="seven"> <label for="seven"
+                                        class="box seveth w-100">
+                                        <div class="course"> <span class="circle"></span> <span class="subject"> will
+                                            </span> </div>
+                                    </label> </div>
+                                <div class="col-md-6"> <input type="radio" name="box" id="eight"> <label for="eight"
+                                        class="box eighth w-100">
+                                        <div class="course"> <span class="circle"></span> <span class="subject"> None of
+                                                the
+                                                above </span> </div>
+                                    </label> </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="d-flex justify-content-end"> <button class="btn btn-primary px-4 py-2 fw-bold">
+                                Submit</button> </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    </div>
+</body>
+
+</html>

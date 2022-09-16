@@ -1,5 +1,8 @@
 package com.ai.entity;
 
+import java.time.LocalDateTime;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,7 +27,13 @@ public class AssignmentAnswer {
     @OneToOne
     private User user;
 
+    @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", nullable = false)
+    private LocalDateTime created;
+
     @ManyToOne
     private Assignment assignment;
+
+    @Column(nullable = false)
+    private int mark;
     
 }

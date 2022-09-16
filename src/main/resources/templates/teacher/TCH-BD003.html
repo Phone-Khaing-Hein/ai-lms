@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:th="http://www.thymeleaf.org"
-      layout:decorate="~{layouts/AUTHENTICATED-TEACHER.html}">
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+    layout:decorate="~{layouts/AUTHENTICATED-TEACHER.html}">
+
 <head>
     <meta charset="UTF-8">
     <title>Batch List</title>
 </head>
+
 <body class="bg-light">
 <div layout:fragment="content">
     <section class="container mb-3">
@@ -355,24 +356,24 @@
                             </table>
                         </div>
                         <!-- Attendence end here -->
-
+                        </div>
                     </div>
-                </div>
 
+                </div>
             </div>
-        </div>
-    </section>
-    <script>
-        $(document).ready(function () {
-            $("#mytag").tabs();
-            // DataTable
-            $('#student').DataTable();
-            $('#exam').DataTable();
-            $('#assignment').DataTable();
-            $('#schedule').DataTable();
-            $('#attendTable').DataTable();
-        });
-    </script>
-</div>
+        </section>
+        <script>
+            $(document).ready(function () {
+                $("#mytag").tabs();
+                // DataTable
+                $('#student').DataTable();
+                $('#exam').DataTable();
+                $('#assignment').DataTable();
+                $('#schedule').DataTable();
+                $('#attendTable').DataTable();
+            });
+        </script>
+    </div>
 </body>
+
 </html>
