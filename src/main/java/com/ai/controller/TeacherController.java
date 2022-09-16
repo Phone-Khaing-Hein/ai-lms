@@ -84,37 +84,37 @@ public class TeacherController {
         return "teacher/TCH-BD003";
     }
 
-    @GetMapping("createAttendance")
-    public String createAttendance(@RequestParam int batchId,
-                                   ModelMap m) {
-        var batch = batchService.findById(batchId);
-        m.put("batch", batch);
-        m.put("students", batch.getUsers().stream().filter(u -> u.getRole().equals(User.Role.Student)).toList());
-        return "teacher/TCH-AT001";
-    }
+    // @GetMapping("createAttendance")
+    // public String createAttendance(@RequestParam int batchId,
+    //                                ModelMap m) {
+    //     var batch = batchService.findById(batchId);
+    //     m.put("batch", batch);
+    //     m.put("students", batch.getUsers().stream().filter(u -> u.getRole().equals(User.Role.Student)).toList());
+    //     return "teacher/TCH-AT001";
+    // }
     
-    @PostMapping("setAttendance")
-    public String setAttendance(
-            @RequestParam int batchId,
-            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,
-            @RequestParam List<String> status,
-            @RequestParam List<String> loginId,
-            ModelMap m) {
-        var batch = batchService.findById(batchId);
+    // @PostMapping("setAttendance")
+    // public String setAttendance(
+    //         @RequestParam int batchId,
+    //         @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,
+    //         @RequestParam List<String> status,
+    //         @RequestParam List<String> loginId,
+    //         ModelMap m) {
+    //     var batch = batchService.findById(batchId);
 
-        for (var i = 0; i < status.size(); i++) {
-            for (var j = i; j < loginId.size(); ) {
-                var attendance = new Attendance();
-                attendance.setAttendanceStatus(status.get(i));
-                attendance.setBatch(batch);
-                attendance.setDate(date);
-                attendance.setUser(userService.findByLoginId(loginId.get(j)));
-                attendanceService.save(attendance);
-                break;
-            }
-        }
-        return "redirect:/teacher/batch-detail?batchId=" + batchId + "#attendance-tab";
-    }
+    //     for (var i = 0; i < status.size(); i++) {
+    //         for (var j = i; j < loginId.size(); ) {
+    //             var attendance = new Attendance();
+    //             attendance.setAttendanceStatus(status.get(i));
+    //             attendance.setBatch(batch);
+    //             attendance.setDate(date);
+    //             attendance.setUser(userService.findByLoginId(loginId.get(j)));
+    //             attendanceService.save(attendance);
+    //             break;
+    //         }
+    //     }
+    //     return "redirect:/teacher/batch-detail?batchId=" + batchId + "#attendance-tab";
+    // }
 
 
     @PostMapping("save-schedule")
