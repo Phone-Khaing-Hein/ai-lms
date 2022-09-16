@@ -23,65 +23,58 @@
                 <div class="row ms-3 gx-2">
                     <div class="col-md-3 col-sm-12 mb-3">
                         <a th:href="@{/admin/course-list}" class="text-white text-decoration-none">
-                            <div class="card bg-danger p-2 cardhovers">
-                                <div class="card-body d-flex justify-content-between">
-                                    <span class="h4"><i class="bi bi-book me-2"></i>Courses</span>
-                                    <p class="mt-2">Total : [[${courseCount}]]</p>
+                            <div class="card bg-danger px-2 py-3 cardhovers">
+                                <div class="card-body d-flex align-items-center justify-content-between">
+                                    <span class="h4" style="margin-bottom: 0;"><i
+                                            class="bi bi-book me-2"></i>Courses</span>
+                                    <p style="margin-bottom: 0;">Total : [[${courseCount}]]</p>
                                 </div>
                             </div>
                         </a>
                     </div>
                     <div class="col-md-3 col-sm-12 mb-3">
                         <a th:href="@{/admin/batch-list}" class="text-white text-decoration-none">
-                            <div class="card bg-success p-2 cardhovers">
-                                <div class="card-body d-flex justify-content-between">
-                                    <span class="h4"><i class="bi bi-journal-bookmark me-2"></i>Batches</span>
-                                    <p class="mt-2">Total : [[${batchCount}]]</p>
+                            <div class="card bg-success px-2 py-3 cardhovers">
+                                <div class="card-body d-flex align-items-center justify-content-between">
+                                    <span class="h4" style="margin-bottom: 0;"><i
+                                            class="bi bi-journal-bookmark me-2"></i>Batches</span>
+                                    <p style="margin-bottom: 0;">Total : [[${batchCount}]]</p>
                                 </div>
                             </div>
                         </a>
                     </div>
                     <div class="col-md-3 col-sm-12 mb-3">
                         <a th:href="@{/admin/attendance-list}" class="text-white text-decoration-none">
-                            <div class="card bg-info p-2 cardhovers">
-                                <div class="card-body d-flex justify-content-between">
-                                    <span class="h4"><i class="bi bi-person-check me-2"></i>Attendance</span>
-                                    <p class="mt-2">6</p>
+                            <div class="card bg-info px-2 py-3 cardhovers">
+                                <div class="card-body d-flex align-items-center justify-content-between">
+                                    <span class="h4" style="margin-bottom: 0;"><i
+                                            class="bi bi-person-check me-2"></i>Attendances</span>
+                                    <p style="margin-bottom: 0;">Total : [[${attendanceCount}]]</p>
                                 </div>
                             </div>
                         </a>
                     </div>
                     <div class="col-md-3 col-sm-12 mb-3">
                         <a th:href="@{/admin/exam-list}" class="text-white text-decoration-none">
-                            <div class="card bg-secondary p-2 cardhovers">
-                                <div class="card-body d-flex justify-content-between">
-                                    <span class="h4"><i class="bi bi-file-earmark-text me-2"></i>Exams</span>
-                                    <p class="mt-2">10</p>
+                            <div class="card bg-secondary px-2 py-3 cardhovers">
+                                <div class="card-body d-flex align-items-center justify-content-between">
+                                    <span class="h4" style="margin-bottom: 0;"><i
+                                            class="bi bi-file-earmark-text me-2"></i>Exams</span>
+                                    <p style="margin-bottom: 0;">10</p>
                                 </div>
                             </div>
                         </a>
                     </div>
                 </div>
                 <div class="row ms-3 gx-2">
-                    <div class="col-md-7 col-sm-12 mb-3">
+                    <div class="col-12 mb-3">
                         <div class="card">
                             <div class="card-body">
                                 <div>
                                     <div id="container" class="mt-3"
-                                        style="width: 550px; height: 400px; margin: 0 auto">
+                                        style="width: 1200px; height: 400px; margin: 0 auto">
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-5 col-sm-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between">
-                                    <h5 class="text-muted ms-3">Assignment Status</h5>
-                                    <a href=""><i class="fas fa-ellipsis-v fs-6 text-muted"></i></a>
-                                </div>
-                                <canvas id="myChart2"></canvas>
                             </div>
                         </div>
                     </div>
@@ -130,8 +123,8 @@
                         }
                     },
                     series: [{
-                        // title:"Student Count",
-                        name: 'Batch Name',
+                        // title: "Student Count",
+                        name: 'Student Count',
                         data: [[${ studentCount }]]
                     }]
                 });

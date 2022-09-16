@@ -11,33 +11,38 @@
                 <a class="navbar-brand" th:href="@{/admin/home}"><img
                         src="https://aceinspiration.com/wp-content/themes/acinspiration/images/logo.PNG" alt=""
                         width="160px"></a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <h5 class="role" style="color: lightslategray;">ADMIN</h5>
+                <h5 class="role" style="color: lightslategray;margin-bottom: 0;">ADMIN</h5>
                 <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarSupportedContent">
                     <div class="menu">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" th:href="@{/admin/home}">Dashboard</a>
+                                <a class="nav-link" aria-current="page" th:href="@{/admin/home}"
+                                    th:classappend="${#strings.equals(nav, 'home')} ? 'active' : ''"><i
+                                        class="bi bi-house-door-fill me-2"></i>Dashboard</a>
                             </li>
                             <li class="nav-item">
-                                <a th:href="@{/admin/teacher-list}" class="nav-link">Teacher</a>
+                                <a th:href="@{/admin/teacher-list}" class="nav-link"
+                                    th:classappend="${#strings.equals(nav, 'teacher')} ? 'active' : ''"><i
+                                        class="bi bi-person-video3 me-2"></i>Teacher
+                                    Management</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" th:href="@{/admin/student-list}">Student</a>
+                                <a class="nav-link" th:href="@{/admin/student-list}"
+                                    th:classappend="${#strings.equals(nav, 'student')} ? 'active' : ''"><i
+                                        class="bi bi-people-fill me-2"></i>Student
+                                    Management</a>
                             </li>
                         </ul>
                     </div>
                     <div class="nav-item dropdown">
-                        <a class="nav-link me-5 " href="#" data-bs-toggle="dropdown">
-                            <img th:src="@{/resources/profile/default.png}" class="rounded-circle cricles" width="40px"
-                                alt="">
+                        <a class="nav-link me-5 d-flex align-items-center justify-content-between" href="#"
+                            data-bs-toggle="dropdown">
+                            <img th:src="@{/resources/profile/}+${user.photo}" class="rounded-circle cricles me-2"
+                                width="40px" alt="">
+                            <p style="margin-bottom: 0;" class="text-black">[[${user.name}]]</p>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" th:href="@{/admin/profile}">My Profile</a></li>
+                            <li><a class="dropdown-item" th:href="@{/admin/profile/}">My Profile</a></li>
                             <li><a class="dropdown-item" href="javascript: document.logoutForm.submit()">Log Out</a>
                             </li>
                             <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">

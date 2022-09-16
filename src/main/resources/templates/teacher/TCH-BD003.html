@@ -165,22 +165,9 @@
                             </div>
                             <!-- Exam end here -->
 
+
                             <!-- Assignment start here -->
                             <div id="assignment-tab">
-
-                                <div class="add-schedule d-flex justify-content-end mb-2">
-                                    <select class="form-select me-2" aria-label="Disabled select example"
-                                        style="width:20%;">
-                                        <option selected disabled>Select Status</option>
-                                        <option value="1">Marked</option>
-                                        <option value="2">Handed in</option>
-                                        <option value="3">Assigned</option>
-                                    </select>
-                                    <a href="createAssignment.html" class="btn btn-danger text-light me-2">Create<i
-                                            class="fas fa-upload ms-2"></i> </a>
-                                    <a href="assignmentTable.html" class="btn btn-primary text-light">View All</a>
-                                </div>
-                                <hr />
                                 <table class="table display" id="assignment">
                                     <thead>
                                         <tr>
@@ -255,12 +242,8 @@
                                         <h4>Attendance</h4>
                                     </div>
                                     <div>
-
-                                        <a th:href="@{/teacher/createAttendance(batchId=${param.batchId})}"
-                                            class="btn btn-outline-primary">
-                                            Create</a>
-                                        <button type="button" class="btn btn-secondary">Export<i
-                                                class="fas fa-file-export ms-2"></i></button>
+                                        <a type="button" th:href="@{'/create-attendance/'+${batch.id}}"
+                                            class="btn btn-secondary mb-3">Create</a>
                                     </div>
                                 </div>
                                 <hr>
@@ -333,7 +316,6 @@
                                 </table>
                             </div>
                             <!-- Attendence end here -->
-
                         </div>
                     </div>
 

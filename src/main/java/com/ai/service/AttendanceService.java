@@ -21,7 +21,7 @@ public class AttendanceService {
         return attendanceRepository.findAll();
     }
 
-    public Object findAll() {
-        return null;
+    public int count() {
+        return (int) attendanceRepository.count();
     }
 }

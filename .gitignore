@@ -36,3 +36,4 @@ build/
 *.docx
 *.xslx
 *.ts
+./resources/static/assets/fontawesome/

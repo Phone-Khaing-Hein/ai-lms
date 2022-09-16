@@ -12,7 +12,7 @@
         <div class="container p-3 mt-5">
             <div class="">
                 <h3 class="text-decoration-none text-center">
-                    Batch List
+                    <i class="bi bi-journal-bookmark me-2"></i> Batches
                 </h3>
             </div>
             <div class="add-schedule d-flex justify-content-end mb-2">
@@ -54,8 +54,8 @@
                                             th:attr="id=|open${batch.id}|,batchId=|${batch.id}|">
                                             <i class="bi bi-exclamation-circle me-2"></i>Open Batch
                                         </button>
-                                        <a class="btn btn-warning me-2 btn-sm" th:attr="href='#edit-batch-button' + ${batch.id}"
-                                            data-bs-toggle="modal">
+                                        <a class="btn btn-warning me-2 btn-sm"
+                                            th:attr="href='#edit-batch-button' + ${batch.id}" data-bs-toggle="modal">
                                             <i class="bi bi-pencil-square me-2"></i>Edit
                                         </a>
                                         <a class="btn btn-danger me-2 btn-sm" id="deleteBtn"
