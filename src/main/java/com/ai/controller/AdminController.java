@@ -357,7 +357,9 @@ public class AdminController {
     public String studentEdit(@ModelAttribute User user, RedirectAttributes attributes){
         var student = userService.findByLoginId(user.getLoginId());
         student.setEmail(user.getEmail());
-        student.setBatches(new ArrayList<>(List.of(batchService.findById(user.getBatchId()[0]))));
+        var batch = List.of(batchService.findById(user.getBatchId()[0]));
+        student.setBatches(new ArrayList<>(batch));
+        student.setActive(!batch.get(0).isClose());
         student.setName(user.getName());
         userService.save(student);
         attributes.addFlashAttribute("message", "%s updated successfully!".formatted(student.getName()));
@@ -408,7 +410,7 @@ public class AdminController {
         return new User();
     }
 
-    @ModelAttribute("user")
+    @ModelAttribute("admin")
     public User loginUser() {
         var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
         var user = userService.findByLoginId(loginId);
@@ -510,20 +512,20 @@ public class AdminController {
 
         if (!StringUtils.hasLength(oldPassword)) {
             m.put("oldPasswordError", "Old Password is required!");
-            return "admin/ADM-PF001";
-        }
-        if (!StringUtils.hasLength(newPassword)) {
-            m.put("newPasswordError", "New Password is required!");
-            return "admin/ADM-PF001";
-        }
-        if (oldPassword.equals(newPassword)) {
-            m.put("newPasswordError", "Old Password and New Password are same!");
-            return "admin/ADM-PF001";
+             if (!StringUtils.hasLength(newPassword)) {
+                m.put("newPasswordError", "New Password is required!");
+            }
+            return "ADM-PF001";
         }
 
         if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
             m.put("oldPasswordError", "Old Password is incorrect!");
-            return "admin/ADM-PF001";
+            return "ADM-PF001";
+        }
+
+         if (passwordEncoder.matches(newPassword, user.getPassword())) {
+            m.put("newPasswordError", "Old Password and New Password are same!");
+            return "ADM-PF001";
         }
         user.setPassword(passwordEncoder.encode(newPassword));
         userService.save(user);
