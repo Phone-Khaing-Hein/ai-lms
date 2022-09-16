@@ -165,6 +165,7 @@
                             </div>
                             <!-- Exam end here -->
 
+
                             <!-- Assignment start here -->
                             <div id="assignment-tab">
                                 <table class="table display" id="assignment">
@@ -241,12 +242,8 @@
                                         <h4>Attendance</h4>
                                     </div>
                                     <div>
-
-                                        <a th:href="@{/teacher/createAttendance(batchId=${param.batchId})}"
-                                            class="btn btn-outline-primary">
-                                            Create</a>
-                                        <button type="button" class="btn btn-secondary">Export<i
-                                                class="fas fa-file-export ms-2"></i></button>
+                                        <a type="button" th:href="@{'/create-attendance/'+${batch.id}}"
+                                            class="btn btn-secondary mb-3">Create</a>
                                     </div>
                                 </div>
                                 <hr>
@@ -319,7 +316,6 @@
                                 </table>
                             </div>
                             <!-- Attendence end here -->
-
                         </div>
                     </div>
 

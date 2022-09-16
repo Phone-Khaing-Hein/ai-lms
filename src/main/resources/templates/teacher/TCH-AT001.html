@@ -20,50 +20,45 @@
                     </div>
 
                     <div>
-                        <form th:action="@{/teacher/setAttendance(batchId=${param.batchId})}" method="post"
-                            >
+                        <form th:action="@{'/save-attendance/'+${batch.id}}" th:object="${attendance}" method="post">
                             <!-- Attendence start here-->
                             <div class="attendance-list" id="attendance-tab">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div>
-                                        <div style="color: green;">
-                                            <h4 class = "col-md-6 offset-md-2 mb-5 mt-4 alert alert-danger" 
-                                            th:if="${error}" th:text="${error}"></h4>
-                                        </div>
-                                        <input type="date" name="date" class="form-control me-2" th:required="true">
-
+                                        <p class="d-none" th:text="${error}" th:if="${error} != null" id="successMessage"></p>
+                                        <input type="date" th:field="*{date}" name="date" class="form-control me-2" th:required="true">
                                     </div>
                                     <div>
-                                        <input type="submit" name="Save" id="save-btn" value="Save">
+                                        <button class="btn btn-success" type="submit">Save<i
+                                                class="bi bi-download ms-2"></i></button>
                                         <a th:href="@{/teacher/batch-detail?batchId=1#attendance-tab}"
-                                            class="btn btn-primary text-light">Batch Details</a>
-                                        <button type="button" class="btn btn-secondary">Export<i
-                                                class="fas fa-file-export ms-2"></i></button>
+                                           class="btn btn-info text-light">Batch Details</a>
                                     </div>
                                 </div>
                                 <hr>
                                 <table class="table table-striped display" id="attendTable">
                                     <thead>
-                                        <tr>
-                                            <th>Id</th>
-                                            <th>Student Id</th>
-                                            <th>Student Name</th>
-                                            <th>Attendance Status</th>
-                                        </tr>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Student Id</th>
+                                        <th>Student Name</th>
+                                        <th>Attendance Status</th>
+                                    </tr>
                                     </thead>
                                     <tbody>
-                                        <tr th:each="student, row : ${students}">
-                                            <td>[[${row.index}+1]]</td>
-                                            <td><input type="text" name="loginId" th:value="${student.loginId}"></td>
-                                            <td><input type="text" name="name" th:value="${student.name}"></td>
-                                            <td>
-                                                <select class="form-select" th:required="true" name="status">
-                                                    <option th:value="Present">Present</option>
-                                                    <option th:value="Absent">Absent</option>
-                                                    <option th:value="Leave">Leave</option>
-                                                </select>
-                                            </td>
-                                        </tr>
+                                    <tr th:each="student, row : ${students}">
+                                        <td>[[${row.index}+1]]</td>
+                                        <td><input type="text" name="loginId" th:value="${student.loginId}"></td>
+                                        <td><input type="text" name="name" th:value="${student.name}"></td>
+                                        <td>
+                                            <select class="form-select" th:required="true" id="attendanceStatus"
+                                                    th:field="*{attendanceStatus}">
+                                                <option th:value="Present">Present</option>
+                                                <option th:value="Absent">Absent</option>
+                                                <option th:value="Leave">Leave</option>
+                                            </select>
+                                        </td>
+                                    </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -74,6 +69,25 @@
             </div>
         </section>
         <script>
+            let message = document.getElementById('successMessage');
+            if (message !== null && message.innerText !== "") {
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 2000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                })
+
+                Toast.fire({
+                    icon: 'error',
+                    title: message.innerText
+                })
+            }
             $(document).ready(function () {
                 $('#attendTable').DataTable();
             });
