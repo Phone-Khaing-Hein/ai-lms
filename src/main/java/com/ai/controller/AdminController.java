@@ -69,10 +69,11 @@ public class AdminController {
                     .collect(Collectors.toList());
             sizeList.add(u.size());
         }
-        m.addAttribute("studentCount",
+        m.put("studentCount",
                 sizeList);
-        m.addAttribute("batchName",batchName);
-//        System.out.println(batchName);
+        m.put("batchName",batchName);
+        m.put("attendanceCount", attendanceService.count());
+        m.put("nav", "home");
         return "ADM-DB001";
     }
 
@@ -348,6 +349,7 @@ public class AdminController {
     @GetMapping("student-list")
     public String studentList(ModelMap m){
         m.put("openBatches", batchService.findAll().stream().filter(b -> b.isClose() == false).toList());
+        m.put("nav", "student");
         return "ADM-ST001";
     }
 
@@ -406,6 +408,12 @@ public class AdminController {
         return new User();
     }
 
+    @ModelAttribute("user")
+    public User loginUser() {
+        var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
+        var user = userService.findByLoginId(loginId);
+        return user;
+    }
 
     @PostMapping("teacher-create")
     public String postCreate(@Validated @ModelAttribute User user, BindingResult bs, RedirectAttributes attr, ModelMap m){
@@ -437,6 +445,7 @@ public class AdminController {
         var teachers = userService.findAll().stream().filter(u -> u.getRole().equals(User.Role.Teacher)).toList();
         m.put("openBatches", batchService.findAll().stream().filter(b -> b.isClose() == false).toList());
         m.put("teachers", teachers);
+        m.put("nav", "teacher");
         return "ADM-TC001";
     }
 
