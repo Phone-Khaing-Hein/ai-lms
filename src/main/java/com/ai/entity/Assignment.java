@@ -21,10 +21,19 @@ import javax.validation.constraints.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
-import lombok.Data;
+import groovy.transform.builder.Builder;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Data
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@lombok.Builder
 @Table(name="assignment")
 public class Assignment implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -32,20 +41,25 @@ public class Assignment implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     @Column(nullable = false)
     @NotBlank(message = "Assignment title is required!")
     private String title;
+
     @Column(nullable = false)
     @NotNull(message = "Start date is required!")
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime start;
+
     @Column(nullable = false)
     @NotNull(message = "End date is required!")
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime end;
+
     @Column(nullable = false)
     @Min(value = 1,message = "Full mark is required!")
     private int mark;
+
     private String file;
 
     @ManyToOne
