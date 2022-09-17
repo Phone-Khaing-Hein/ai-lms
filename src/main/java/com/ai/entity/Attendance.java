@@ -3,6 +3,8 @@ package com.ai.entity;
 import org.springframework.format.annotation.DateTimeFormat;
 import lombok.*;
 import java.time.LocalDate;
+import java.util.List;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -30,6 +32,6 @@ public class Attendance implements Serializable {
     @ManyToOne
     private User user;
 
-    @OneToOne
+    @ManyToOne
     private Batch batch;
 }

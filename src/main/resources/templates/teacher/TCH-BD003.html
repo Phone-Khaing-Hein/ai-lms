@@ -200,6 +200,7 @@
                                 <div class="add-schedule d-flex justify-content-between mb-2">
                                     <div>
                                         <h4>Schedule</h4>
+                                        <p class="alert alert-success d-none" id="scheduleMessage">[[${message}]]</p>
                                     </div>
                                 </div>
                                 <hr>
@@ -207,28 +208,74 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th scope="col">Module Name</th>
-                                            <th scope="col">Date</th>
-                                            <th scope="col">Action</th>
+                                            <th>Module Name</th>
+                                            <th>Date</th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr th:each="module, row : ${modules}" style="vertical-align: middle;">
-                                            <td scope="col">[[${row.index}+1]]</td>
-                                            <td scope="col">[[${module.name}]]</td>
-                                            <form action="#" th:action="@{save-schedule}" th:object="${schedule}"
-                                                method="post">
+                                        <tr th:each="m, row : ${modules}"
+                                            style="vertical-align: middle;text-align: left;">
+                                            <td>[[${row.index}+1]]</td>
+                                            <td>[[${m.name}]]</td>
+                                            <form th:action="@{/teacher/schedule-create}" method="post">
                                                 <td>
-                                                    <input type="date" id="scheduleDate" class="form-control"
-                                                        name="scheduleDate" th:required="true"
-                                                        th:value="${#temporals.format(schedule.scheduleDate, 'yyyy-MM-dd')}">
+                                                    <input type="date" class="form-control" name="date"
+                                                        th:classappend="${m.schedule} != null ? 'd-none disabled' : ''"
+                                                        th:required="true">
+                                                    <span th:if="${m.schedule} != null">[[${m.schedule.date}]]</span>
+                                                    <span class="text-danger"
+                                                        th:if="${dateError} != null">[[${dateError}]]</span>
                                                 </td>
                                                 <td>
-                                                    <input type="hidden" name="moduleId" th:value="${module.id}">
+                                                    <input type="hidden" name="moduleId" th:value="${m.id}">
                                                     <input type="hidden" name="batchId" th:value="${batch.id}">
-                                                    <input type="submit" class="btn btn-primary" value="Save" />
+                                                    <input th:if="${m.schedule} == null" type="submit"
+                                                        class="btn btn-primary" value="Save" />
+                                                    <button th:if="${m.schedule} != null" type="button"
+                                                        class="btn btn-warning" data-bs-toggle="modal"
+                                                        th:data-bs-target="'#staticBackdrop'+${m.schedule.id}">
+                                                        Edit
+                                                    </button>
+
                                                 </td>
                                             </form>
+                                            <div th:if="${m.schedule} != null" class="modal fade"
+                                                th:id="'staticBackdrop' +${m.schedule.id}" data-bs-backdrop="static"
+                                                data-bs-keyboard="false" tabindex="-1"
+                                                aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered">
+                                                    <div class="modal-content">
+                                                        <form th:action="@{/teacher/schedule-create}" method="post">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="staticBackdropLabel">
+                                                                    Edit Schedule Date for [[${m.name}]]
+                                                                </h5>
+                                                                <button type="button" class="btn-close"
+                                                                    data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+
+                                                                <input type="date" class="form-control" name="date"
+                                                                    th:required="true"
+                                                                    th:value="${#temporals.format(m.schedule.date, 'yyyy-MM-dd')}">
+                                                                <input type="hidden" name="moduleId" th:value="${m.id}">
+                                                                <input type="hidden" name="batchId"
+                                                                    th:value="${batch.id}">
+                                                                <input type="hidden" name="id"
+                                                                    th:value="${m.schedule.id}">
+
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary"
+                                                                    data-bs-dismiss="modal">Close</button>
+                                                                <button type="submit"
+                                                                    class="btn btn-primary">Update</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -284,6 +331,26 @@
             </div>
         </section>
         <script>
+            let message = document.getElementById('scheduleMessage');
+            if (message !== null && message.innerText !== "") {
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 2000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                })
+
+                Toast.fire({
+                    icon: 'success',
+                    title: message.innerText
+                })
+            }
+
             $(document).ready(function () {
                 $("#mytag").tabs();
                 // DataTable

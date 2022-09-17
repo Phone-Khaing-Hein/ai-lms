@@ -41,6 +41,9 @@ public class Module implements Serializable {
     @OneToMany(mappedBy = "module", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     private List<Video> videos;
 
+    @OneToOne(mappedBy = "module", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
+    private Schedule schedule;
+
     @Transient
     private int resourceCount;
 

@@ -7,7 +7,7 @@
     <title>Attendance Create</title>
 </head>
 
-<body style="margin-top: 90px; background-color: rgba(35, 209, 222, 0.2);">
+<body class="bg-light">
     <div layout:fragment="content">
         <section class="container mb-3">
             <div class="row paddings">
@@ -25,40 +25,42 @@
                             <div class="attendance-list" id="attendance-tab">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div>
-                                        <p class="d-none" th:text="${error}" th:if="${error} != null" id="successMessage"></p>
-                                        <input type="date" th:field="*{date}" name="date" class="form-control me-2" th:required="true">
+                                        <p class="d-none" th:text="${error}" th:if="${error} != null"
+                                            id="successMessage"></p>
+                                        <input type="date" th:field="*{date}" name="date" class="form-control me-2"
+                                            th:required="true">
                                     </div>
                                     <div>
                                         <button class="btn btn-success" type="submit">Save<i
                                                 class="bi bi-download ms-2"></i></button>
                                         <a th:href="@{/teacher/batch-detail?batchId=1#attendance-tab}"
-                                           class="btn btn-info text-light">Batch Details</a>
+                                            class="btn btn-info text-light">Batch Details</a>
                                     </div>
                                 </div>
                                 <hr>
                                 <table class="table table-striped display" id="attendTable">
                                     <thead>
-                                    <tr>
-                                        <th>Id</th>
-                                        <th>Student Id</th>
-                                        <th>Student Name</th>
-                                        <th>Attendance Status</th>
-                                    </tr>
+                                        <tr>
+                                            <th>Id</th>
+                                            <th>Student Id</th>
+                                            <th>Student Name</th>
+                                            <th>Attendance Status</th>
+                                        </tr>
                                     </thead>
                                     <tbody>
-                                    <tr th:each="student, row : ${students}">
-                                        <td>[[${row.index}+1]]</td>
-                                        <td><input type="text" name="loginId" th:value="${student.loginId}"></td>
-                                        <td><input type="text" name="name" th:value="${student.name}"></td>
-                                        <td>
-                                            <select class="form-select" th:required="true" id="attendanceStatus"
-                                                    th:field="*{attendanceStatus}">
-                                                <option th:value="Present">Present</option>
-                                                <option th:value="Absent">Absent</option>
-                                                <option th:value="Leave">Leave</option>
-                                            </select>
-                                        </td>
-                                    </tr>
+                                        <tr th:each="student, row : ${students}">
+                                            <td>[[${row.index}+1]]</td>
+                                            <td>[[${student.loginId}]]</td>
+                                            <td>[[${student.name}]]</td>
+                                            <td>
+                                                <select class="form-select" th:required="true" id="attendanceStatus"
+                                                    th:field="*{status}">
+                                                    <option th:value="Present">Present</option>
+                                                    <option th:value="Absent">Absent</option>
+                                                    <option th:value="Leave">Leave</option>
+                                                </select>
+                                            </td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>

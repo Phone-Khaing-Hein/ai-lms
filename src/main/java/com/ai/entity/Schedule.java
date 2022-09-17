@@ -9,6 +9,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 import groovy.transform.builder.Builder;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+
 import java.time.LocalDate;
 
 @Entity
@@ -20,17 +22,23 @@ public class Schedule {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
 
-    @Column(name = "schedule_date")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate scheduleDate;
+    @Column(nullable = false)
+    @NotNull(message = "Schedule date is required!")
+    private LocalDate date;
 
-    @OneToOne
-    @JoinColumn(name = "batch_id", referencedColumnName = "id")
+    @ManyToOne
     private Batch batch;
 
     @OneToOne
     private Module module;
+
+    @Transient
+    private int batchId;
+
+    @Transient
+    private int moduleId;
 
 }
