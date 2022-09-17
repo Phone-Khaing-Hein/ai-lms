@@ -319,6 +319,11 @@ public class AdminController {
             m.put("openBatches", batchService.findAll().stream().filter(b -> b.isClose() == false).toList());
             return "ADM-ST001";
         }
+        if(user.getBatchId()[0] == 0){
+            m.put("openBatches", batchService.findAll().stream().filter(b -> b.isClose() == false).toList());
+            m.put("batchError", "Batch is required!");
+            return "ADM-ST001";
+        }
         var students = userService.findAll().stream().filter(a -> a.getRole().equals(User.Role.Student)).toList();
         for(var s : students){
             if(s.getLoginId().equals(user.getLoginId())){

@@ -188,8 +188,10 @@ public class TeacherController {
 
     @GetMapping("assignment-list")
     public String exams(ModelMap m){
-        m.put("assignments", assignmentService.findAll());
-        m.put("openBatches", batchService.findAll().stream().filter(b -> b.isClose() == false).toList());
+        var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
+        var user = userService.findByLoginId(loginId);
+        m.put("assignments", assignmentService.findAll().stream().filter(a -> user.getBatches().contains(a.getBatch())).toList());
+        m.put("openBatches", user.getBatches().stream().filter(b -> b.isClose() == false).toList());
         return "teacher/TCH-AL005";
     }
 
