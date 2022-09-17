@@ -51,6 +51,9 @@ public class User {
 	@Column(name = "photo",columnDefinition = "VARCHAR(255) DEFAULT 'default.png'", nullable = true)
 	private String photo;
 
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
+    private List<Attendance> attendances;
+
 	@Transient
     private Integer[] batchId;
 

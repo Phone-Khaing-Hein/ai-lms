@@ -21,7 +21,7 @@ public class Attendance implements Serializable {
     private int id;
 
     @Column(nullable = false)
-    private String attendanceStatus;
+    private String status;
 
     @Column(nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")

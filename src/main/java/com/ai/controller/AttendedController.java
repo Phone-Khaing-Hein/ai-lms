@@ -44,7 +44,7 @@ public class AttendedController {
     public String createAttendance(@PathVariable int id, @ModelAttribute Attendance attendance,
                                    BindingResult bs, ModelMap map, RedirectAttributes attributes) {
 
-        String attendanceStatus = attendance.getAttendanceStatus();
+        String attendanceStatus = attendance.getStatus();
         String[] attendanceStatusBYOne = attendanceStatus.split(",");
 
         if (bs.hasErrors()) {
@@ -74,7 +74,7 @@ public class AttendedController {
                 for (User student : students) {
                     attendance.setUser(student);
                     for (String attendanceStatusString : attendanceStatusBYOne) {
-                        attendance.setAttendanceStatus(attendanceStatusString);
+                        attendance.setStatus(attendanceStatusString);
 
                     }
                     attendanceService.save(attendance);
