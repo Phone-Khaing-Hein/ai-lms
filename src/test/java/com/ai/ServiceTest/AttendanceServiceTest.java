@@ -58,7 +58,7 @@ import com.ai.service.AttendanceService;
     public Attendance attendanceObj(){
         Attendance attendance = Attendance.builder()
         .id(1)
-        .attendanceStatus("Present")
+        .status("Present")
         .date(LocalDate.of(2022, 12, 6))
         .batch(batchObj())
         .user(userObj())
@@ -70,7 +70,7 @@ import com.ai.service.AttendanceService;
         List<Attendance> attendanceList = new ArrayList<Attendance>();
         Attendance attendance1 = Attendance.builder()
         .id(1)
-        .attendanceStatus("Present")
+        .status("Present")
         .date(LocalDate.of(2022, 12, 6))
         .batch(batchObj())
         .user(userObj())
@@ -78,7 +78,7 @@ import com.ai.service.AttendanceService;
 
         Attendance attendance2 = Attendance.builder()
         .id(2)
-        .attendanceStatus("Absent")
+        .status("Absent")
         .date(LocalDate.of(2022, 12, 6))
         .batch(batchObj())
         .user(userObj())
@@ -86,7 +86,7 @@ import com.ai.service.AttendanceService;
 
         Attendance attendance3 = Attendance.builder()
         .id(3)
-        .attendanceStatus("Leave")
+        .status("Leave")
         .date(LocalDate.of(2022, 12, 6))
         .batch(batchObj())
         .user(userObj())

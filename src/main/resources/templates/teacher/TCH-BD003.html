@@ -260,52 +260,13 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>STU001</td>
-                                            <td>Mary</td>
-                                            <td>01-06-2022</td>
-                                            <td>Present</td>
-                                            <td>OJT Batch 2</td>
-                                            <td><a href="" class="btn btn-primary btn-sm text-light"><i
-                                                        class="fas fa-edit"></i></a>
-                                                <a href="" class="btn btn-danger btn-sm text-light"><i
-                                                        class="fas fa-trash-alt"></i></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>2</td>
-                                            <td>STU002</td>
-                                            <td>Mary</td>
-                                            <td>02-06-2022</td>
-                                            <td>Absent</td>
-                                            <td>OJT Batch 2</td>
-                                            <td><a href="" class="btn btn-primary btn-sm text-light"><i
-                                                        class="fas fa-edit"></i></a>
-                                                <a href="" class="btn btn-danger btn-sm text-light"><i
-                                                        class="fas fa-trash-alt"></i></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>3</td>
-                                            <td>STU003</td>
-                                            <td>Tun Tun</td>
-                                            <td>01-06-2022</td>
-                                            <td>Leave</td>
-                                            <td>OJT Batch 2</td>
-                                            <td><a href="" class="btn btn-primary btn-sm text-light"><i
-                                                        class="fas fa-edit"></i></a>
-                                                <a href="" class="btn btn-danger btn-sm text-light"><i
-                                                        class="fas fa-trash-alt"></i></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>4</td>
-                                            <td>STU004</td>
-                                            <td>John</td>
-                                            <td>01-06-2022</td>
-                                            <td>Present</td>
-                                            <td>OJT Batch 2</td>
+                                        <tr th:each="a, row : ${attendance}">
+                                            <td>[[${row.index} + 1]]</td>
+                                            <td>[[${a.user.loginId}]]</td>
+                                            <td>[[${a.user.name}]]</td>
+                                            <td>[[${#temporals.format(a.date, 'yyyy-MM-dd')}]]</td>
+                                            <td>[[${a.status}]]</td>
+                                            <td>[[${a.batch.name}]]</td>
                                             <td><a href="" class="btn btn-primary btn-sm text-light"><i
                                                         class="fas fa-edit"></i></a>
                                                 <a href="" class="btn btn-danger btn-sm text-light"><i

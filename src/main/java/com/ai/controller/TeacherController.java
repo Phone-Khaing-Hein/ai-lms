@@ -83,7 +83,8 @@ public class TeacherController {
         m.put("batch", batch);
         m.put("students", batch.getUsers().stream().filter(u -> u.getRole().equals(User.Role.Student)).toList());
         m.put("modules", batch.getCourse().getModules());
-        m.put("schedule",new Schedule());
+        m.put("schedule", scheduleRepository.findAll());
+        m.put("attendance", attendanceService.findAllAttendance());
         m.put("assignmentAnswers", assignmentAnswerService.findAll());
         return "teacher/TCH-BD003";
     }

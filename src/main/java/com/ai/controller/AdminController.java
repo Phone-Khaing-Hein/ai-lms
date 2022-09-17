@@ -2,6 +2,7 @@ package com.ai.controller;
 
 import com.ai.entity.*;
 import com.ai.entity.Module;
+import com.ai.entity.User.Role;
 import com.ai.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -287,9 +288,10 @@ public class AdminController {
     public String closeBatch(@RequestParam int id, RedirectAttributes attributes){
         var batch = batchService.findById(id);
         batch.setClose(true);
-        for(var student : batch.getUsers()){
+        for(var student : batch.getUsers().stream().filter(u -> u.getRole().equals(Role.Student)).toList()){
             student.setBatchId(new Integer[]{student.getBatches().get(0).getId()});
             student.setActive(false);
+            userService.save(student);
         }
         batchService.save(batch);
         attributes.addFlashAttribute("message", "%s is successfully closed!".formatted(batch.getName()));
@@ -301,9 +303,10 @@ public class AdminController {
     public String openBatch(@RequestParam int id, RedirectAttributes attributes){
         var batch = batchService.findById(id);
         batch.setClose(false);
-        for(var student : batch.getUsers()){
+        for(var student : batch.getUsers().stream().filter(u -> u.getRole().equals(Role.Student)).toList()){
             student.setBatchId(new Integer[]{student.getBatches().get(0).getId()});
             student.setActive(true);
+            userService.save(student);
         }
         batchService.save(batch);
         attributes.addFlashAttribute("message", "%s is successfully closed!".formatted(batch.getName()));
