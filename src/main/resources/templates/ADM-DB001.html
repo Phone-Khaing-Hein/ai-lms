@@ -20,7 +20,7 @@
     <div layout:fragment="content">
         <section>
             <div class="container">
-                <div class="row ms-3 gx-2">
+                <div class="row ms-3 gx-1">
                     <div class="col-md-3 col-sm-12 mb-3">
                         <a th:href="@{/admin/course-list}" class="text-white text-decoration-none">
                             <div class="card bg-danger px-2 py-3 cardhovers">
@@ -48,7 +48,7 @@
                             <div class="card bg-info px-2 py-3 cardhovers">
                                 <div class="card-body d-flex align-items-center justify-content-between">
                                     <span class="h4" style="margin-bottom: 0;"><i
-                                            class="bi bi-person-check me-2"></i>Attendances</span>
+                                            class="bi bi-person-check me-1"></i>Attendances</span>
                                     <p style="margin-bottom: 0;">Total : [[${attendanceCount}]]</p>
                                 </div>
                             </div>
@@ -60,7 +60,7 @@
                                 <div class="card-body d-flex align-items-center justify-content-between">
                                     <span class="h4" style="margin-bottom: 0;"><i
                                             class="bi bi-file-earmark-text me-2"></i>Exams</span>
-                                    <p style="margin-bottom: 0;">10</p>
+                                    <p style="margin-bottom: 0;">Total : 10</p>
                                 </div>
                             </div>
                         </a>
@@ -72,7 +72,7 @@
                             <div class="card-body">
                                 <div>
                                     <div id="container" class="mt-3"
-                                        style="width: 1200px; height: 400px; margin: 0 auto">
+                                        style="width: 1000px; height: 400px; margin: 0 auto">
                                     </div>
                                 </div>
                             </div>
@@ -111,7 +111,7 @@
                     tooltip: {
                         // headerFormat: '<h4 style="font-size:12px">{point.key}</h4><table>',
                         pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                            '<td style="padding:0"><b>{point.y:.1f} Persons</b></td></tr>',
+                            '<td style="padding:0"><b>{point.y:.1f} Students</b></td></tr>',
                         footerFormat: '</table>',
                         shared: true,
                         useHTML: true
