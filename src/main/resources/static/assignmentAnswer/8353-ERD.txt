@@ -1,0 +1,56 @@
+Tables
+
+News :: News Data	
+Account :: Accounts Data
+Account_Roles :: Account Roles Data
+Interaction : News' reactions and comment Data
+News_Category :: News' category data
+
+
+News
+
+NewsID : PK
+Heading/News_Name
+Created_Date
+Updated_Date
+Category_ID :: News_Category_ID (FK)
+Description
+Image
+Video:: Option
+
+
+News Category
+
+News_Category_ID:
+Category_Name :
+Status : 
+
+
+Account
+
+Account_ID : PK
+Account_Name :
+Role : Account_Roles_ID (FK)
+Eamil :
+Phone :
+Address :
+Password : 
+
+
+Account_Roles
+
+Account_Roles_ID : PK
+Account_Roles_Name :
+
+Interaction
+
+News_ID :
+Account_ID :
+Comment : 
+Status  :  
+Action : Update or Created or Deleted or Reacted or Commented
+
+
+
+
+
