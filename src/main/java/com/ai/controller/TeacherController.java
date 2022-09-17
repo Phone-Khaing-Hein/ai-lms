@@ -83,7 +83,7 @@ public class TeacherController {
         m.put("batch", batch);
         m.put("students", batch.getUsers().stream().filter(u -> u.getRole().equals(User.Role.Student)).toList());
         m.put("modules", batch.getCourse().getModules());
-        m.put("schedule", scheduleRepository.findAll());
+        m.put("schedule", scheduleRepository.findAll().stream().filter(s -> s.getBatch().getId() == batchId).toList());
         m.put("attendance", attendanceService.findAllAttendance());
         m.put("assignmentAnswers", assignmentAnswerService.findAll().stream().filter(a -> a.getUser().getBatches().get(0).getId() == batch.getId()).toList());
         return "teacher/TCH-BD003";
@@ -122,20 +122,25 @@ public class TeacherController {
     }
 
 
-    @PostMapping("save-schedule")
-    public String saveSchedule(@RequestParam int batchId, @RequestParam int moduleId, @ModelAttribute @Valid Schedule schedule, BindingResult bs){
+    @PostMapping("schedule-create")
+    public String saveSchedule(@Validated @ModelAttribute Schedule schedule, BindingResult bs, RedirectAttributes attributes){
 
         if(bs.hasErrors()){
-
+            attributes.addFlashAttribute("dateError", "Schedule date is required!");
+            return "redirect:/teacher/batch-detail?batchId=%d#schedule-tab".formatted(schedule.getBatchId());
         }
-        else {
-            schedule.setScheduleDate(schedule.getScheduleDate());
-            Module module = moduleService.findById(moduleId);
+        var module = moduleService.findById(schedule.getModuleId());    
+        if(schedule.getId() != 0){
+            var s = scheduleRepository.findById(schedule.getId()).get();
+            s.setDate(schedule.getDate());
+            scheduleRepository.save(s);
+        }else{
             schedule.setModule(module);
-            schedule.setBatch(batchService.findById(batchId));
+            schedule.setBatch(batchService.findById(schedule.getBatchId()));
             scheduleRepository.save(schedule);
         }
-        return "redirect:/teacher/batch-detail?batchId="+batchId;
+        attributes.addFlashAttribute("message", "%s scheduled successfully!".formatted(module.getName()));
+        return "redirect:/teacher/batch-detail?batchId=%d#schedule-tab".formatted(schedule.getBatchId());
     }
 
 //----------------------------------Profile---------------------------------------------------------------
