@@ -219,9 +219,9 @@
                                             <form action="#" th:action="@{save-schedule}" th:object="${schedule}"
                                                 method="post">
                                                 <td>
-                                                    <input type="date" id="scheduleDate" class="form-control"
+                                                    <!-- <input type="date" id="scheduleDate" class="form-control"
                                                         name="scheduleDate" th:required="true"
-                                                        th:value="${#temporals.format(schedule.scheduleDate, 'yyyy-MM-dd')}">
+                                                        th:value="${#temporals.format(schedule.scheduleDate, 'yyyy-MM-dd')}"> -->
                                                 </td>
                                                 <td>
                                                     <input type="hidden" name="moduleId" th:value="${module.id}">
