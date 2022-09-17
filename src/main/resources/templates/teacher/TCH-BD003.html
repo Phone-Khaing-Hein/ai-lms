@@ -13,7 +13,7 @@
             <div class="row paddings">
                 <div class="">
                     <div class="text-center">
-                        <h2 style="color:darkblue; font-weight: bold;" class="mb-3"><i
+                        <h2 style="font-weight: bold;" class="mb-3 text-black"><i
                                 class="fas fa-user-friends me-2"></i>Welcome
                             To
                             [[${batch.name}]]
@@ -312,7 +312,9 @@
                                             <td>[[${a.user.loginId}]]</td>
                                             <td>[[${a.user.name}]]</td>
                                             <td>[[${#temporals.format(a.date, 'yyyy-MM-dd')}]]</td>
-                                            <td>[[${a.status}]]</td>
+                                            <td
+                                                th:class="${#strings.equals(a.status, 'Present') ? 'text-success' : #strings.equals(a.status, 'Absent') ? 'text-danger' : 'text-warning'}">
+                                                [[${a.status}]]</td>
                                             <td>[[${a.batch.name}]]</td>
                                             <td><a href="" class="btn btn-primary btn-sm text-light"><i
                                                         class="fas fa-edit"></i></a>

@@ -188,7 +188,7 @@ public class TeacherController {
 
     @GetMapping("chat")
     public String chat(){
-        return "student/STU-CH004";
+        return "teacher/TCH-CH007";
     }
 
     @GetMapping("assignment-list")
@@ -236,5 +236,12 @@ public class TeacherController {
     @ModelAttribute("assignment")
     public Assignment assignment(){
         return new Assignment();
+    }
+
+    @ModelAttribute("teacher")
+    public void teacher(ModelMap m){
+        var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
+        var user = userService.findByLoginId(loginId);
+        m.put("teacher", user);
     }
 }
