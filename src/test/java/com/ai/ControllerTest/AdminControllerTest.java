@@ -55,7 +55,6 @@ public class AdminControllerTest {
         Mockito.when(courseService.findAll()).thenReturn(courses);
         this.mockMvc.perform(get("/admin/course-list"))
                 .andExpect(status().isOk())
-        
                 .andExpect(view().name("ADM-CT001"));
     }
 }

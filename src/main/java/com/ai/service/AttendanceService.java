@@ -24,4 +24,8 @@ public class AttendanceService {
     public int count() {
         return (int) attendanceRepository.count();
     }
+
+    public List<Attendance> findAllAttendanceByBatchId(int batch_id){
+        return attendanceRepository.findAllAttendanceByBatchId(batch_id);
+    }
 }
