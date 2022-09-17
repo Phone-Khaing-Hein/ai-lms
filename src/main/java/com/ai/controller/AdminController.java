@@ -53,6 +53,15 @@ public class AdminController {
     @Autowired
     private AttendanceService attendanceService;
 
+    @Autowired
+    private ExamService examService;
+
+    @Autowired
+    private  QuestionService questionService;
+
+    @Autowired
+    private AnswerService answerService;
+
     @GetMapping("home")
     public String home(ModelMap m){
         m.put("courseCount", courseService.getCount());
@@ -491,12 +500,14 @@ public class AdminController {
 //  --------------------------------------EXAM----------------------------------------------------------------------
 
     @GetMapping("exam-list")
-    public String examList(){
+    public String examList(ModelMap m){
+        m.put("exams", examService.findAll());
         return "ADM-ET001";
     }
     
-    @GetMapping("setupExamCreate")
-    public String examCreate(){
+    @GetMapping("exam-create")
+    public String examCreate(ModelMap m){
+        m.put("courses", courseService.findAll());
         return "ADM-ET002";
     }
 
