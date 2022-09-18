@@ -22,7 +22,7 @@ public class ProfileApi {
     @Autowired
     private FileService fileService;
 
-    @PostMapping({"student/profile-change", "admin/profile-change"})
+    @PostMapping({"student/profile-change", "admin/profile-change", "teacher/profile-change"})
     public String profileChange(@RequestBody MultipartFile profile) throws IOException {
         var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
         var user = userService.findByLoginId(loginId);
