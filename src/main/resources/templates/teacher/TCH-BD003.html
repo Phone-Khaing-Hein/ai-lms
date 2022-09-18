@@ -81,84 +81,90 @@
                                     <div>
                                         <h4>Exam List</h4>
                                     </div>
-                                    <div></div>
-                                    <div class="add-schedule d-flex justify-content-end">
-                                        <a href="create-exam.html" class="btn btn-danger text-light me-2">Create<i
-                                                class="fas fa-upload ms-2"></i> </a>
-                                        <a href="examTable.html" class="btn btn-primary text-light">View All</a>
-                                    </div>
+
                                 </div>
                                 <hr>
-                                <div class="mb-3 d-flex justify-content-between">
-                                    <span></span>
-                                    <span>
-                                        <select class="form-select me-2" aria-label="Disabled select example">
-                                            <option selected disabled>Select Exam Type</option>
-                                            <option value="1">Mid Term</option>
-                                            <option value="2">Final</option>
-                                            <option value="3">Optional</option>
-                                        </select>
-                                    </span>
-                                </div>
                                 <table class="table table-striped display" id="exam">
                                     <thead>
                                         <tr>
                                             <th scope="col">#</th>
                                             <th scope="col">Title</th>
-                                            <th scope="col">Datetime</th>
-                                            <th scope="col">Students</th>
-                                            <th scope="col">Marks</th>
+                                            <th scope="col">Full Mark</th>
+                                            <th>Start Time</th>
+                                            <th>End Time</th>
                                             <th scope="col">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <th scope="row">1</th>
-                                            <td>Mid-Term</td>
-                                            <td>2022-03-03 1:00pm</td>
+                                        <tr th:each="e, row : ${exams}" style="vertical-align: middle;">
+                                            <th>[[${row.index} + 1]]</th>
+                                            <td>[[${e.exam.title}]]</td>
+                                            <td>[[${e.exam.fullmark}]]</td>
+                                            <form th:action="exam-schedule" th:id="examSchedule+${e.exam.id}"
+                                                method="post">
+                                                <td>
+                                                    <input type="datetime-local" name="start"
+                                                        th:classappend="${e.start} != null ? 'd-none disabled' : ''"
+                                                        class="form-control">
+                                                    <span th:if="${e.start} != null">[[${e.start}]]</span>
+                                                </td>
+                                                <td>
+                                                    <input type="datetime-local"
+                                                        th:classappend="${e.end} != null ? 'd-none disabled' : ''"
+                                                        class="form-control" name="end">
+                                                    <span th:if="${e.end} != null">[[${e.end}]]</span>
+                                                </td>
+                                                <input type="hidden" name="batchId" th:value="${batch.id}">
+                                                <input type="hidden" name="examId" th:value="${e.exam.id}">
+                                            </form>
                                             <td>
-                                                Phyu Phyu Thin
-                                            </td>
-                                            <td>-</td>
-                                            <td><a href="teacher-examcheck.html"
-                                                    class="btn btn-outline-info btn-sm">Details<i
-                                                        class="fas fa-angle-double-right ms-2"></i></a></td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">2</th>
-                                            <td>Final-Exam</td>
-                                            <td>2022-03-03 1:00pm</td>
-                                            <td>
-                                                Swam Thu Marn
-                                            </td>
-                                            <td>95</td>
-                                            <td><a href="teacher-examcheck.html"
-                                                    class="btn btn-outline-info btn-sm">Details<i
-                                                        class="fas fa-angle-double-right ms-2"></i></a></td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">3</th>
-                                            <td>Mid-Term</td>
-                                            <td>2022-03-03 1:00pm</td>
-                                            <td>
-                                                Thet Aung Zan
-                                            </td>
-                                            <td>-</td>
-                                            <td><a href="teacher-examcheck.html"
-                                                    class="btn btn-outline-info btn-sm">Details<i
-                                                        class="fas fa-angle-double-right ms-2"></i></a></td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">4</th>
-                                            <td>Final-Exam</td>
-                                            <td>2022-03-03 1:00pm</td>
-                                            <td>
-                                                Phone Khaing Hein
-                                            </td>
-                                            <td>95</td>
-                                            <td><a href="teacher-examcheck.html"
-                                                    class="btn btn-outline-info btn-sm">Details<i
-                                                        class="fas fa-angle-double-right ms-2"></i></a></td>
+                                                <button type="submit" th:if="${e.end == null && e.start == null}"
+                                                    class="btn btn-primary" th:form="examSchedule+${e.exam.id}">
+                                                    Schedule
+                                                </button>
+                                                <button th:if="${e.end != null && e.start != null}" type="button"
+                                                    class="btn btn-warning" data-bs-toggle="modal"
+                                                    th:data-bs-target="'#staticBackdrop'+${e.exam.id}">
+                                                    Edit
+                                                </button>
+                                                <div th:if="${e.end != null && e.start != null}" class="modal fade"
+                                                    th:id="'staticBackdrop' +${e.exam.id}" data-bs-backdrop="static"
+                                                    data-bs-keyboard="false" tabindex="-1"
+                                                    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered">
+                                                        <div class="modal-content">
+                                                            <form th:action="@{/teacher/schedule-create}" method="post">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="staticBackdropLabel">
+                                                                        Edit Exam Date for [[${batch.name}]]
+                                                                    </h5>
+                                                                    <button type="button" class="btn-close"
+                                                                        data-bs-dismiss="modal"
+                                                                        aria-label="Close"></button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <!-- 
+                                                                    <input type="date" class="form-control" name="date"
+                                                                        th:required="true"
+                                                                        th:value="${#temporals.format(m.schedule.date, 'yyyy-MM-dd')}">
+                                                                    <input type="hidden" name="moduleId"
+                                                                        th:value="${m.id}">
+                                                                    <input type="hidden" name="batchId"
+                                                                        th:value="${batch.id}">
+                                                                    <input type="hidden" name="id"
+                                                                        th:value="${m.schedule.id}"> -->
+
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary"
+                                                                        data-bs-dismiss="modal">Close</button>
+                                                                    <button type="submit"
+                                                                        class="btn btn-primary">Update</button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                         </tr>
                                     </tbody>
                                 </table>
