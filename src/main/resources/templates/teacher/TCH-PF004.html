@@ -106,13 +106,15 @@
         reader.readAsDataURL(e.target.files[0]);
         reader.onload = () => {
           const preview = document.getElementById('profile');
+          const preview2 = document.getElementById('navProfile');
           preview.src = reader.result;
+          preview2.src = reader.result;
         };
 
         let file = e.target.files[0]
         let formData = new FormData();
         formData.append("profile", file);
-        axios.post('http://localhost:9090/student/profile-change', formData, {
+        axios.post('http://localhost:9090/teacher/profile-change', formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
