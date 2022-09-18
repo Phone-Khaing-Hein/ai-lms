@@ -2,6 +2,7 @@ package com.ai.controller;
 
 import com.ai.entity.Assignment;
 import com.ai.entity.Attendance;
+import com.ai.entity.Exam;
 import com.ai.entity.Module;
 import com.ai.entity.Schedule;
 import com.ai.entity.User;
@@ -21,6 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import javax.validation.Valid;
 
@@ -63,6 +65,9 @@ public class TeacherController {
 
     @Autowired
     private AssignmentAnswerService assignmentAnswerService;
+
+    @Autowired
+    private ExamService examService;
 
     @GetMapping("home")
     public String home(){
@@ -197,7 +202,7 @@ public class TeacherController {
     }
 
     @GetMapping("assignment-list")
-    public String exams(ModelMap m){
+    public String assignments(ModelMap m){
         var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
         var user = userService.findByLoginId(loginId);
         m.put("assignments", assignmentService.findAll().stream().filter(a -> user.getBatches().contains(a.getBatch())).toList());
@@ -236,6 +241,22 @@ public class TeacherController {
         assignmentAnswer.setMark(mark);
         assignmentAnswerService.save(assignmentAnswer);
         return "redirect:/teacher/batch-detail?batchId=%d".formatted(assignmentAnswer.getAssignment().getBatch().getId());
+    }
+
+    @GetMapping("exam-list")
+    public String exams(ModelMap m){
+        var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
+        var user = userService.findByLoginId(loginId);
+        var exams = new ArrayList<Exam>();
+        for(var e: examService.findAll()){
+            for(var b: user.getBatches()){
+                if(b.getCourse().getName().equals(e.getCourse().getName())){
+                    exams.add(e);
+                }
+            }
+        }
+        m.put("exam", exams);
+        return "teacher/TCH-ET008";
     }
 
     @ModelAttribute("assignment")

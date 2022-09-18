@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+    layout:decorate="~{layouts/AUTHENTICATED-TEACHER.html}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Exam List</title>
+</head>
+
+<body class="bg-light">
+    <div layout:fragment="content">
+        <div class="container p-3 mt-5">
+            <div class="mb-4">
+                <h3 class="text-decoration-none text-center">
+                    <i class="bi bi-file-earmark-text me-2"></i>Exams
+                </h3>
+            </div>
+            <p class="d-none" th:text="${cmessage}" th:if="${cmessage} != null" id="successMessage"></p>
+            <div class="card">
+                <div class="card-body shadow p-3">
+                    <table id="examTable" class="table table-striped table-hovered">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Title</th>
+                                <th>Points</th>
+                                <th>Course</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="app">
+                            <tr th:each="e, row : ${exam}" style="vertical-align: middle;">
+                                <td>[[${row.index} + 1]]</td>
+                                <td>[[${e.title}]]</td>
+                                <td>[[${e.fullmark}]]</td>
+                                <td>[[${e.course.name}]]</td>
+                                <td>
+                                    <button class="btn btn-primary">Schedule</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

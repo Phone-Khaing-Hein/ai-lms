@@ -501,7 +501,7 @@ public class AdminController {
 
     @GetMapping("exam-list")
     public String examList(ModelMap m){
-        m.put("exams", examService.findAll());
+        m.put("exam", examService.findAll());
         return "ADM-ET001";
     }
     
