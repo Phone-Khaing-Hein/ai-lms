@@ -25,5 +25,9 @@ public class ExamService {
     public Exam findById(int examId) {
         return examRepository.findById(examId).get();
     }
+
+    public void deleteById(int examId) {
+        examRepository.deleteById(examId);
+    }
     
 }

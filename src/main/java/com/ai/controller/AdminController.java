@@ -511,6 +511,13 @@ public class AdminController {
         return "ADM-ET002";
     }
 
+    @GetMapping("exam-delete")
+    public String examDelete(@RequestParam int examId, @RequestParam String examTitle, RedirectAttributes attributes){
+        examService.deleteById(examId);
+        attributes.addFlashAttribute("successMessage", "%s deleted successfully!".formatted(examTitle));
+        return "redirect:/admin/exam-list";
+    }
+
 //    ---------------------------------------Profile------------------------------------------------------------------
     @GetMapping("profile")
     public String profile(ModelMap m) {

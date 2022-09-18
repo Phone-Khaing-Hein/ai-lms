@@ -41,16 +41,11 @@
                                 <td>[[${e.fullmark}]]</td>
                                 <td>[[${e.course.name}]]</td>
                                 <td class="text-end">
-                                    <a class="btn btn-warning">
-                                        <i class="bi bi-pencil-square"></i>
-                                    </a>
-                                    <!--                            <div th:replace="fragments/COM-FG001 :: student-edit"></div>-->
-                                    <a class="btn btn-danger" id="deleteBtn"><i class="bi bi-trash-fill"></i>
+                                    <a class="btn btn-danger" th:onclick="deleteAction([[${e.id}]], [[${e.title}]])"><i
+                                            class="bi bi-trash-fill"></i>
                                     </a>
                                 </td>
                             </tr>
-
-
                         </tbody>
                     </table>
                 </div>
@@ -58,52 +53,52 @@
         </div>
 
         <script>
-            document.addEventListener("DOMContentLoaded", () => {
-                var myModal = document.getElementById('teacherRegister');
-                var myInput = document.getElementById('name');
-                var emptyError = document.getElementById("emptyError");
-                var duplicateError = document.getElementById("duplicateError")
+            // document.addEventListener("DOMContentLoaded", () => {
+            //     var myModal = document.getElementById('teacherRegister');
+            //     var myInput = document.getElementById('name');
+            //     var emptyError = document.getElementById("emptyError");
+            //     var duplicateError = document.getElementById("duplicateError")
 
 
-                let message = document.getElementById('successMessage');
-                if (message !== null && message.innerText !== "") {
-                    const Toast = Swal.mixin({
-                        toast: true,
-                        position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 2000,
-                        timerProgressBar: true,
-                        didOpen: (toast) => {
-                            toast.addEventListener('mouseenter', Swal.stopTimer)
-                            toast.addEventListener('mouseleave', Swal.resumeTimer)
-                        }
-                    })
-
-                    Toast.fire({
-                        icon: 'success',
-                        title: message.innerText
-                    })
-                }
-
-                if (emptyError != null || duplicateError != null) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: emptyError == null ? duplicateError.innerText : emptyError.innerText
-                    })
-                }
-
-                myModal.addEventListener('shown.bs.modal', () => {
-                    myInput.focus()
+            let message = document.getElementById('successMessage');
+            if (message !== null && message.innerText !== "") {
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 2000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
                 })
-            })
+
+                Toast.fire({
+                    icon: 'success',
+                    title: message.innerText
+                })
+            }
+
+            //     if (emptyError != null || duplicateError != null) {
+            //         Swal.fire({
+            //             icon: 'error',
+            //             title: 'Oops...',
+            //             text: emptyError == null ? duplicateError.innerText : emptyError.innerText
+            //         })
+            //     }
+
+            //     myModal.addEventListener('shown.bs.modal', () => {
+            //         myInput.focus()
+            //     })
+            // })
 
             $(document).ready(function () {
                 $('#examTable').DataTable();
             });
 
 
-            const deleteAction = (courseId) => {
+            const deleteAction = (examId, examTitle) => {
                 const swalWithBootstrapButtons = Swal.mixin({
                     customClass: {
                         confirmButton: 'btn btn-success',
@@ -122,11 +117,10 @@
                     reverseButtons: true
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        let courseName = document.getElementById('deleteBtn').getAttribute('course-name');
-                        window.location = `http://localhost:9090/admin/course-delete?courseId=${courseId}&courseName=${courseName}`;
+                        window.location = `http://localhost:9090/admin/exam-delete?examId=${examId}&examTitle=${examTitle}`;
                         swalWithBootstrapButtons.fire(
                             'Deleted!',
-                            'Your file has been deleted.',
+                            'Your exam data has been deleted.',
                             'success'
                         )
                     } else if (
@@ -135,7 +129,7 @@
                     ) {
                         swalWithBootstrapButtons.fire(
                             'Cancelled',
-                            'Your imaginary file is safe :)',
+                            'Your exam data is safe :)',
                             'error'
                         )
                     }
