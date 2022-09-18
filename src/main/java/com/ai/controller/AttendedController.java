@@ -5,6 +5,7 @@ import com.ai.entity.Batch;
 import com.ai.entity.User;
 import com.ai.service.AttendanceService;
 import com.ai.service.BatchService;
+import com.ai.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -28,6 +30,9 @@ public class AttendedController {
 
     @Autowired
     private AttendanceService attendanceService;
+
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/create-attendance/{id}")
     public String createAttendance(@PathVariable int id, Model model) {
@@ -83,5 +88,22 @@ public class AttendedController {
             }
             return "redirect:/teacher/batch-detail?batchId=" + id + "#attendance-tab";
         }
+    }
+
+    @GetMapping("setupEditAttendance")
+    public String editAttendance(@RequestParam("loginId") String loginId,
+                                @RequestParam("batchId") int batchId, 
+                                ModelMap m,
+                                RedirectAttributes attributes){
+        System.out.println("--------------------------------------------------------------------------");
+        System.out.println("loginId => " + loginId + " and batchId => " + batchId);
+        User student = userService.findByLoginId(loginId);
+        attributes.addFlashAttribute("student", student);
+        System.out.println("Students => " + student.getLoginId());
+        System.out.println("Students => " + student.getName());
+        System.out.println("Students => " + student.getEmail());
+        //System.out.println("Students => " + student.getAttendances().get(1));
+        System.out.println("--------------------------------------------------------------------------");
+        return "redirect:/teacher/batch-detail?batchId=" + batchId + "#attendance-tab";
     }
 }
