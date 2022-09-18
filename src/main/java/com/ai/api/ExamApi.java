@@ -32,22 +32,19 @@ public class ExamApi {
     private CourseService courseService;
     
     @PostMapping("admin/exam-create")
-    public void createExam(@RequestBody Exam exam,
-                            @RequestBody List<String> answers,
-                            @RequestBody String correctAnswer,
-                            @RequestBody int mark){
+    public void createExam(@RequestBody Exam exam){
         
         var answerList = new ArrayList<Answer>();
         var questionList = new ArrayList<Question>();
-        for(var a : answers){
+        for(var a : exam.getAnswers()){
             var answer = new Answer();
             answer.setAnswer(a);
             answerList.add(answerService.save(answer));
         }
         var question = new Question();
-        question.setAnswer(correctAnswer);
+        question.setAnswer(exam.getCorrectAnswer());
         question.setAnswers(answerList);
-        question.setMark(mark);
+        question.setMark(exam.getMark());
         question.setQuestion(exam.getQuestion());
         questionList.add(questionService.save(question));
 
