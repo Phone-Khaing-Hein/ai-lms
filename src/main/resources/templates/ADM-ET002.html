@@ -7,262 +7,140 @@
     <title>Exam Create Form</title>
 </head>
 
-<body class="bg-secondary">
-    <form layout:fragment="content">
-        <section>
-            <div class="container col-md-12 p-3" style="margin-top: 30px">
+<body class="bg-light">
+    <div layout:fragment="content">
+        <form id="app">
+            <div class="container p-3" style="margin-top: 30px">
                 <div class="col-md-12 p-3 bg-light shadow mb-2">
-                    <div class="text-center">
+                    <div class="d-flex align-items-center justify-content-between p-4">
                         <h2>
                             <i class="bi bi-journal-code me-2"></i>Create Exam Form
                         </h2>
+                        <input type="submit" class="btn btn-primary me-2" value="Create">
                     </div>
 
                     <div class="p-4 mb-2">
-                        <div class="d-flex justify-content-end">
-                            <input type="submit" class="btn btn-primary me-2" value="Create">
-                            <input type="reset" class="btn btn-danger" value="Cancel">
-                        </div>
-                        <div class="form-group mb-3">
-                            <label for="title" class="h5">Exam Title:</label>
-                            <input type="text" placeholder="Enter Exam Title" class="ms-2 me-4 h5 border-0 w-50"
-                                style="background-color: aliceblue;border: none;border-bottom: 1px solid black !important;outline: none;" />
-                        </div>
-                        <div class="d-flex justify-content-between mb-4">
-                            <span class="form-group mb-2">
-                                <p class="mb-1"><label for="type">Exam Type</label></p>
-                                <span class="me-4"><input type='radio' id="multiple" name="radio"
-                                        value="multiple choice" class="multiple me-1">Multiple Choice</span>
-                                <span><input type='radio' id="fileupload" name="radio" value="File Upload"
-                                        class="me-1 fileupload">File
-                                    Upload</span>
-                            </span>
-                            <span class="form-group mb-2">
-                                <label for="duration">Time Duration</label>
-                                <input class="form-control" id="duration-input" type="text" required
-                                    pattern="[0-9]{2}:[0-9]{2}" value="00:00"
-                                    title="Write a duration in the format hh:mm">
-                                <p id="output"></p>
-                            </span>
-                            <span class="form-group mb-2">
-                                <label for="points">Points</label>
-                                <input type="number" class="form-control">
-                            </span>
-                        </div>
-                        <div class="submit mt-3">
-                            <input type="submit" class=" btn btn-success addform" id="submit" value="Add" />
+                        <div class="row">
+                            <div class="form-group col-3">
+                                <label for="course">Course</label>
+                                <select v-model="courseId" class="form-select">
+                                    <option value="">Select course</option>
+                                    <option th:each="c : ${courses}" th:value="${c.id}">[[${c.name}]]</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-3">
+                                <label for="title">Exam Title</label>
+                                <input type="text" class="form-control" v-model="examTile"
+                                    placeholder="Enter Exam Title" id="title">
+                            </div>
+                            <div class="form-group col-3">
+                                <label for="start">Exam Start Time</label>
+                                <input type="datetime-local" v-model="startTime" class="form-control" id="start">
+                            </div>
+                            <div class="form-group col-3">
+                                <label for="end">Exam End Time</label>
+                                <input type="datetime-local" v-model="endTime" class="form-control" id="end">
+                            </div>
+                            <div class="form-group col-3 mt-2">
+                                <label for="mark">Exam Full Point</label>
+                                <input type="number" class="form-control" v-model="fullmark"
+                                    placeholder="Enter Exam Full Point" id="mark">
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Create Exam -->
-                <div class="row-md-12 col-sm-12 p-4 bg-light mb-2 shadow cardform" id="form"
-                    style="position: rig; bottom: 20px;">
+                <div class="row-md-12 col-sm-12 p-4 bg-light mb-2 shadow cardform" style="position: rig; bottom: 20px;">
                     <div class="exam-body p-3">
-                        <div class="d-flex justify-content-end">
-                            <button class="btn btn-secondary deleteFormBtn">Delete</button>
-                        </div>
-                        <div class="question col-md-8 col-sm-12 mb-3">
-                            <textarea class="form-control"
-                                style="background-color: aliceblue;border: none;border-bottom: 1px solid black !important;outline: none;"
-                                placeholder="Enter Question here.." id="question"></textarea>
-                        </div>
-
-                        <div class="add-answer mt-3">
-                            <p id="RadioForm">
-
-                                <span>Add Answer</span>
-                                <i class="bi bi-plus-circle w-20 ms-2" style="cursor: pointer" id="addRadioBtn"
-                                    onclick="addAnswer()"></i>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="addexamform" id="addexamform"></div>
-
-                <!-- File Upload -->
-                <div class="row-md-12 col-sm-12 p-4 bg-light mb-2 shadow" id="upload"
-                    style="position: rig; bottom: 20px;">
-                    <div class="exam-body p-3">
-                        <div class="question col-md-8 col-sm-12">
-                            <textarea class="form-control"
-                                style="background-color: aliceblue;border: none;border-bottom: 1px solid black !important;outline: none;"
-                                placeholder="Enter Question here.." id="question"></textarea>
+                        <div class="col-12 mb-3 d-flex justify-content-between align-items-start">
+                            <textarea class="form-control w-75" style="resize: none; height: 80px;"
+                                placeholder="Enter Question Here.." v-model="question"></textarea>
+                            <input type="number" class="form-control me-2" v-model="mark" placeholder="Enter each mark">
+                            <button type="button" class="btn btn-success me-2" @click="addQuestion()"><i
+                                    class="bi bi-plus-circle"></i></button>
                         </div>
 
-                        <div class="add-answer mt-3">
-                            <div id="RadioForm" style="width:30%;">
-                                <input type="file" class="form-control">
+                        <div class="mt-3 w-25">
+                            <div class="d-flex align-items-center">
+                                <input type="text" class="form-control me-2" v-model="answer"
+                                    placeholder="Enter Answer Here ...">
+                                <button type="button" class="btn btn-success" @click="addAnswer()">
+                                    <i class="bi bi-plus-circle"></i>
+                                </button>
+                            </div>
+                            <div class="mt-2 d-flex align-items-center" v-for="(answer, index) in answers">
+                                <p class="me-2 form-control" style="margin-bottom: 0;">{{answer}}</p>
+                                <button type="button" class="btn btn-danger" :id="index" @click="deleteAnswer(index)">
+                                    <i class="bi bi-trash-fill"></i>
+                                </button>
                             </div>
                         </div>
-                        <div class="submit mt-3">
-                            <input type="submit" class="btn btn-outline-primary" id="submit" />
-                        </div>
+                        <input type="text" class="form-control w-25 mt-3" placeholder="Enter correct answer"
+                            v-model="correctAnswer">
+                        <span class="text-danger" v-if="contain">Correct must contain
+                            in answer
+                            list!</span>
                     </div>
                 </div>
             </div>
-        </section>
-    </form>
+        </form>
+        <script type="text/javascript">
+            const app = new Vue({
+                el: '#app',
+                data: {
+                    answers: [],
+                    correctAnswer: "",
+                    answer: "",
+                    contain: false,
+                    question: "",
+                    fullmark: "",
+                    examTile: "",
+                    startTime: "",
+                    endTime: "",
+                    courseId: "",
+                    mark: ""
+                },
+                methods: {
+                    addAnswer() {
+                        if (this.answer) {
+                            this.answers = [...this.answers, this.answer]
+                            this.answer = ""
+                        }
+                    },
+                    deleteAnswer(index) {
+                        this.answers.splice(index, 1);
+                    },
+                    addQuestion() {
+                        let result = this.answers.find(a => a === this.correctAnswer)
+                        if (!result) {
+                            this.contain = true
+                        } else {
+                            this.contain = false
+                        }
 
-
-    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js" type="text/javascript"></script>
-    <script src="https://kit.fontawesome.com/83e4876698.js" crossorigin="anonymous"></script> -->
-
-    <script type="text/javascript">
-
-
-        // var radioForm = document.getElementById("RadioForm");
-        // document.addEventListener("DOMContentLoaded", function () {
-        //     document
-        //         .getElementById("addRadioBtn")
-        //         .addEventListener("click", function () {
-        //             var radio = document.createElement("input");
-        //             var div = document.createElement('div');
-        //             div.setAttribute("class", "option");
-        //             var input = document.createElement('input');
-        //             radio.setAttribute("type", "radio");
-        //             radio.setAttribute("name", "choose");
-        //             radio.setAttribute(
-        //                 "class",
-        //                 "form-check-input animate__animated animate__slideInDown scroll-div"
-        //             );
-        //             input.setAttribute("type", "text");
-        //             input.setAttribute("name", "answer")
-        //             input.setAttribute("class", "border-0 text-align-center mb-2 ms-2");
-        //             input.setAttribute("style", "border: none;border-bottom: 1px solid black !important;outline: none;");
-        //             input.setAttribute("placeholder", "Add Option");
-
-        //             var input1 = document.createElement("input");
-        //             var span = document.createElement("span");
-        //             input1.setAttribute("type", "submit");
-        //             input1.setAttribute("class", "btn btn-outline-secondary btn-sm ms-2 border-0 remove");
-        //             input1.setAttribute("value", "remove");
-        //             input1.addEventListener("click", function () {
-        //                 $(".remove").click(function () {
-        //                     removeform();
-        //                 })
-        //             })
-
-        //             div.appendChild(radio);
-        //             div.appendChild(input);
-        //             radioForm.appendChild(div);
-        //             div.appendChild(span);
-        //             span.appendChild(input1);
-        //         });
-        // });
-
-
-        $(document).ready(function () {
-            $("#form").hide();
-            $("#upload").hide();
-            $(".addform").hide();
-            $(".addexamform").hide();
-            console.log("#form");
-
-            $(".multiple").on("click", function () {
-                $("#form").show();
-                $(".addform").show();
-                $(".addexamform").show();
-                $("#upload").hide();
-            });
-
-            $(".fileupload").on("click", function () {
-                $("#form").hide();
-                $(".addform").hide();
-                $(".addexamform").hide();
-                $("#upload").show();
-            });
-
-            // $(Document).on('click', function addAnswer (e) {
-
-            //     $(this).closest('.RadioForm')
-            //         .append(`<div class="option">
-            //             <input type="radio" name="choose" class="form-check-input animate__animatedanimate__slideInDown scroll-div" name="answer">
-            //             <input type="text" class="border-0 text-align-center mb-2 ms-2" name="answer" style="border: none;border-bottom: 1px solid black ! important;outline: none;" placeholder="Add Option">
-            //             <span><input type="submit" class="btn btn-outline-secondary btn-sm ms-2 border-0 remove" value="remove">
-            //             </span>
-            //             </div>`);
-            // })
-
-            
-
-
-            $(".addform").click(function () {
-
-                var maindiv = document.getElementById("addexamform");
-
-                var div1 = document.createElement("div");
-                div1.setAttribute("class", "row-md-12 col-sm-12 p-4 bg-light mb-2 cardform");
-                div1.setAttribute("style", "position: rig; bottom: 20px;");
-                var div2 = document.createElement("div");
-                div2.setAttribute("class", "exam-body p-3");
-
-                var buttondiv = document.createElement("div");
-                buttondiv.setAttribute("class", "d-flex justify-content-end");
-                var button = document.createElement("button");
-                button.setAttribute("class", "btn btn-secondary deleteFormBtn");
-                var buttontext = document.createTextNode("Delete");
-                button.appendChild(buttontext);
-
-                var div3 = document.createElement("div");
-                div3.setAttribute("class", "question col-md-8 col-sm-12");
-                var textarea = document.createElement("textarea");
-                textarea.setAttribute("class", "form-control mb-3");
-                textarea.setAttribute("style", "background-color: aliceblue;border: none;border-bottom: 1px solid black !important;outline: none; width:65%");
-                textarea.setAttribute("placeholder", "Enter Question here..");
-                textarea.setAttribute("id", "question");
-
-                div3.setAttribute("class", "add-answer mt-3");
-                var p = document.createElement("p");
-                p.setAttribute("class", "RadioForm");
-                var span1 = document.createElement("span");
-                var text = document.createTextNode("Add Answer");
-                span1.appendChild(text);
-                var i = document.createElement("i");
-                i.setAttribute("class", "fa-solid fa-circle-plus text-dark w-20 ms-2 addRadioBtn");
-                i.setAttribute("style", "cursor: pointer");
-                i.setAttribute("id", "addRadioBtn");
-
-                maindiv.appendChild(div1);
-                div1.appendChild(div2);
-                div2.appendChild(buttondiv);
-                div2.appendChild(div3);
-                buttondiv.appendChild(button);
-                div3.appendChild(textarea);
-                div3.appendChild(p);
-                p.appendChild(span1);
-                span1.appendChild(i);
-            });
-
-
-            // $(Document).on('click', '.addRadioBtn', function (e) {
-
-            //     $(this).closest('.RadioForm')
-            //         .append(`<div class="option">
-            //         <input type="radio" name="choose" class="form-check-input animate__animatedanimate__slideInDown scroll-div" name="answer">
-            //         <input type="text" class="border-0 text-align-center mb-2 ms-2" name="answer" style="border: none;border-bottom: 1px solid black ! important;outline: none;" placeholder="Add Option">
-            //         <span><input type="submit" class="btn btn-outline-secondary btn-sm ms-2 border-0 remove" value="remove">
-            //         </span>
-            //     </div>`);
-
-
-            // })
-
-
-            $(Document).on('click', '.remove', function (e) {
-                e.preventDefault();
-                $(this).parent().closest('.option').remove();
+                        axios.post('http://localhost:9090/admin/exam-create', {
+                            exam: {
+                                title: this.examTile,
+                                mark: this.fullmark,
+                                question: this.question,
+                                courseId: this.courseId
+                            },
+                            answers: this.answers,
+                            correctAnswer: this.correctAnswer,
+                            mark: this.mark
+                        })
+                            .then(function (response) {
+                                console.log(response);
+                            })
+                            .catch(function (error) {
+                                console.log(error);
+                            });
+                    }
+                },
             })
-
-            $(Document).on('click', '.deleteFormBtn', function (e) {
-                $(this).closest('.cardform').remove();
-            })
-        });
-
-
-
-    </script>
+        </script>
+    </div>
 </body>
 
 </html>

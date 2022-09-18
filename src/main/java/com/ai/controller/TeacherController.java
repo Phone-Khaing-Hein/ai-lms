@@ -93,6 +93,7 @@ public class TeacherController {
     public String createAttendance(@RequestParam int batchId,
                                    ModelMap m) {
         var batch = batchService.findById(batchId);
+        m.put("attendance", new Attendance());
         m.put("batch", batch);
         m.put("students", batch.getUsers().stream().filter(u -> u.getRole().equals(User.Role.Student)).toList());
         return "teacher/TCH-AT001";
@@ -165,6 +166,10 @@ public class TeacherController {
 
         if(!StringUtils.hasLength(oldPassword)){
             m.put("oldPasswordError", "Old Password is required!");
+            if(!StringUtils.hasLength(newPassword)){
+                m.put("newPasswordError", "New Password is required!");
+                return "teacher/TCH-PF004";
+            }
             return "teacher/TCH-PF004";
         }
         if(!StringUtils.hasLength(newPassword)){

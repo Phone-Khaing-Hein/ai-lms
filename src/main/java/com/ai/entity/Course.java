@@ -37,4 +37,7 @@ public class Course implements Serializable {
     @OneToMany(mappedBy = "course", cascade = {CascadeType.PERSIST,CascadeType.MERGE}, orphanRemoval = true)
     @JsonIgnore
     private List<Batch> batches;
+
+    @OneToMany(mappedBy = "course", cascade = {CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
+    private List<Exam> exams;
 }
