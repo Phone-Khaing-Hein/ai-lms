@@ -23,34 +23,39 @@ public class ExamApi {
     private ExamService examService;
 
     @Autowired
-    private  QuestionService questionService;
-
-    @Autowired
-    private AnswerService answerService;
-
-    @Autowired
     private CourseService courseService;
-    
-    @PostMapping("admin/exam-create")
-    public void createExam(@RequestBody Exam exam){
-        
-        var answerList = new ArrayList<Answer>();
-        var questionList = new ArrayList<Question>();
-        for(var a : exam.getAnswers()){
-            var answer = new Answer();
-            answer.setAnswer(a);
-            answerList.add(answerService.save(answer));
-        }
-        var question = new Question();
-        question.setAnswer(exam.getCorrectAnswer());
-        question.setAnswers(answerList);
-        question.setMark(exam.getMark());
-        question.setQuestion(exam.getQuestion());
-        questionList.add(questionService.save(question));
 
-        exam.setQuestions(questionList);
+    @PostMapping("admin/exam-create")
+    public void addExam(@RequestBody Exam exam) {
         exam.setCourse(courseService.findById(exam.getCourseId()));
-        examService.save(exam); 
+        for(var q: exam.getQuestions()){
+            q.setExam(exam);
+            for(var a: q.getAnswers()){
+                a.setQuestion(q);
+            }
+        }
+        examService.save(exam);
     }
+    
+    // @PostMapping("admin/question-create")
+    // public Question createExam(@RequestBody Exam exam){
+        
+    //     var answerList = new ArrayList<Answer>();
+    //     var questionList = new ArrayList<Question>();
+    //     var question = new Question();
+    //     question.setAnswer(exam.getCorrectAnswer());
+    //     question.setMark(exam.getMark());
+    //     question.setQuestion(exam.getQuestion());
+    //     questionList.add(questionService.save(question));
+
+    //     for(var a : exam.getAnswers()){
+    //         var answer = new Answer();
+    //         answer.setAnswer(a);
+    //         answer.setQuestion(question);
+    //         answerList.add(answerService.save(answer));
+    //     }
+    //     question.setAnswers(answerList);
+    //     return question;
+    // }
     
 }

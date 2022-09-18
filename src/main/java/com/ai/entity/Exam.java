@@ -32,29 +32,9 @@ public class Exam {
     @OneToMany(mappedBy = "exam", cascade = {CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
     private List<Question> questions;
 
-     @Column(nullable = false)
-    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-    private LocalDateTime start;
-
-     @Column(nullable = false)
-    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-    private LocalDateTime end;
-
     @ManyToOne
     private Course course;
 
     @Transient
-    private String question;
-
-    @Transient
     private int courseId;
-
-    @Transient
-    private List<String> answers;
-    
-    @Transient
-    private String correctAnswer;
-
-    @Transient
-    private int mark;
 }
