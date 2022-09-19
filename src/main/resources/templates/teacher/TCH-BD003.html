@@ -100,8 +100,8 @@
                                             <th>[[${row.index} + 1]]</th>
                                             <td>[[${e.exam.title}]]</td>
                                             <td>[[${e.exam.fullmark}]]</td>
-                                            <form th:action="exam-schedule" th:id="examSchedule+${e.exam.id}"
-                                                method="post">
+                                            <form th:action="@{/teacher/exam-schedule}"
+                                                th:id="examSchedule+${e.exam.id}" method="post">
                                                 <td>
                                                     <input type="datetime-local" name="start"
                                                         th:classappend="${e.start} != null ? 'd-none disabled' : ''"
@@ -133,35 +133,34 @@
                                                     aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                                     <div class="modal-dialog modal-dialog-centered">
                                                         <div class="modal-content">
-                                                            <form th:action="@{/teacher/schedule-create}" method="post">
-                                                                <div class="modal-header">
-                                                                    <h5 class="modal-title" id="staticBackdropLabel">
-                                                                        Edit Exam Date for [[${batch.name}]]
-                                                                    </h5>
-                                                                    <button type="button" class="btn-close"
-                                                                        data-bs-dismiss="modal"
-                                                                        aria-label="Close"></button>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    <!-- 
-                                                                    <input type="date" class="form-control" name="date"
-                                                                        th:required="true"
-                                                                        th:value="${#temporals.format(m.schedule.date, 'yyyy-MM-dd')}">
-                                                                    <input type="hidden" name="moduleId"
-                                                                        th:value="${m.id}">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="staticBackdropLabel">
+                                                                    Edit Exam Date for [[${batch.name}]]
+                                                                </h5>
+                                                                <button type="button" class="btn-close"
+                                                                    data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <form th:action="@{/teacher/exam-schedule}"
+                                                                    th:id="editExamSchedule+${e.exam.id}" method="post">
                                                                     <input type="hidden" name="batchId"
                                                                         th:value="${batch.id}">
-                                                                    <input type="hidden" name="id"
-                                                                        th:value="${m.schedule.id}"> -->
-
-                                                                </div>
-                                                                <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-secondary"
-                                                                        data-bs-dismiss="modal">Close</button>
-                                                                    <button type="submit"
-                                                                        class="btn btn-primary">Update</button>
-                                                                </div>
-                                                            </form>
+                                                                    <input type="hidden" name="examId"
+                                                                        th:value="${e.exam.id}">
+                                                                    <label for="start">Start Time</label>
+                                                                    <input type="datetime-local" class="form-control"
+                                                                        th:value="${e.start}" name="start">
+                                                                    <label for="end" class="mt-3">End Time</label>
+                                                                    <input type="datetime-local" class="form-control"
+                                                                        th:value="${e.end}" name="end">
+                                                                </form>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary"
+                                                                    data-bs-dismiss="modal">Close</button>
+                                                                <button type="submit" class="btn btn-primary"
+                                                                    th:form="editExamSchedule+${e.exam.id}">Update</button>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
