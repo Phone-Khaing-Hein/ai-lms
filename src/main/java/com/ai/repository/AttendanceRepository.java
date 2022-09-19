@@ -12,10 +12,15 @@ import com.ai.entity.Attendance;
 @Repository
 public interface AttendanceRepository extends JpaRepository<Attendance, Integer>{
 
-     @Query("select a from Attendance a where a.date=?1")
-     Attendance findByDate(LocalDate date);
+    @Query("select a from Attendance a where a.date=?1")
+    Attendance findByDate(LocalDate date);
 
     @Query("SELECT a FROM Attendance a JOIN a.batch b where b.id = :batch_id")
     List<Attendance> findAllAttendanceByBatchId(int batch_id);
+
+    //@Query("SELECT a FROM Attendance a JOIN a.batch b where a.user_login_id = :id")
+    //Attendance findAttendanceByLoginId(String loginId);
+
+    public Attendance findById(int id);
     
 }

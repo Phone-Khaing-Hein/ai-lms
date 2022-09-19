@@ -321,10 +321,8 @@
                                                 th:class="${#strings.equals(a.status, 'Present') ? 'text-success' : #strings.equals(a.status, 'Absent') ? 'text-danger' : 'text-warning'}">
                                                 [[${a.status}]]</td>
                                             <td>[[${a.batch.name}]]</td>
-                                            <td><a href="" class="btn btn-primary btn-sm text-light"><i
-                                                        class="fas fa-edit"></i></a>
-                                                <a href="" class="btn btn-danger btn-sm text-light"><i
-                                                        class="fas fa-trash-alt"></i></a>
+                                            <td><a th:href="@{/setupEditAttendance(loginId=${a.user.loginId}, batchId=${param.batchId}, date=${a.date})}" class="btn btn-primary btn-sm text-light"><i class="bi bi-pencil-square"></i></a>
+                                                <a th:href="@{/deleteAttendance(loginId=${a.user.loginId}, batchId=${param.batchId})}" class="btn btn-danger btn-sm text-light"><i class="bi bi-trash-fill"></i></a>
                                             </td>
                                         </tr>
                                     </tbody>

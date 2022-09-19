@@ -62,6 +62,13 @@ public class AdminController {
     @Autowired
     private AnswerService answerService;
 
+    @ModelAttribute("admin")
+    public void admin(ModelMap m){
+        var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
+        var user = userService.findByLoginId(loginId);
+        m.put("admin", user);
+    }
+
     @GetMapping("home")
     public String home(ModelMap m){
         m.put("courseCount", courseService.getCount());
