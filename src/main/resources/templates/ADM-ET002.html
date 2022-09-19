@@ -9,148 +9,72 @@
 
 <body class="bg-light">
     <div layout:fragment="content">
-        <form id="app">
+        <div id="app">
             <div class="container p-3" style="margin-top: 30px">
                 <div class="col-md-12 p-3 bg-light shadow mb-2">
-                    <div class="d-flex align-items-center justify-content-between p-4">
+                    <div class="d-flex align-items-center justify-content-center mb-4">
                         <h2>
                             <i class="bi bi-journal-code me-2"></i>Create Exam Form
                         </h2>
-                        <input type="submit" class="btn btn-primary me-2" value="Create">
                     </div>
 
                     <div class="px-4">
-                        <div class="form-group col-3 mb-3">
-                            <label for="course">Course</label>
-                            <select v-model="courseId" class="form-select">
-                                <option value="">Select course</option>
-                                <option th:each="c : ${courses}" th:value="${c.id}">[[${c.name}]]</option>
-                            </select>
-                        </div>
                         <div class="row">
-                            <div class="form-group col-3">
+                            <div class="form-group col-4 mb-3">
+                                <label for="course">Course</label>
+                                <select v-model="courseId" class="form-select">
+                                    <option value="">Select course</option>
+                                    <option th:each="c : ${courses}" th:value="${c.id}">[[${c.name}]]</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-4">
                                 <label for="title">Exam Title</label>
                                 <input type="text" class="form-control" v-model="examTile"
                                     placeholder="Enter Exam Title" id="title">
                             </div>
-                            <div class="form-group col-3">
-                                <label for="start">Exam Start Time</label>
-                                <input type="datetime-local" v-model="startTime" class="form-control" id="start">
-                            </div>
-                            <div class="form-group col-3">
-                                <label for="end">Exam End Time</label>
-                                <input type="datetime-local" v-model="endTime" class="form-control" id="end">
-                            </div>
-                            <div class="form-group col-3">
-                                <label for="mark">Exam Full Point</label>
-                                <input type="number" class="form-control" v-model="fullmark"
-                                    placeholder="Enter Exam Full Point" id="mark">
+                            <div class="form-group col-2 mt-4">
+                                <button class="btn btn-primary" @click="createExam()">Create</button>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Create Exam -->
-                <div class="row-md-12 col-sm-12 p-4 bg-light mb-2 shadow cardform" style="position: rig; bottom: 20px;">
-                    <div class="exam-body p-3">
+                <div class="row-md-12 col-sm-12 p-4 bg-light mb-2 shadow cardform" style="position: rig; bottom: 20px;"
+                    v-for="(q, index) in questionList">
+                    <div class="p-3">
                         <div class="col-12 mb-3 d-flex justify-content-between align-items-start">
                             <textarea class="form-control w-75 me-3" style="resize: none; height: 80px;"
-                                placeholder="Enter Question Here.." v-model="question"></textarea>
-                            <input type="number" class="form-control me-2 w-25" v-model="mark"
+                                placeholder="Enter Question Here.." v-model="q.question"></textarea>
+                            <input type="number" class="form-control me-2 w-25" v-model="q.mark"
                                 placeholder="Enter each mark">
-                            <button type="button" class="btn btn-success me-3" @click="addQuestion()"><i
+                            <button type="button" class="btn btn-success me-3" @click="addQuestion(index)"><i
                                     class="bi bi-plus-circle"></i></button>
+                            <button type="button" class="btn btn-danger" :id="index" @click="deleteQuestion(index)">
+                                <i class="bi bi-trash-fill"></i>
+                            </button>
                         </div>
 
-                        <div class="mt-3 w-25">
+                        <div class="mt-3 w-25" v-for="(a, answerIndex) in q.answers">
                             <div class="d-flex align-items-center">
-                                <input type="text" class="form-control me-2" v-model="answer"
+                                <input type="text" class="form-control me-2" v-model="a.answer"
                                     placeholder="Enter Answer Here ...">
-                                <button type="button" class="btn btn-success" @click="addAnswer()">
-                                    <i class="bi bi-plus-circle"></i>
-                                </button>
-                            </div>
-                            <div class="mt-2 d-flex align-items-center" v-for="(answer, index) in answers">
-                                <p class="me-2 form-control" style="margin-bottom: 0;">{{answer}}</p>
-                                <button type="button" class="btn btn-danger" :id="index" @click="deleteAnswer(index)">
+                                <button type="button" class="btn btn-success me-3" @click="addAnswer(index)"><i
+                                        class="bi bi-plus-circle"></i></button>
+                                <button type="button" class="btn btn-danger" :id="index"
+                                    @click="deleteAnswer(index, answerIndex)">
                                     <i class="bi bi-trash-fill"></i>
-                                </button>
                             </div>
                         </div>
                         <input type="text" class="form-control w-25 mt-3" placeholder="Enter correct answer"
-                            v-model="correctAnswer">
-                        <span class="text-danger" v-if="contain">Correct must contain
-                            in answer
-                            list!</span>
+                            v-model="q.correctAnswer">
                     </div>
                 </div>
             </div>
-        </form>
-        <script type="text/javascript">
-            const app = new Vue({
-                el: '#app',
-                data: {
-                    answers: [],
-                    correctAnswer: "",
-                    answer: "",
-                    contain: false,
-                    question: "",
-                    fullmark: "",
-                    examTile: "",
-                    startTime: "",
-                    endTime: "",
-                    courseId: "",
-                    mark: ""
-                },
-                methods: {
-                    addAnswer() {
-                        if (this.answer) {
-                            this.answers = [...this.answers, this.answer]
-                            this.answer = ""
-                        }
-                    },
-                    deleteAnswer(index) {
-                        this.answers.splice(index, 1);
-                    },
-                    addQuestion() {
-                        let result = this.answers.find(a => a === this.correctAnswer)
-                        if (!result) {
-                            this.contain = true
-                        } else {
-                            this.contain = false
-                        }
+            </form>
 
-                        axios.post('http://localhost:9090/admin/exam-create', {
-                            title: this.examTile,
-                            fullmark: this.fullmark,
-                            question: this.question,
-                            courseId: this.courseId,
-                            answers: this.answers,
-                            correctAnswer: this.correctAnswer,
-                            mark: this.mark,
-                            start: this.startTime,
-                            end: this.endTime
-                        })
-                            .then(function (response) {
-                                console.log(response);
-                                this.examTile = "",
-                                    this.fullmark = "",
-                                    this.question = "",
-                                    this.courseId = "",
-                                    this.answers = [],
-                                    this.correctAnswer = "",
-                                    this.mark = "",
-                                    this.startTime = "",
-                                    this.endTime = ""
-                            })
-                            .catch(function (error) {
-                                console.log(error);
-                            });
-                    }
-                },
-            })
-        </script>
-    </div>
+        </div>
+        <script type="text/javascript" th:src="@{/resources/assets/js/exam.js}"></script>
 </body>
 
 </html>

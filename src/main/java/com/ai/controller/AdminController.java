@@ -501,7 +501,7 @@ public class AdminController {
 
     @GetMapping("exam-list")
     public String examList(ModelMap m){
-        m.put("exams", examService.findAll());
+        m.put("exam", examService.findAll());
         return "ADM-ET001";
     }
     
@@ -509,6 +509,13 @@ public class AdminController {
     public String examCreate(ModelMap m){
         m.put("courses", courseService.findAll());
         return "ADM-ET002";
+    }
+
+    @GetMapping("exam-delete")
+    public String examDelete(@RequestParam int examId, @RequestParam String examTitle, RedirectAttributes attributes){
+        examService.deleteById(examId);
+        attributes.addFlashAttribute("successMessage", "%s deleted successfully!".formatted(examTitle));
+        return "redirect:/admin/exam-list";
     }
 
 //    ---------------------------------------Profile------------------------------------------------------------------

@@ -60,4 +60,7 @@ public class Batch implements Serializable {
     @OneToMany(mappedBy = "batch", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Attendance> attendances;
 
+    @OneToMany(mappedBy = "batch", cascade = {CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
+    private List<BatchHasExam> batchHasExams;
+
 }

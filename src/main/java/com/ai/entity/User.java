@@ -54,6 +54,8 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Attendance> attendances;
 
+    @OneToMany(mappedBy = "student", cascade = {CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
+
 	@Transient
     private Integer[] batchId;
 
