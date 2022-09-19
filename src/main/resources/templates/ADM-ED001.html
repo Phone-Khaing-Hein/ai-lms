@@ -76,6 +76,7 @@
             const app = new Vue({
                 el: "#app",
                 data: {
+                    id: "",
                     fullmark: "",
                     isEmpty: null,
                     examTile: "",
@@ -151,7 +152,7 @@
                                 this.isEmpty = true;
                                 Swal.fire("Please Fill All Question Forms!", "", "info");
                             } else if (
-                                this.courseId.replace(/\s/g, "").length == 0 ||
+                                this.courseId.toString().replace(/\s/g, "").length == 0 ||
                                 this.examTile.replace(/\s/g, "").length == 0
                             ) {
                                 this.isEmpty = true;
@@ -166,6 +167,7 @@
                                 this.fullmark = fullMark;
                             });
                             let data = {
+                                id: this.id,
                                 courseId: this.courseId,
                                 title: this.examTile,
                                 fullmark: this.fullmark,
@@ -173,9 +175,9 @@
                             };
                             console.log(data);
                             axios
-                                .post("http://localhost:9090/admin/exam-create", data)
+                                .post("http://localhost:9090/admin/exam-edit", data)
                                 .then(() => {
-                                    Swal.fire("Successfully Created!", "", "success").then(
+                                    Swal.fire("Successfully Edited!", "", "success").then(
                                         () => (window.location = "http://localhost:9090/admin/exam-list")
                                     );
                                 })
@@ -192,6 +194,7 @@
                             that.examTile = response.data.title
                             that.courseId = response.data.course.id
                             that.questionList = response.data.questions
+                            that.id = response.data.id
                         })
                         .catch(function (error) {
                             console.log(error);

@@ -56,6 +56,27 @@ public class ExamApi {
         }
     }
 
+    @PostMapping("admin/exam-edit")
+    public void editExam(@RequestBody Exam exam) {
+        examService.deleteById(exam.getId());
+        var course = courseService.findById(exam.getCourseId());
+        exam.setCourse(course);
+        for(var q: exam.getQuestions()){
+            q.setExam(exam);
+            for(var a: q.getAnswers()){
+                a.setQuestion(q);
+            }
+        }
+        var e = examService.save(exam);
+
+        for(var batch : course.getBatches()){
+            var batchHasExam = new BatchHasExam();
+            batchHasExam.setBatch(batch);
+            batchHasExam.setExam(e);
+            batchHasExamRepository.save(batchHasExam);
+        }
+    }
+
     @GetMapping("admin/exams")
     public Exam questions(@RequestParam int examId){
         return examService.findById(examId);
