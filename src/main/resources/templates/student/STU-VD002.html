@@ -181,7 +181,8 @@
                                     th:each="video : ${module.videos}">
                                     <div th:onclick="videoChange([[${course.name}]], [[${module.name}]], [[${video.name}]], [[${video.id}]])"
                                         class="accordion-body p-3 bg-light cursor-pointer">
-                                        [[${video.name}]]</div>
+                                        <span style="width: 40px;">[[${video.name}]]</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>

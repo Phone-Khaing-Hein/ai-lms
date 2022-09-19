@@ -96,7 +96,7 @@ public class TeacherController {
         m.put("modules", batch.getCourse().getModules());
         m.put("schedule", scheduleRepository.findAll().stream().filter(s -> s.getBatch().getId() == batchId).toList());
         m.put("attendance", attendanceService.findAllAttendanceByBatchId(batchId));
-        m.put("exams", batchHasExamRepository.findByBatchId(batchId));
+        m.put("batchHasExam", batchHasExamRepository.findByBatchId(batchId));
         m.put("assignmentAnswers", assignmentAnswerService.findAll().stream().filter(a -> a.getUser().getBatches().get(0).getId() == batch.getId()).toList());
         return "teacher/TCH-BD003";
     }
@@ -284,13 +284,17 @@ public class TeacherController {
             return "redirect:/teacher/batch-detail?batchId=%d#exam-tab".formatted(batchId);
         }
 
-        var batchHasExam = new BatchHasExam();
+        var batchHasExams = batchHasExamRepository.findByBatchId(batchId);
         var exam = examService.findById(examId);
-        batchHasExam.setBatch(batchService.findById(batchId));
-        batchHasExam.setEnd(end);
-        batchHasExam.setStart(start);
-        batchHasExam.setExam(exam);
-        batchHasExamRepository.save(batchHasExam);
+        var scheduleExam = new BatchHasExam();
+        for(var e : batchHasExams){
+            if(e.getExam().getId() == examId){
+                scheduleExam = e;
+            }
+        }
+        scheduleExam.setEnd(end);
+        scheduleExam.setStart(start);
+        batchHasExamRepository.save(scheduleExam);
         attributes.addFlashAttribute("message", "%s scheduled successfully!".formatted(exam.getTitle()));
         return "redirect:/teacher/batch-detail?batchId=%d#exam-tab".formatted(batchId);
     }

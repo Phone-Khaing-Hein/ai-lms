@@ -29,5 +29,9 @@ public class ExamService {
     public void deleteById(int examId) {
         examRepository.deleteById(examId);
     }
+
+    public List<Exam> findByCourseId(int id) {
+        return examRepository.findByCourse_Id(id);
+    }
     
 }

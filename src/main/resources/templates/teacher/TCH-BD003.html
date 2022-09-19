@@ -90,13 +90,13 @@
                                             <th scope="col">#</th>
                                             <th scope="col">Title</th>
                                             <th scope="col">Full Mark</th>
-                                            <th>Start Time</th>
-                                            <th>End Time</th>
+                                            <th scope="col">Start Time</th>
+                                            <th scope="col">End Time</th>
                                             <th scope="col">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr th:each="e, row : ${exams}" style="vertical-align: middle;">
+                                        <tr th:each="e, row : ${batchHasExam}" style="vertical-align: middle;">
                                             <th>[[${row.index} + 1]]</th>
                                             <td>[[${e.exam.title}]]</td>
                                             <td>[[${e.exam.fullmark}]]</td>
