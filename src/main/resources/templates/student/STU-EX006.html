@@ -42,6 +42,22 @@
                                     assignment</a>
                             </td>
                         </tr>
+                        <tr th:each="bhe : ${bheList}">
+                            <td>
+                                <span>May Zwei•Jul 8</span>
+                            </td>
+                            <td class="align-middle">
+                                <span>[[${bhe?.exam?.title}]]</span>
+                            </td>
+                            <td class="align-middle">
+                                <h6 class="mb-0"><span class="badge bg-primary">Due [[${bhe?.end}]]</span></h6>
+                            </td>
+                            <td class="align-middle">
+                                <a th:href="@{/student/exam-detail/} + ${bhe?.id}" class="text-decoration-none">
+                                    view assignment
+                                </a>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>

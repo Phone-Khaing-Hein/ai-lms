@@ -1,6 +1,7 @@
 package com.ai.controller;
 
 import com.ai.entity.AssignmentAnswer;
+import com.ai.entity.BatchHasExam;
 import com.ai.entity.User;
 import com.ai.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.servlet.annotation.MultipartConfig;
 
@@ -53,8 +55,11 @@ public class StudentController {
     @Autowired
     private FileService fileService;
 
+    @Autowired
+    private BatchHasExamService batchHasExamService;
+
     @GetMapping("home")
-    public String home(ModelMap m){
+    public String home(ModelMap m) {
         var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
         var user = userService.findByLoginId(loginId);
         var teachers = userService.findAll().stream()
@@ -68,7 +73,7 @@ public class StudentController {
     }
 
     @GetMapping("course")
-    public String course(ModelMap m){
+    public String course(ModelMap m) {
         var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
         var user = userService.findByLoginId(loginId);
         m.put("course", user.getBatches().get(0).getCourse());
@@ -77,7 +82,7 @@ public class StudentController {
     }
 
     @GetMapping("members")
-    public String members(ModelMap m){
+    public String members(ModelMap m) {
         var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
         var user = userService.findByLoginId(loginId);
         var members = batchService.findById(user.getBatches().get(0).getId()).getUsers();
@@ -89,7 +94,7 @@ public class StudentController {
     }
 
     @GetMapping("chat")
-    public String chat(ModelMap m){
+    public String chat(ModelMap m) {
         var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
         var user = userService.findByLoginId(loginId);
         m.put("batch", user.getBatches().get(0));
@@ -99,7 +104,7 @@ public class StudentController {
     }
 
     @GetMapping("profile")
-    public String profile(ModelMap m){
+    public String profile(ModelMap m) {
         var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
         var user = userService.findByLoginId(loginId);
         m.put("user", user);
@@ -107,7 +112,8 @@ public class StudentController {
     }
 
     @PostMapping("change-password")
-    public String changePassword(@RequestParam String oldPassword, @RequestParam String newPassword, ModelMap m, RedirectAttributes attributes){
+    public String changePassword(@RequestParam String oldPassword, @RequestParam String newPassword, ModelMap m,
+            RedirectAttributes attributes) {
 
         var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
         var user = userService.findByLoginId(loginId);
@@ -115,69 +121,80 @@ public class StudentController {
         m.put("oldPassword", oldPassword);
         m.put("newPassword", newPassword);
 
-        if(!StringUtils.hasLength(oldPassword)){
+        if (!StringUtils.hasLength(oldPassword)) {
             m.put("oldPasswordError", "Old Password is required!");
             return "student/STU-PF005";
         }
-        if(!StringUtils.hasLength(newPassword)){
+        if (!StringUtils.hasLength(newPassword)) {
             m.put("newPasswordError", "New Password is required!");
             return "student/STU-PF005";
         }
-        if(oldPassword.equals(newPassword)){
+        if (oldPassword.equals(newPassword)) {
             m.put("newPasswordError", "Old Password and New Password are same!");
             return "student/STU-PF005";
         }
 
-        if(!passwordEncoder.matches(oldPassword, user.getPassword())){
+        if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
             m.put("oldPasswordError", "Old Password is incorrect!");
             return "student/STU-PF005";
         }
         user.setPassword(passwordEncoder.encode(newPassword));
         userService.save(user);
-        attributes.addFlashAttribute("message","Changed Password successfully!");
+        attributes.addFlashAttribute("message", "Changed Password successfully!");
         return "redirect:/student/profile";
     }
 
-//    @PostMapping("profile-change")
-//    public String profileChange(@RequestParam MultipartFile photo) throws IOException {
-//        var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
-//        var user = userService.findByLoginId(loginId);
-//        if(StringUtils.hasLength(user.getPhoto()) && !user.getPhoto().equals("default.png")){
-//            var profileFilePath = new File("src\\main\\resources\\static\\profile\\").getAbsolutePath();
-//            fileService.deleteFile(profileFilePath.concat("\\").concat(user.getPhoto()));
-//        }
-//        var fileName = fileService.createProfileFile(photo, user.getLoginId());
-//        user.setPhoto(fileName);
-//        userService.save(user);
-//        return "redirect:/student/profile";
-//    }
+    // @PostMapping("profile-change")
+    // public String profileChange(@RequestParam MultipartFile photo) throws
+    // IOException {
+    // var loginId =
+    // SecurityContextHolder.getContext().getAuthentication().getName();
+    // var user = userService.findByLoginId(loginId);
+    // if(StringUtils.hasLength(user.getPhoto()) &&
+    // !user.getPhoto().equals("default.png")){
+    // var profileFilePath = new
+    // File("src\\main\\resources\\static\\profile\\").getAbsolutePath();
+    // fileService.deleteFile(profileFilePath.concat("\\").concat(user.getPhoto()));
+    // }
+    // var fileName = fileService.createProfileFile(photo, user.getLoginId());
+    // user.setPhoto(fileName);
+    // userService.save(user);
+    // return "redirect:/student/profile";
+    // }
 
     @GetMapping("exam-list")
-    public String exams(){
+    public String exams(ModelMap model) {
+        var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
+        User student = userService.findByLoginId(loginId);
+        Integer batchId = student.getBatches().get(0).getId();
+        List<BatchHasExam> bheList = batchHasExamService.getBatchHasExamListByBatchId(batchId);
+        model.addAttribute("bheList", bheList);
         return "student/STU-EX006";
     }
 
     @GetMapping("assignment-list")
-    public String assignments(ModelMap m){
-        m.put("assignments", assignmentService.findAll().stream().filter(a -> a.getStart().isBefore(LocalDateTime.now())).toList());
+    public String assignments(ModelMap m) {
+        m.put("assignments",
+                assignmentService.findAll().stream().filter(a -> a.getStart().isBefore(LocalDateTime.now())).toList());
         return "student/STU-AS007";
     }
 
     @GetMapping("assignment-detail")
-    public String assignmentDetail(@RequestParam int id, ModelMap m){
+    public String assignmentDetail(@RequestParam int id, ModelMap m) {
         m.put("assignment", assignmentService.findById(id));
         return "student/STU-AD008";
     }
 
     @GetMapping("delete-comment")
-    public String deleteComment(@RequestParam int commentId, RedirectAttributes attributes){
+    public String deleteComment(@RequestParam int commentId, RedirectAttributes attributes) {
         commentService.delete(commentId);
         attributes.addFlashAttribute("message", "Your comment deleted successfully!");
         return "redirect:/student/course";
     }
 
     @PostMapping("assignment-submit")
-    public String assignmentSubmit(@RequestParam(required = false) MultipartFile file, @RequestParam int id, RedirectAttributes attributes) throws IllegalStateException, IOException{
+    public String assignmentSubmit(@RequestParam(required = false) MultipartFile file, @RequestParam int id,
+            RedirectAttributes attributes) throws IllegalStateException, IOException {
         var assignment = assignmentService.findById(id);
         var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
         var user = userService.findByLoginId(loginId);
@@ -193,20 +210,26 @@ public class StudentController {
         return "redirect:/student/assignment-list";
     }
 
-    @GetMapping("exam-detail")
-    public String examDetail(){
+    @GetMapping("exam-detail/{bheId}")
+    public String examDetail(@PathVariable("bheId") Integer bheId, ModelMap model) {
+        var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
+        BatchHasExam bhe = batchHasExamService.getBatchHasExamById(bheId);
+        model.addAttribute("bheId", bheId);
+        model.addAttribute("studentId", loginId);
+        model.addAttribute("examId", bhe.getExam().getId());
         return "student/STU-EF009";
     }
 
     @ModelAttribute("user")
-    public User user(){
+    public User user() {
         var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
         return userService.findByLoginId(loginId);
     }
     // @ModelAttribute("messages")
     // public List<Message> messagesView(){
-    //     var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
-    //     var user = userService.findByLoginId(loginId);
-    //     return messageService.findAll();
+    // var loginId =
+    // SecurityContextHolder.getContext().getAuthentication().getName();
+    // var user = userService.findByLoginId(loginId);
+    // return messageService.findAll();
     // }
 }
