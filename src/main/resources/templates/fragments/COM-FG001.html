@@ -39,10 +39,10 @@
                             data-bs-toggle="dropdown">
 
                             <img th:src="@{/resources/profile/}+${admin.photo}"
-                                class="shadow bg-body rounded-circle me-2" width="40" height="40px" alt="profile"
-                                id="navProfile">
-                                <p style="margin-bottom: 0;" class="text-black">[[${admin.name}]]</p>
-                            
+                            class="shadow bg-body rounded-circle me-2" width="40" height="40px" alt="profile"
+                            id="navProfile">
+                            <p style="margin-bottom: 0;" class="text-black">[[${admin.name}]]</p>
+            
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" th:href="@{/admin/profile/}">My Profile</a></li>
@@ -82,10 +82,14 @@
                     <div class="nav-item dropdown">
                         <a class="nav-link me-5 d-flex align-items-center justify-content-between" href="#"
                             data-bs-toggle="dropdown">
+                            
+
                             <img th:src="@{/resources/profile/}+${teacher.photo}"
                                 class="shadow bg-body rounded-circle me-2" width="40" height="40px" alt="profile"
                                 id="navProfile">
                             <p style="margin-bottom: 0;" class="text-black">[[${teacher.name}]]</p>
+
+                            
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" th:href="@{/teacher/profile}">My Profile</a></li>

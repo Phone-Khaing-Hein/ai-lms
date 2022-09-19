@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -44,7 +45,7 @@ public class AdminControllerTest {
     @MockBean
     CourseService courseService;
 
-    @Mock
+    @Autowired
 	MockHttpSession sessionMock;
 
     public User userObj(){
@@ -64,7 +65,7 @@ public class AdminControllerTest {
     public void homeTest() throws Exception {
         User admin = userObj();
         sessionMock.setAttribute("admin", admin);
-        this.mockMvc.perform(get("/admin/home").param("photo", "admin.png"))
+        this.mockMvc.perform(get("/admin/home"))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("courseCount"))
                 .andExpect(view().name("ADM-DB001"));
@@ -76,7 +77,7 @@ public class AdminControllerTest {
         sessionMock.setAttribute("admin", admin);
         List<Course> courses=new ArrayList<>();
         Mockito.when(courseService.findAll()).thenReturn(courses);
-        this.mockMvc.perform(get("/admin/course-list").session(sessionMock))
+        this.mockMvc.perform(get("/admin/course-list"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("ADM-CT001"));
     }

@@ -5,6 +5,9 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+
+import org.springframework.stereotype.Component;
+
 import java.util.List;
 
 @Entity
