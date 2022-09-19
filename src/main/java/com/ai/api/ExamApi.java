@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ai.entity.Answer;
@@ -24,6 +26,9 @@ public class ExamApi {
 
     @Autowired
     private ExamService examService;
+
+    @Autowired
+    private QuestionService questionService;
 
     @Autowired
     private CourseService courseService;
@@ -49,6 +54,11 @@ public class ExamApi {
             batchHasExam.setExam(e);
             batchHasExamRepository.save(batchHasExam);
         }
+    }
+
+    @GetMapping("admin/exams")
+    public Exam questions(@RequestParam int examId){
+        return examService.findById(examId);
     }
     
     // @PostMapping("admin/question-create")

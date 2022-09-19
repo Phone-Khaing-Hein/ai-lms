@@ -21,5 +21,6 @@ public class Answer {
     private String answer;
 
     @ManyToOne
+    @JsonIgnore
     private Question question;
 }

@@ -34,6 +34,7 @@ public class Question {
     private int mark;
 
     @ManyToOne
+    @JsonIgnore
     private Exam exam;
 
     @OneToMany(mappedBy = "question", cascade = {CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
