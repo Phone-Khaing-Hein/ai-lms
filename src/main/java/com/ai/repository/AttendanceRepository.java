@@ -17,5 +17,10 @@ public interface AttendanceRepository extends JpaRepository<Attendance, Integer>
 
     @Query("SELECT a FROM Attendance a JOIN a.batch b where b.id = :batch_id")
     List<Attendance> findAllAttendanceByBatchId(int batch_id);
+
+    //@Query("SELECT a FROM Attendance a JOIN a.batch b where a.user_login_id = :id")
+    //Attendance findAttendanceByLoginId(String loginId);
+
+    public Attendance findById(int id);
     
 }

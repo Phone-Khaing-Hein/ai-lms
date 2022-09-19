@@ -8,6 +8,7 @@ import com.ai.service.BatchService;
 import com.ai.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -92,18 +94,13 @@ public class AttendedController {
 
     @GetMapping("setupEditAttendance")
     public String editAttendance(@RequestParam("loginId") String loginId,
-                                @RequestParam("batchId") int batchId, 
+                                @RequestParam("batchId") int batchId,
+                                @RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd")LocalDate date,
                                 ModelMap m,
                                 RedirectAttributes attributes){
-        System.out.println("--------------------------------------------------------------------------");
-        System.out.println("loginId => " + loginId + " and batchId => " + batchId);
         User student = userService.findByLoginId(loginId);
+        Attendance attendance = attendanceService.findById(batchId);
         attributes.addFlashAttribute("student", student);
-        System.out.println("Students => " + student.getLoginId());
-        System.out.println("Students => " + student.getName());
-        System.out.println("Students => " + student.getEmail());
-        //System.out.println("Students => " + student.getAttendances().get(1));
-        System.out.println("--------------------------------------------------------------------------");
         return "redirect:/teacher/batch-detail?batchId=" + batchId + "#attendance-tab";
     }
 }

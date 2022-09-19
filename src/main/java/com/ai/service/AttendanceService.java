@@ -17,6 +17,10 @@ public class AttendanceService {
         attendanceRepository.save(attendance);
     }
 
+    public Attendance findById(int id){
+        return attendanceRepository.findById(id);
+    }
+    
     public List<Attendance> findAllAttendance(){
         return attendanceRepository.findAll();
     }

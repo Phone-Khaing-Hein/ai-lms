@@ -1,6 +1,6 @@
 package com.ai.ControllerTest;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
@@ -21,6 +21,8 @@ import com.ai.service.*;
 // import antlr.collections.List;
 import java.util.List;
 import com.ai.entity.*;
+import com.ai.entity.User.Role;
+
 import javax.annotation.Resource;
 
 @SpringBootTest(
@@ -40,9 +42,21 @@ public class AdminControllerTest {
     @MockBean
     CourseService courseService;
 
-
+    public User userObj(){
+        User user = User.builder()
+        .loginId("ADM001")
+        .name("Admin User")
+        .password("admin")
+        .role(Role.Admin)
+        .email("phyuthin2004@gmail.com")
+        .photo("default.png")
+        .isActive(true)
+        .build();
+        return user;
+    }
+    
     @Test
-    public void testHome() throws Exception {
+    public void homeTest() throws Exception {
         this.mockMvc.perform(get("/admin/home"))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("courseCount"))
@@ -50,11 +64,23 @@ public class AdminControllerTest {
     }
 
     @Test
-    public void testCourseList() throws Exception {
+    public void courseListTest() throws Exception {
         List<Course> courses=new ArrayList<>();
         Mockito.when(courseService.findAll()).thenReturn(courses);
         this.mockMvc.perform(get("/admin/course-list"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("ADM-CT001"));
+    }
+
+    @Test
+    public void courseCreateTest() throws Exception {
+        this.mockMvc.perform(post("/admin/course-create"))
+            .andExpect(status().isOk())
+            .andExpect(view().name("ADM-CT001"));
+    }
+
+    @Test
+    public void courseCreateNotNullTest() throws Exception {
+
     }
 }
