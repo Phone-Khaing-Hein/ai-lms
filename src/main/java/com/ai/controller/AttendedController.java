@@ -9,6 +9,7 @@ import com.ai.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -102,5 +103,12 @@ public class AttendedController {
         Attendance attendance = attendanceService.findById(batchId);
         attributes.addFlashAttribute("student", student);
         return "redirect:/teacher/batch-detail?batchId=" + batchId + "#attendance-tab";
+    }
+    
+    @ModelAttribute("teacher")
+    public void teacher(ModelMap m){
+        var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
+        var user = userService.findByLoginId(loginId);
+        m.put("teacher", user);
     }
 }

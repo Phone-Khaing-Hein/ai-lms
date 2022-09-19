@@ -8,10 +8,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.ArrayList;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.mock.web.MockHttpSession;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
@@ -42,9 +44,12 @@ public class AdminControllerTest {
     @MockBean
     CourseService courseService;
 
+    @Mock
+	MockHttpSession sessionMock;
+
     public User userObj(){
-        User user = User.builder()
-        .loginId("ADM001")
+        User admin = User.builder()
+        .loginId("ADM002")
         .name("Admin User")
         .password("admin")
         .role(Role.Admin)
@@ -52,12 +57,14 @@ public class AdminControllerTest {
         .photo("default.png")
         .isActive(true)
         .build();
-        return user;
+        return admin;
     }
     
     @Test
     public void homeTest() throws Exception {
-        this.mockMvc.perform(get("/admin/home"))
+        User admin = userObj();
+        sessionMock.setAttribute("admin", admin);
+        this.mockMvc.perform(get("/admin/home").param("photo", "admin.png"))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("courseCount"))
                 .andExpect(view().name("ADM-DB001"));
@@ -65,9 +72,11 @@ public class AdminControllerTest {
 
     @Test
     public void courseListTest() throws Exception {
+        User admin = userObj();
+        sessionMock.setAttribute("admin", admin);
         List<Course> courses=new ArrayList<>();
         Mockito.when(courseService.findAll()).thenReturn(courses);
-        this.mockMvc.perform(get("/admin/course-list"))
+        this.mockMvc.perform(get("/admin/course-list").session(sessionMock))
                 .andExpect(status().isOk())
                 .andExpect(view().name("ADM-CT001"));
     }
