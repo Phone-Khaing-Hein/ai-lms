@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -52,15 +53,19 @@ public class Batch implements Serializable {
     private List<User> users;
 
     @OneToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy = "batch")
+    @JsonIgnore
     private List<Schedule> schedules;
 
     @OneToMany(mappedBy = "batch", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
+    @JsonIgnore
     private List<Assignment> assignments;
 
     @OneToMany(mappedBy = "batch", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
+    @JsonIgnore
     private List<Attendance> attendances;
 
     @OneToMany(mappedBy = "batch", cascade = {CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
+    @JsonIgnore
     private List<BatchHasExam> batchHasExams;
 
 }

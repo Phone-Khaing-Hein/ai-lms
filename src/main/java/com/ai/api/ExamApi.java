@@ -16,6 +16,7 @@ import com.ai.entity.Exam;
 import com.ai.entity.Question;
 import com.ai.repository.BatchHasExamRepository;
 import com.ai.service.AnswerService;
+import com.ai.service.BatchHasExamService;
 import com.ai.service.CourseService;
 import com.ai.service.ExamService;
 import com.ai.service.QuestionService;
@@ -81,4 +82,6 @@ public class ExamApi {
     //     return question;
     // }
     
+
+
 }

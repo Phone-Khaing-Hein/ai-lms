@@ -5,8 +5,11 @@ import com.ai.entity.Batch;
 import com.ai.entity.User;
 import com.ai.service.AttendanceService;
 import com.ai.service.BatchService;
+import com.ai.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -15,8 +18,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,6 +33,9 @@ public class AttendedController {
 
     @Autowired
     private AttendanceService attendanceService;
+
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/create-attendance/{id}")
     public String createAttendance(@PathVariable int id, Model model) {
@@ -83,5 +91,24 @@ public class AttendedController {
             }
             return "redirect:/teacher/batch-detail?batchId=" + id + "#attendance-tab";
         }
+    }
+
+    @GetMapping("setupEditAttendance")
+    public String editAttendance(@RequestParam("loginId") String loginId,
+                                @RequestParam("batchId") int batchId,
+                                @RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd")LocalDate date,
+                                ModelMap m,
+                                RedirectAttributes attributes){
+        User student = userService.findByLoginId(loginId);
+        Attendance attendance = attendanceService.findById(batchId);
+        attributes.addFlashAttribute("student", student);
+        return "redirect:/teacher/batch-detail?batchId=" + batchId + "#attendance-tab";
+    }
+    
+    @ModelAttribute("teacher")
+    public void teacher(ModelMap m){
+        var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
+        var user = userService.findByLoginId(loginId);
+        m.put("teacher", user);
     }
 }
