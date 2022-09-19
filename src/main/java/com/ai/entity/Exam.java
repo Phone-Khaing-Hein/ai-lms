@@ -18,6 +18,8 @@ import javax.persistence.Transient;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
 
 @Entity
@@ -39,9 +41,11 @@ public class Exam {
     private Course course;
 
     @OneToMany(mappedBy = "exam", cascade = {CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
+    @JsonIgnore
     private List<BatchHasExam> batchHasExams;
 
     @OneToMany(mappedBy = "exam", cascade = {CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
+    @JsonIgnore
     private List<StudentHasExam> studentHasExams;
 
     @Transient
