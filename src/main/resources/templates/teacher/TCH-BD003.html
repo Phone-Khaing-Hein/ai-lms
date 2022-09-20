@@ -321,13 +321,83 @@
                                                 th:class="${#strings.equals(a.status, 'Present') ? 'text-success' : #strings.equals(a.status, 'Absent') ? 'text-danger' : 'text-warning'}">
                                                 [[${a.status}]]</td>
                                             <td>[[${a.batch.name}]]</td>
-                                            <td><a th:href="@{/setupEditAttendance(loginId=${a.user.loginId}, batchId=${param.batchId}, date=${a.date})}"
-                                                    class="btn btn-primary btn-sm text-light"><i
-                                                        class="bi bi-pencil-square"></i></a>
-                                                <a th:href="@{/deleteAttendance(loginId=${a.user.loginId}, batchId=${param.batchId})}"
-                                                    class="btn btn-danger btn-sm text-light"><i
-                                                        class="bi bi-trash-fill"></i></a>
+                                            <td>
+                                                <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                                                    th:data-bs-target="'#staticBackdropattendance'+${a.id}">
+                                                    <i class="bi bi-pencil-square me-2"></i>Edit
+                                                </button>
                                             </td>
+                                            <div class="modal fade" th:id="'staticBackdropattendance'+${a.id}"
+                                                data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                                                aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="staticBackdropLabel">Edit
+                                                                Attendance</h5>
+                                                            <button type="button" class="btn-close"
+                                                                data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <form th:action="@{/teacher/attendance-edit}" method="post">
+                                                            <input type="hidden" name="attendanceId" th:value="${a.id}">
+                                                            <input type="hidden" name="batchId" th:value="${batch.id}">
+                                                            <div class="modal-body">
+
+                                                                <div class="row px-2 mb-2">
+                                                                    <div class="col">
+                                                                        <span>Student ID</span>
+                                                                        <span class="form-control">[[${a.user.loginId}]]
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row px-2 mb-2">
+                                                                    <div class="col">
+                                                                        <span>Student Name</span>
+                                                                        <span
+                                                                            class="form-control">[[${a.user.name}]]</span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row px-2 mb-2">
+                                                                    <div class="col">
+                                                                        <span>Batch</span>
+                                                                        <span
+                                                                            class="form-control">[[${a.batch.name}]]</span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row px-2 mb-2">
+                                                                    <div class="col">
+                                                                        <span>Date</span>
+                                                                        <span class="form-control">
+                                                                            [[${#temporals.format(a.date,
+                                                                            'yyyy-MM-dd')}]]</span>
+                                                                    </div>
+                                                                    <div class="col px-2 mb-2s">
+                                                                        <span>Attendance Status</span>
+                                                                        <select name="status" class="form-select">
+                                                                            <option value="Present"
+                                                                                th:selected="${#strings.equals(a.status, 'Present')}">
+                                                                                Present</option>
+                                                                            <option value="Absent"
+                                                                                th:selected="${#strings.equals(a.status, 'Absent')}">
+                                                                                Absent</option>
+                                                                            <option value="Leave"
+                                                                                th:selected="${#strings.equals(a.status, 'Leave')}">
+                                                                                Leave</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary"
+                                                                    data-bs-dismiss="modal">Cancel</button>
+                                                                <button type="submit"
+                                                                    class="btn btn-primary">Edit</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </tr>
                                     </tbody>
                                 </table>
