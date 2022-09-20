@@ -87,18 +87,18 @@
                                 <table class="table table-striped display" id="exam">
                                     <thead>
                                         <tr>
-                                            <th scope="col">#</th>
-                                            <th scope="col">Title</th>
-                                            <th scope="col">Full Mark</th>
-                                            <th scope="col">Start Time</th>
-                                            <th scope="col">End Time</th>
-                                            <th scope="col">Action</th>
+                                            <th>#</th>
+                                            <th>Title</th>
+                                            <th>Full Mark</th>
+                                            <th>Start Time</th>
+                                            <th>End Time</th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr th:each="e, row : ${batchHasExam}" style="vertical-align: middle;">
-                                            <th>[[${row.index} + 1]]</th>
-                                            <td>[[${e.exam.title}]]</td>
+                                            <td>[[${row.index} + 1]]</td>
+                                            <td style="white-space: nowrap;">[[${e.exam.title}]]</td>
                                             <td>[[${e.exam.fullmark}]]</td>
                                             <form th:action="@{/teacher/exam-schedule}"
                                                 th:id="examSchedule+${e.exam.id}" method="post">
@@ -291,11 +291,11 @@
                             <div class="attendance-list" id="attendance-tab">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div>
-                                        <h4>Attendance</h4>
+                                        <h4 style="margin-bottom: 0;">Attendance</h4>
                                     </div>
                                     <div>
-                                        <a type="button" th:href="@{/teacher/createAttendance?batchId=}+${batch.id}"
-                                            class="btn btn-secondary mb-3">Create</a>
+                                        <a type="button" th:href="@{/teacher/attendance-create?batchId=}+${batch.id}"
+                                            class="btn btn-primary text-white">Create</a>
                                     </div>
                                 </div>
                                 <hr>
@@ -321,8 +321,12 @@
                                                 th:class="${#strings.equals(a.status, 'Present') ? 'text-success' : #strings.equals(a.status, 'Absent') ? 'text-danger' : 'text-warning'}">
                                                 [[${a.status}]]</td>
                                             <td>[[${a.batch.name}]]</td>
-                                            <td><a th:href="@{/setupEditAttendance(loginId=${a.user.loginId}, batchId=${param.batchId}, date=${a.date})}" class="btn btn-primary btn-sm text-light"><i class="bi bi-pencil-square"></i></a>
-                                                <a th:href="@{/deleteAttendance(loginId=${a.user.loginId}, batchId=${param.batchId})}" class="btn btn-danger btn-sm text-light"><i class="bi bi-trash-fill"></i></a>
+                                            <td><a th:href="@{/setupEditAttendance(loginId=${a.user.loginId}, batchId=${param.batchId}, date=${a.date})}"
+                                                    class="btn btn-primary btn-sm text-light"><i
+                                                        class="bi bi-pencil-square"></i></a>
+                                                <a th:href="@{/deleteAttendance(loginId=${a.user.loginId}, batchId=${param.batchId})}"
+                                                    class="btn btn-danger btn-sm text-light"><i
+                                                        class="bi bi-trash-fill"></i></a>
                                             </td>
                                         </tr>
                                     </tbody>

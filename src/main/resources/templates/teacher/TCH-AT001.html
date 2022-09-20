@@ -20,21 +20,21 @@
                     </div>
 
                     <div>
-                        <form th:action="@{'/save-attendance/'+${batch.id}}" th:object="${attendance}" method="post">
+                        <form th:action="@{/teacher/attendance-create?batchId=}+${batch.id}" method="post">
                             <!-- Attendence start here-->
                             <div class="attendance-list" id="attendance-tab">
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <p class="d-none" th:text="${error}" th:if="${error} != null"
-                                            id="successMessage"></p>
-                                        <input type="date" th:field="*{date}" name="date" class="form-control me-2"
+                                    <div class="w-25">
+                                        <input type="date" name="date" class="form-control" th:value="${date}"
                                             th:required="true">
+                                        <span style="white-space: nowrap;" class="text-danger"
+                                            th:if="${dateError} != null">[[${dateError}]]</span>
                                     </div>
                                     <div>
-                                        <button class="btn btn-success" type="submit">Save<i
+                                        <button class="btn btn-primary" type="submit">Save<i
                                                 class="bi bi-download ms-2"></i></button>
                                         <a th:href="@{/teacher/batch-detail?batchId=1#attendance-tab}"
-                                            class="btn btn-info text-light">Batch Details</a>
+                                            class="btn btn-danger">Cancel</a>
                                     </div>
                                 </div>
                                 <hr>
@@ -48,13 +48,14 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr th:each="student, row : ${students}">
+                                        <p class="text-danger" th:if="${statusError} != null">[[${statusError}]]</p>
+                                        <tr th:each="student, row : ${students}" style="vertical-align: middle;">
                                             <td>[[${row.index}+1]]</td>
                                             <td>[[${student.loginId}]]</td>
                                             <td>[[${student.name}]]</td>
                                             <td>
-                                                <select class="form-select" th:required="true" id="attendanceStatus"
-                                                    th:field="*{status}">
+                                                <input type="hidden" name="loginId" th:value="${student.loginId}">
+                                                <select class="form-select" th:required="true" name="status">
                                                     <option th:value="Present">Present</option>
                                                     <option th:value="Absent">Absent</option>
                                                     <option th:value="Leave">Leave</option>
@@ -70,30 +71,6 @@
                 </div>
             </div>
         </section>
-        <script>
-            let message = document.getElementById('successMessage');
-            if (message !== null && message.innerText !== "") {
-                const Toast = Swal.mixin({
-                    toast: true,
-                    position: 'top-end',
-                    showConfirmButton: false,
-                    timer: 2000,
-                    timerProgressBar: true,
-                    didOpen: (toast) => {
-                        toast.addEventListener('mouseenter', Swal.stopTimer)
-                        toast.addEventListener('mouseleave', Swal.resumeTimer)
-                    }
-                })
-
-                Toast.fire({
-                    icon: 'error',
-                    title: message.innerText
-                })
-            }
-            $(document).ready(function () {
-                $('#attendTable').DataTable();
-            });
-        </script>
     </div>
 </body>
 
