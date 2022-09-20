@@ -126,7 +126,7 @@ public class TeacherControllerTest {
 
     @Test
     public void setAttendance() throws Exception {
-        
+        this.mockMvc.perform(post("/teacher/setAttendance").param("batchId", "1").param("date", "2022-3-23").param("status", "Present").param("loginId", "TCH001"));
     }
 
 }
