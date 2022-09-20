@@ -6,6 +6,7 @@ import com.ai.entity.BatchHasExam;
 import com.ai.entity.Exam;
 import com.ai.entity.Module;
 import com.ai.entity.Schedule;
+import com.ai.entity.StudentHasExam;
 import com.ai.entity.User;
 import com.ai.repository.BatchHasExamRepository;
 import com.ai.repository.ScheduleRepository;
@@ -74,6 +75,9 @@ public class TeacherController {
 
     @Autowired
     private BatchHasExamRepository batchHasExamRepository;
+
+    @Autowired
+    private StudentHasExamService studentHasExamService;
 
     @GetMapping("home")
     public String home(){
@@ -151,6 +155,14 @@ public class TeacherController {
             m.put("students", batch.getUsers().stream().filter(u -> u.getRole().equals(User.Role.Student)).toList());
             return "teacher/TCH-AT001";
         }
+    }
+
+    @PostMapping("attendance-edit")
+    public String attendanceEdit(@RequestParam int batchId, @RequestParam String status, @RequestParam int attendanceId){
+        var attendance = attendanceService.findById(attendanceId);
+        attendance.setStatus(status);
+        attendanceService.save(attendance);
+        return "redirect:/teacher/batch-detail?batchId=%d#attendance-tab".formatted(batchId);
     }
 
 
@@ -273,15 +285,17 @@ public class TeacherController {
     public String exams(ModelMap m){
         var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
         var user = userService.findByLoginId(loginId);
-        var exams = new ArrayList<Exam>();
-        for(var e: examService.findAll()){
-            for(var b: user.getBatches()){
-                if(b.getCourse().getName().equals(e.getCourse().getName())){
-                    exams.add(e);
+        var batches = user.getBatches();
+        var examAnswers = new ArrayList<StudentHasExam>();
+        for(var b: batches){
+            for(var e: b.getBatchHasExams()){
+                for(var s: e.getExam().getStudentHasExams()){
+                    examAnswers.add(s);
                 }
             }
         }
-        m.put("exam", exams);
+        
+        m.put("exam", examAnswers);
         return "teacher/TCH-ET008";
     }
 

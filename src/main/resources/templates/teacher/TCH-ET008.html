@@ -22,20 +22,19 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Title</th>
-                                <th>Points</th>
                                 <th>Course</th>
-                                <th></th>
+                                <th>Title</th>
+                                <th>Student</th>
+                                <th>Points</th>
                             </tr>
                         </thead>
                         <tbody id="app">
                             <tr th:each="e, row : ${exam}" style="vertical-align: middle;">
                                 <td>[[${row.index} + 1]]</td>
-                                <td>[[${e.title}]]</td>
-                                <td>[[${e.fullmark}]]</td>
-                                <td>[[${e.course.name}]]</td>
-                                <td>
-                                </td>
+                                <td>[[${e.exam.course.name}]]</td>
+                                <td>[[${e.exam.title}]]</td>
+                                <td>[[${e.student.name}]]</td>
+                                <td>[[${e.mark}]]</td>
                             </tr>
                         </tbody>
                     </table>
