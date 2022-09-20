@@ -12,6 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ContextConfiguration;
 
 import com.ai.repository.UserRepository;
 import com.ai.service.UserService;
@@ -19,6 +20,7 @@ import com.ai.entity.User;
 import com.ai.entity.User.Role;
 
 @SpringBootTest
+@ContextConfiguration(locations = "classpath:application-context.xml")
 public class UserServiceTest {
 
     @Mock
