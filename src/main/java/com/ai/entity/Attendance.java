@@ -6,6 +6,9 @@ import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 import java.io.Serializable;
 
 @Entity
@@ -23,10 +26,12 @@ public class Attendance implements Serializable {
     private int id;
 
     @Column(nullable = false)
+    @NotBlank(message = "Attendance Status is required!")
     private String status;
 
     @Column(nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @NotNull(message = "Attendance Date is required!")
     private LocalDate date;
 
     @ManyToOne
