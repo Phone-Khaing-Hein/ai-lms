@@ -177,11 +177,36 @@
                     newMessage: {}
                 },
                 methods: {
+                    isToday(date) {
+                        let today = new Date();
+                        return today.toLocaleString().split(',')[0] == date.toLocaleString().split(',')[0] ? true : false;
+                    },
+                    isYesterday(date) {
+                        let today = new Date();
+                        let yesterday = new Date();
+                        yesterday.setDate(today.getDate() - 1);
+                        return yesterday.toLocaleString().split(',')[0] == date.toLocaleString().split(',')[0] ? true : false;
+                    },
+                    formatDate(date) {
+                        let time = date.toLocaleString().split(',')[1];
+                        if (this.isToday(date)) {
+                            return "Today at" + time.substring(0, time.length - 6) + " " + time.slice(-2);
+                        } else if (this.isYesterday(date)) {
+                            return "Yesterday at" + time.substring(0, time.length - 6) + " " + time.slice(-2);
+                        } else {
+                            return date.toLocaleString().split(',')[0];
+                        }
+                    },
                     getMessage() {
                         return fetch('http://localhost:9090/student/chat/messages')
                             .then((res) => res.json())
                             .then((data) => {
-                                this.messages = data
+                                this.messages = data;
+                                this.messages = this.messages.map(message => {
+                                    let [year, month, day, hour, minute] = message.created;
+                                    let dateTime = this.formatDate(new Date(year, month - 1, day, hour, minute));
+                                    return { ...message, created: dateTime };
+                                })
                             })
                     },
                     getLoginUser() {
@@ -192,15 +217,20 @@
                             })
                     },
                     sendMessage() {
-                        axios.post('http://localhost:9090/student/chat', {
-                            message: document.getElementById("textBox").value
-                        }).then(function (response) {
-                            that.messages = [...that.messages, response.data]
-                            $(".emojionearea-editor").html('');
-                        }).catch(function (error) {
-                            console.log(error);
-                        });
-                        document.getElementById("autoscroll").click();
+                        let message = document.getElementById("textBox").value;
+                        if (message.replace(/\s/g, "").length != 0) {
+                            axios.post('http://localhost:9090/student/chat', {
+                                message: document.getElementById("textBox").value
+                            }).then(function (response) {
+                                let [year, month, day, hour, minute] = response.data.created;
+                                response.data.created = that.formatDate(new Date(year, month - 1, day, hour, minute));
+                                that.messages = [...that.messages, response.data]
+                                $(".emojionearea-editor").html('');
+                            }).catch(function (error) {
+                                console.log(error);
+                            });
+                            document.getElementById("autoscroll").click();
+                        }
                     },
                     scroll() {
                         document.getElementById("autoscroll").click();

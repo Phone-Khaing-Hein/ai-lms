@@ -3,6 +3,8 @@
     layout:decorate="~{/layouts/STU-AUTH.html}">
 
 <head>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script type="text/javascript" th:src="@{/resources/assets/js/studentExam.js}" defer></script>
     <meta charset="UTF-8">
     <title>Course</title>
     <style>
@@ -80,9 +82,9 @@
             display: inline-block
         }
 
-        input[type="radio"] {
+        /* input[type="radio"] {
             display: none
-        }
+        } */
 
         .btn.btn-primary {
             border-radius: 25px;
@@ -110,78 +112,93 @@
         .alerts:hover {
             transform: translateY(3px);
         }
+
+        [v-cloak] {
+            display: none
+        }
     </style>
 </head>
 
 <body class="bg-light">
     <div layout:fragment="content">
         <section>
-            <div class="container mb-5">
-                <nav aria-label="breadcrumb" class="d-flex justify-content-end">
-                    <ol class="breadcrumb text-capitalize">
-                        <li class="breadcrumb-item"><a href="dashboard.html">dashboard</a></li>
-                        <li class="breadcrumb-item"><a href="examlist.html">exam-list</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">exam form</li>
-                    </ol>
-                </nav>
-                <div class="row">
-                    <div class="col-12">
-                        <p class="fw-bold">1. Which of the following sentences is correct</p>
-                        <div> <input type="radio" name="box" id="one"> <input type="radio" name="box" id="two"> <input
-                                type="radio" name="box" id="three"> <input type="radio" name="box" id="four"> <label
-                                for="one" class="box first">
-                                <div class="course"> <span class="circle"></span> <span class="subject"> When its
-                                        raining
-                                        ,people's umbrella are all you're going to see from above </span> </div>
-                            </label> <label for="two" class="box second">
-                                <div class="course"> <span class="circle"></span> <span class="subject"> When its
-                                        raining,people's umbrella are all your going to see from above </span> </div>
-                            </label> <label for="three" class="box third">
-                                <div class="course"> <span class="circle"></span> <span class="subject"> When its
-                                        raining,peoples umbrella's are all you're going to see from above </span> </div>
-                            </label> <label for="four" class="box forth">
-                                <div class="course"> <span class="circle"></span> <span class="subject"> None of the
-                                        above
-                                    </span> </div>
-                            </label> </div>
-                    </div>
-                    <div class="col-12">
-                        <p class="fw-bold mt-5">2. Complete the following sentences:Alice couldn't _______ the
-                            humilation
-                            any longer and stormed out of the room red as a bed</p>
-                        <div>
-                            <div class="row">
-                                <div class="col-md-6"> <input type="radio" name="box" id="five"> <label for="five"
-                                        class="box fifth w-100">
-                                        <div class="course"> <span class="circle"></span> <span
-                                                class="subject">is</span>
-                                        </div>
-                                    </label> </div>
-                                <div class="col-md-6"> <input type="radio" name="box" id="six"> <label for="six"
-                                        class="box sixth w-100">
-                                        <div class="course"> <span class="circle"></span> <span class="subject"> was
-                                            </span>
-                                        </div>
-                                    </label> </div>
-                                <div class="col-md-6"> <input type="radio" name="box" id="seven"> <label for="seven"
-                                        class="box seveth w-100">
-                                        <div class="course"> <span class="circle"></span> <span class="subject"> will
-                                            </span> </div>
-                                    </label> </div>
-                                <div class="col-md-6"> <input type="radio" name="box" id="eight"> <label for="eight"
-                                        class="box eighth w-100">
-                                        <div class="course"> <span class="circle"></span> <span class="subject"> None of
-                                                the
-                                                above </span> </div>
-                                    </label> </div>
+            <div v-cloak class="container mb-5" id="exam">
+                <input id="studentId" type="hidden" th:value="${studentId}">
+                <input id="bheId" type="hidden" th:value="${bheId}">
+                <input id="examId" type="hidden" th:value="${examId}">
+
+                <span v-show="isLoaded">
+
+                    <span v-if="isSubmitted">
+                        you already submitted
+                        Mark {{ studentScore  }} / {{ exam.fullmark }}
+                    </span>
+                    <span v-else-if="isExamEnd">
+                        exam has ended
+                    </span>
+                    <span v-else-if="!isStarted">
+                        exam will start at {{ examStartTime }}
+                    </span>
+                    <span v-else>
+                        <nav aria-label="breadcrumb" class="d-flex justify-content-end">
+                            <ol class="breadcrumb text-capitalize">
+                                <li class="breadcrumb-item"><a href="dashboard.html">dashboard</a></li>
+                                <li class="breadcrumb-item"><a href="examlist.html">exam-list</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">exam form</li>
+                            </ol>
+                        </nav>
+
+                        <div class="d-flex justify-content-evenly">
+                            <span d-flex flex-column>
+                                <h2>{{ displayDays }}</h2>
+                                <p>days</p>
+                            </span>
+                            <h2>:</h2>
+                            <span d-flex flex-column>
+                                <h2>{{ displayHours }}</h2>
+                                <p>hours</p>
+                            </span>
+                            <h2>:</h2>
+                            <span d-flex flex-column>
+                                <h2>{{ displayMinutes }}</h2>
+                                <p>minutes</p>
+                            </span>
+                            <h2>:</h2>
+                            <span d-flex flex-column>
+                                <h2>{{ displaySeconds }}</h2>
+                                <p>seconds</p>
+                            </span>
+                        </div>
+
+                        <div class="row">
+                            <span v-for="(question, index) in exam.questions">
+                                <div class="col-12">
+                                    <p class="fw-bold">{{ question.question }}</p>
+                                    <div>
+                                        <span v-for="answer in question.answers">
+                                            <input class="ms-2 me-2" type="radio" v-model="studentAnswerList[index]"
+                                                :value="answer.answer">{{ answer.answer }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </span>
+
+                            <div class="col-12">
+                                <div class="d-flex justify-content-end">
+                                    <button v-if="studentAnswerList.length > 0" @click="handleSubmit()" class="btn btn-primary px-4 py-2 fw-bold">
+                                        Submit
+                                    </button>
+                                    <button v-if="studentAnswerList.length == 0" class="btn btn-primary px-4 py-2 fw-bold disabled">
+                                        Submit
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="d-flex justify-content-end"> <button class="btn btn-primary px-4 py-2 fw-bold">
-                                Submit</button> </div>
-                    </div>
-                </div>
+                    </span>
+
+                </span>
+
+
             </div>
         </section>
     </div>

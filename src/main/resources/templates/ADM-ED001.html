@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+    layout:decorate="~{layouts/AUTHENTICATED.html}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Exam Create Form</title>
+</head>
+
+<body class="bg-light">
+    <div layout:fragment="content">
+        <div id="app">
+            <div class="container p-3" style="margin-top: 30px">
+                <div class="col-md-12 p-3 bg-light shadow mb-2">
+                    <div class="d-flex align-items-center justify-content-center mb-4">
+                        <h2>
+                            <i class="bi bi-journal-code me-2"></i>Edit Exam Form
+                        </h2>
+                    </div>
+
+                    <div class="px-4">
+                        <div class="row">
+                            <div class="form-group col-4 mb-3">
+                                <label for="course">Course</label>
+                                <select v-model="courseId" class="form-select">
+                                    <option value="">Select course</option>
+                                    <option th:each="c : ${courses}" th:value="${c.id}">[[${c.name}]]</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-4">
+                                <label for="title">Exam Title</label>
+                                <input type="text" class="form-control" v-model="examTile"
+                                    placeholder="Enter Exam Title" id="title">
+                            </div>
+                            <div class="form-group col-2 mt-4">
+                                <button class="btn btn-primary" @click="createExam()">Edit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Create Exam -->
+                <div class="row-md-12 col-sm-12 p-4 bg-light mb-2 shadow cardform" style="position: rig; bottom: 20px;"
+                    v-for="(q, index) in questionList">
+                    <div class="p-3">
+                        <div class="col-12 mb-3 d-flex justify-content-between align-items-start">
+                            <textarea class="form-control w-75 me-3" style="resize: none; height: 80px;"
+                                placeholder="Enter Question Here.." v-model="q.question"></textarea>
+                            <input type="number" class="form-control me-2 w-25" v-model="q.mark"
+                                placeholder="Enter each mark">
+                            <button type="button" class="btn btn-success me-3" @click="addQuestion(index)"><i
+                                    class="bi bi-plus-circle"></i></button>
+                            <button type="button" class="btn btn-danger" :id="index" @click="deleteQuestion(index)">
+                                <i class="bi bi-trash-fill"></i>
+                            </button>
+                        </div>
+
+                        <div class="mt-3 w-25" v-for="(a, answerIndex) in q.answers">
+                            <div class="d-flex align-items-center">
+                                <input type="text" class="form-control me-2" v-model="a.answer"
+                                    placeholder="Enter Answer Here ...">
+                                <button type="button" class="btn btn-success me-3" @click="addAnswer(index)"><i
+                                        class="bi bi-plus-circle"></i></button>
+                                <button type="button" class="btn btn-danger" :id="index"
+                                    @click="deleteAnswer(index, answerIndex)">
+                                    <i class="bi bi-trash-fill"></i>
+                            </div>
+                        </div>
+                        <input type="text" class="form-control w-25 mt-3" placeholder="Enter correct answer"
+                            v-model="q.correctAnswer">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            const app = new Vue({
+                el: "#app",
+                data: {
+                    id: "",
+                    fullmark: "",
+                    isEmpty: null,
+                    examTile: "",
+                    courseId: "",
+                    questionList: [
+                        {
+                            id: "",
+                            question: "",
+                            correctAnswer: "",
+                            mark: "",
+                            answers: [
+                                {
+                                    id: "",
+                                    answer: "",
+                                },
+                            ],
+                        },
+                    ],
+                },
+                methods: {
+                    addQuestion(index) {
+                        this.questionList = [
+                            ...this.questionList,
+                            {
+                                question: "",
+                                correctAnswer: "",
+                                mark: "",
+                                answers: [
+                                    {
+                                        answer: "",
+                                    },
+                                ],
+                            },
+                        ];
+                    },
+                    deleteQuestion(index) {
+                        if (this.questionList.length > 1) {
+                            const values = [...this.questionList];
+                            values.splice(index, 1);
+                            this.questionList = values;
+                        }
+                    },
+                    addAnswer(index) {
+                        this.questionList[index].answers = [
+                            ...this.questionList[index].answers,
+                            {
+                                answer: "",
+                            },
+                        ];
+                    },
+                    deleteAnswer(index, answerIndex) {
+                        if (this.questionList[index].answers.length > 1) {
+                            let answers = [...this.questionList[index].answers];
+                            answers.splice(answerIndex, 1);
+                            this.questionList[index].answers = answers;
+                        }
+                    },
+                    createExam() {
+                        this.isEmpty = false;
+                        this.questionList.forEach((question) => {
+                            question.answers.forEach((answer) => {
+                                if (answer.answer.replace(/\s/g, "").length == 0) {
+                                    this.isEmpty = true;
+                                    Swal.fire("Please Fill All Radio Options!", "", "info");
+                                }
+                            });
+
+                            if (
+                                question.question.replace(/\s/g, "").length == 0 ||
+                                question.correctAnswer.replace(/\s/g, "").length == 0 ||
+                                question.mark.length == 0
+                            ) {
+                                this.isEmpty = true;
+                                Swal.fire("Please Fill All Question Forms!", "", "info");
+                            } else if (
+                                this.courseId.toString().replace(/\s/g, "").length == 0 ||
+                                this.examTile.replace(/\s/g, "").length == 0
+                            ) {
+                                this.isEmpty = true;
+                                Swal.fire("Please Fill All Input Forms!", "", "info");
+                            }
+                        });
+
+                        if (!this.isEmpty) {
+                            let fullMark = 0;
+                            this.questionList.forEach((question) => {
+                                fullMark = fullMark + question.mark;
+                                this.fullmark = fullMark;
+                            });
+                            let data = {
+                                id: this.id,
+                                courseId: this.courseId,
+                                title: this.examTile,
+                                fullmark: this.fullmark,
+                                questions: this.questionList,
+                            };
+                            console.log(data);
+                            axios
+                                .post("http://localhost:9090/admin/exam-edit", data)
+                                .then(() => {
+                                    Swal.fire("Successfully Edited!", "", "success").then(
+                                        () => (window.location = "http://localhost:9090/admin/exam-list")
+                                    );
+                                })
+                                .catch((error) => console.log(error));
+                        }
+                    },
+                },
+                async mounted() {
+                    window.that = this;
+                    await axios
+                        .get("http://localhost:9090/admin/exams?examId=[[${param.examId}]]")
+                        .then(function (response) {
+                            console.log(response.data.questions);
+                            that.examTile = response.data.title
+                            that.courseId = response.data.course.id
+                            that.questionList = response.data.questions
+                            that.id = response.data.id
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                },
+            });
+
+        </script>
+    </div>
+
+</body>
+
+</html>

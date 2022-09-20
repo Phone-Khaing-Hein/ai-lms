@@ -1,5 +1,7 @@
 package com.ai.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,10 @@ public class QuestionService {
 
     public Question save(Question question) {
         return questionRepository.save(question);
+    }
+
+    public List<Question> findByExamId(int examId) {
+        return questionRepository.findByExamId(examId);
     }
     
 }

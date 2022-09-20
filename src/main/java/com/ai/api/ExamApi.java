@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ai.entity.Answer;
@@ -14,6 +16,7 @@ import com.ai.entity.Exam;
 import com.ai.entity.Question;
 import com.ai.repository.BatchHasExamRepository;
 import com.ai.service.AnswerService;
+import com.ai.service.BatchHasExamService;
 import com.ai.service.CourseService;
 import com.ai.service.ExamService;
 import com.ai.service.QuestionService;
@@ -23,6 +26,9 @@ public class ExamApi {
 
     @Autowired
     private ExamService examService;
+
+    @Autowired
+    private QuestionService questionService;
 
     @Autowired
     private CourseService courseService;
@@ -49,6 +55,32 @@ public class ExamApi {
             batchHasExamRepository.save(batchHasExam);
         }
     }
+
+    @PostMapping("admin/exam-edit")
+    public void editExam(@RequestBody Exam exam) {
+        examService.deleteById(exam.getId());
+        var course = courseService.findById(exam.getCourseId());
+        exam.setCourse(course);
+        for(var q: exam.getQuestions()){
+            q.setExam(exam);
+            for(var a: q.getAnswers()){
+                a.setQuestion(q);
+            }
+        }
+        var e = examService.save(exam);
+
+        for(var batch : course.getBatches()){
+            var batchHasExam = new BatchHasExam();
+            batchHasExam.setBatch(batch);
+            batchHasExam.setExam(e);
+            batchHasExamRepository.save(batchHasExam);
+        }
+    }
+
+    @GetMapping("admin/exams")
+    public Exam questions(@RequestParam int examId){
+        return examService.findById(examId);
+    }
     
     // @PostMapping("admin/question-create")
     // public Question createExam(@RequestBody Exam exam){
@@ -71,4 +103,6 @@ public class ExamApi {
     //     return question;
     // }
     
+
+
 }

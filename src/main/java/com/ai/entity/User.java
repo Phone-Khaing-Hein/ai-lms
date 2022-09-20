@@ -55,6 +55,7 @@ public class User {
 	private String photo;
 
     @OneToMany(mappedBy = "user", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
+    @JsonIgnore
     private List<Attendance> attendances;
 
     @OneToMany(mappedBy = "student", cascade = {CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
