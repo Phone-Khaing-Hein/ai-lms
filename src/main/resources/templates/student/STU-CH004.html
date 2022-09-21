@@ -55,7 +55,7 @@
             <div class="container-fluid" style="padding-top: 100px;">
                 <div class="row g-0 justify-content-center">
                     <div class="col-sm-12 col-md-9">
-                        <div class="card mx-0" style="height: 515px">
+                        <div class="card mx-0" style="height: 600px">
                             <div class="card-header bg-white position-sticky top-0" style="z-index: 1500">
                                 <div class="navbar navbar-expand p-0">
                                     <ul class="navbar-nav me-auto align-items-center">
@@ -81,10 +81,15 @@
                             <div class="card-body overflow-scroll" id="messages">
 
                                 <div v-for="m in messages">
+                                    <p v-if="user.loginId !== m.user.loginId"
+                                        style="margin-bottom: -5px;font-size: 15px;margin-left: 55px;"
+                                        class="text-muted">
+                                        {{m.user.name}}</p>
                                     <div class="d-flex align-items-baseline mb-2"
                                         v-if="user.loginId !== m.user.loginId">
+
                                         <div class="position-relative avatar">
-                                            <img src="https://nextbootstrap.netlify.app/assets/images/profiles/1.jpg"
+                                            <img :src="'http://localhost:9090/resources/profile/'+m.user.photo"
                                                 class="img-fluid rounded-circle" alt="">
                                             <span
                                                 class="position-absolute bottom-0 start-100 translate-middle p-1 bg-success border border-light rounded-circle">
@@ -115,7 +120,7 @@
                                             </div>
                                         </div>
                                         <div class="position-relative avatar">
-                                            <img src="https://nextbootstrap.netlify.app/assets/images/profiles/2.jpg"
+                                            <img :src="'http://localhost:9090/resources/profile/'+user.photo"
                                                 class="img-fluid rounded-circle" alt="">
                                             <span
                                                 class="position-absolute bottom-0 start-100 translate-middle p-1 bg-success border border-light rounded-circle">
