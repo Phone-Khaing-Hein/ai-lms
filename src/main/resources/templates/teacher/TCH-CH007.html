@@ -5,16 +5,92 @@
 <head>
     <meta charset="UTF-8">
     <title>Batch List</title>
+    <style>
+        .cardhovers {
+            transition: transform 0.2s;
+        }
+
+        .cardhovers:hover {
+            transform: translateX(5px);
+        }
+
+        .alerts {
+            transition: transform 0.2s;
+        }
+
+        .alerts:hover {
+            transform: translateY(3px);
+        }
+
+        a.nav-link {
+            color: gray;
+            text-decoration: none;
+            padding: 0;
+        }
+
+        .avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid #e84118;
+            padding: 2px;
+            flex: none;
+        }
+
+        input:focus {
+            outline: 0px !important;
+            box-shadow: none !important;
+        }
+
+        .card-text {
+            border: 2px solid #ddd;
+            border-radius: 8px;
+        }
+    </style>
 </head>
 
 <body class="bg-light">
     <div layout:fragment="content">
         <section id="app">
-            <div class="container-fluid" style="padding-top: 100px;">
+            <div class="container-fluid">
                 <div class="row g-0 justify-content-center">
+                    <div class="col-6 col-md-3 p-0">
+                        <div class="card mx-0" style="max-width: 100%;height: 600px;overflow: scroll;margin-right: 0;">
+                            <div class="card-header bg-transparent">
+                                <div class="navbar navbar-expand p-0">
+                                    <ul class="navbar-nav me-auto align-items-center">
+                                        <li class="nav-item">
+                                            <a href="#!" class="nav-link">
+                                                <div class="position-relative"
+                                                    style="width:50px; height: 50px; border-radius: 50%; border: 2px solid #e84118; padding: 2px">
+                                                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAMAAAAKE/YAAAAAmVBMVEX///80TJ/RACDRACLy9PnneozdPlbmcoX7/P05UKLiX3PW2+w9VKNxgrzl6PNBV6WrtdeToMyCkcT1ydDslKHVEzP20NbTCSjhWW/bN1JNYqtdcLOzvNy6w9/ByOL3+PugrNNnebfq7PWHlcZTZ66Om8pIXqna3+7N0+eeptD64ubYKkXuo6/WGTj98vTxsbvfT2b0vsbrkZ/6ksJgAAAEyElEQVR4nO2aiXLaMBBAbeNATgi5SNs0kJMkTdK0//9xBYRk7epayTbg6b6ZDJa02n0II4NDljEMwzAMwzAMwzAMwzAMwzAM8x+SL0id+z2vaCQhkR95apGbHCP6HfmMaDfB0sQwg5+ucq58zUuXsc6uevti5LZVafKTAxxpFW4W7Skue7J70gcqvfYKgbLHwYK4ZOAp28tHODvqlqTF8oSokYOk+l4e5ZRnd7Yk6YwoU6WYk6UpVdOkaScr6QWlO1PWyl+wJWl//FlN6VHYJQeQnPcD4TWlCde6BOlgdNvSMyh9Q3A+aVva+SkAjt/FLLWKHQZC4qS1Jk2aujsuuSfEJkjf06XlcOgFC1TEPMRL680hTTpiqUnPr560/zvE8XL0FeQJfFCpLuD53Zakq8gH6lLTTqRZbekjgjT5/KBJE9YK5iCem9CZ/FZsR3qaJk1c6ifqkwvW1XPM6SlXcftGphGtXnPSZUxKGHdKmtqwNCI8dYjiOiGNw0hzd02atNRbljajKJMbll41n+tIv2xJWn3DCqZcPb2xI9mmpeX3StLEYLJNSRMv47mXjUujRbTn9zu7jebhkKakzQKp0lEfrBqWDjlXH0ncM/030ZYRLy1IE9O5ItI/m9pSjNOla9+Ik5zGSpd6c2rL764Zs9Q+6fgUi9YMBtBTRkjPXCFJ0kbAsaUvlND5fyPKUp/VOsPE/aBby6RkJYq0fziUwTZ2RnNKrrmu4P6vSSDB0DZWV6kKce3mlNfBHWMdo6ZMLSrGPf+e8s+3jpHOxyWBmzyBqu4C/unWsdAyRn6BSXAmzEZjYaPqXyp3CXXX94rO0qTz3BzLIfcl3IzLsnyFEcela7u2ZM+qb2yuE3pRoTzVCxyVkjGSc0mjigeWYctq2HON77TGI22OH5p0YDJdIX7G5qTFPfmYCQ1JH4Rzuh2sv63xhZu/HiJIt8HtpgoxHQK/H7pAF0/hpy5Kry+e0217RPHaxZXu5Dm9sjZ+3sZU9BRb9iiKghw8GKyMB4MWhSgUMdLZarH3mqns/gWsDWD5tjXpuM0jzhLRoHSUdRelI88HxIakzy9AcxKQvvANQmmx+V3iPRBui5fi0Nwo8/x++VCIrUDfEIo1sv2rAD1wUIWDZnao9+nSVz0N3Vk4iub78vDD3N5zIK3XFQdazT0oPYHSKlxaFRqmtHC7Fo/fqj79QUapp6NJr48mSlsVrWSAma2prb/WVfT0521KywMkPel9alHy8bfsG1XSfSn9qUrWlwZ9hjQ60BTPcc+eFpVDaYsRTXpxJK7Pb6APHpCk0flrico90utyZGn3EV3atHZIy2FDGr2NNiH9nr0hazPqGUn3kdEF9hSN97akPWf5l+oD31sW0ofQGUmohl3wQx6kS0+qLhy1ePxU0tV98wjpPoqxh9uktdfSIn0tt2z41oRB4AuiXdpyTlu0CNLo+qeOwTm8POqf296Z+oY30iqsuNY7vhZ/VwV8xVXrC75N4aVJhf6RHxDs0p9I+t225cEubaGl9AfqEY9/9c5LOEMOicv6Hkr4lYGgaOCHDiS9q5jS8y5KZ+4fDO0E+EqzZrdv1VzapRmGYRiGYRiGYRiGYRiGYRiGYRiGYRiGYRiGYRiGYTbCPzkrJYcXU6ojAAAAAElFTkSuQmCC"
+                                                        class="img-fluid rounded-circle" alt="">
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="#!" class="nav-link">Group Chat</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="card-body p-0 mt-1" style="height: 500px; overflow: auto;">
+                                <ul class="list-group list-group-none">
+                                    <li th:each="b : ${batches}"
+                                        class="list-group-item d-flex justify-content-between align-items-start">
+                                        <div class="ms-2 me-auto">
+                                            <div class="fw-bold">[[${b.name}]]</div>
+                                            Content for list item
+                                        </div>
+                                        <span class="badge bg-primary rounded-pill">14</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                     <div class="col-sm-12 col-md-9">
-                        <div class="card mx-0" style="height: 515px">
-                            <div class="card-header bg-white position-sticky top-0" style="z-index: 1500">
+                        <div class="card mx-0" style="height: 600px">
+                            <div class="card-header bg-white" style="z-index: 1500; position: sticky;top: 90px;">
                                 <div class="navbar navbar-expand p-0">
                                     <ul class="navbar-nav me-auto align-items-center">
                                         <li class="nav-item">
@@ -31,7 +107,7 @@
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="#!" class="nav-link">[[${batch.name}]]</a>
+                                            <p class="mt-2" style="margin-bottom: 0;">[[${batch.name}]]</p>
                                         </li>
                                     </ul>
                                 </div>
@@ -109,23 +185,23 @@
                 document.getElementById("autoscroll").click();
             })
 
-            // $("#textBox").emojioneArea({
-            //     events: {
-            //         keyup: function (editor, event) {
-            //             if (event.which == 13) {
-            //                 axios.post('http://localhost:9090/student/chat', {
-            //                     message: document.getElementById("textBox").value
-            //                 }).then(() => {
-            //                     // this.newMessage = response.data
-            //                     // this.messages = [...this.messages, newMessage]
-            //                     $(".emojionearea-editor").html('');
-            //                 }).catch(function (error) {
-            //                     console.log(error);
-            //                 });
-            //             }
-            //         },
-            //     }
-            // });
+            $("#textBox").emojioneArea({
+                events: {
+                    keyup: function (editor, event) {
+                        if (event.which == 13) {
+                            axios.post('http://localhost:9090/teacher/chat', {
+                                message: document.getElementById("textBox").value
+                            }).then(() => {
+                                // this.newMessage = response.data
+                                // this.messages = [...this.messages, newMessage]
+                                $(".emojionearea-editor").html('');
+                            }).catch(function (error) {
+                                console.log(error);
+                            });
+                        }
+                    },
+                }
+            });
 
             const app = new Vue({
                 el: '#app',
@@ -136,21 +212,21 @@
                 },
                 methods: {
                     getMessage() {
-                        return fetch('http://localhost:9090/student/chat/messages')
+                        return fetch('http://localhost:9090/teacher/chat/messages')
                             .then((res) => res.json())
                             .then((data) => {
                                 this.messages = data
                             })
                     },
                     getLoginUser() {
-                        return fetch('http://localhost:9090/student/chat/user')
+                        return fetch('http://localhost:9090/teacher/chat/user')
                             .then((res) => res.json())
                             .then((data) => {
                                 this.user = data
                             })
                     },
                     sendMessage() {
-                        axios.post('http://localhost:9090/student/chat', {
+                        axios.post('http://localhost:9090/teacher/chat', {
                             message: document.getElementById("textBox").value
                         }).then(function (response) {
                             that.messages = [...that.messages, response.data]
@@ -169,64 +245,28 @@
                     this.getMessage();
                     this.getLoginUser();
                 },
-                // updated() {
-                //     this.getMessage();
-                // }
-                // async mounted() {
-                //     await axios
-                //         .get("http://localhost:9090/student/chat/messages")
-                //         .then(function (response) {
-                //             this.messages = response.data;
-                //         });
+                updated() {
+                    this.getMessage();
+                },
+                async mounted() {
+                    await axios
+                        .get("http://localhost:9090/teacher/chat/messages")
+                        .then(function (response) {
+                            this.messages = response.data;
+                        });
 
-                //     await axios
-                //         .get("http://localhost:9090/student/chat/user")
-                //         .then(function (response) {
-                //             this.user = response.data;
-                //         });
-                // },
+                    await axios
+                        .get("http://localhost:9090/teacher/chat/user")
+                        .then(function (response) {
+                            this.user = response.data;
+                        });
+                }
             })
 
-            // document.getElementById("sendMessage").addEventListener("submit", (e)=>{
-            //     e.preventDefault();
-            //     let message = document.getElementById("textBox").value
-            //     axios.post('http://localhost:9090/student/chat',{
-            //         message : message
-            //     })
-            //         .then(function (response) {
-            //            document.getElementById("messages").innerHTML += `
-            //                 <div class="d-flex align-items-baseline text-end justify-content-end">
-            //                         <div class="pe-2">
-            //                             <div>
-            //                                 <div class="card card-text d-inline-block p-2 px-3 m-1">
-            //                                     ${message}
-            //                                 </div>
-            //                             </div>
-            //                             <div>
-            //                                 <div class="small">${response.data}</div>
-            //                             </div>
-            //                         </div>
-            //                         <div class="position-relative avatar">
-            //                             <img src="https://nextbootstrap.netlify.app/assets/images/profiles/2.jpg"
-            //                                 class="img-fluid rounded-circle" alt="">
-            //                             <span
-            //                                 class="position-absolute bottom-0 start-100 translate-middle p-1 bg-success border border-light rounded-circle">
-            //                                 <span class="visually-hidden">New alerts</span>
-            //                             </span>
-            //                         </div>
-            //                     </div>
-            //                `
-            //             $(".emojionearea-editor").html('');
-            //         })
-            //         .catch(function (error) {
-            //             console.log(error);
-            //         });
-            // })
-
-            // window.onload = function() {
-            //     var el = document.getElementById('target');
-            //     el.scrollIntoView(true);
-            // }
+            window.onload = function () {
+                var el = document.getElementById('divider');
+                el.scrollIntoView(true);
+            }
         </script>
     </div>
 </body>

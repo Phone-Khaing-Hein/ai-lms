@@ -25,7 +25,7 @@ public class MessageApi {
     @Autowired
     private MessageService messageService;
 
-    @PostMapping("student/chat")
+    @PostMapping({"student/chat", "teacher/chat"})
     public Message chat(@RequestBody Message message){
         var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
         var user = userService.findByLoginId(loginId);
@@ -35,12 +35,12 @@ public class MessageApi {
         return m;
     }
 
-    @GetMapping("student/chat/messages")
+    @GetMapping({"student/chat/messages","teacher/chat/messages"})
     public List<Message> messages(){
         return messageService.findAll();
     }
 
-    @GetMapping("student/chat/user")
+    @GetMapping({"student/chat/user","teacher/chat/user"})
     public User user(){
         var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
         var user = userService.findByLoginId(loginId);

@@ -2,12 +2,14 @@ package com.ai.controller;
 
 import com.ai.entity.Assignment;
 import com.ai.entity.Attendance;
+import com.ai.entity.StudentCountChart;
 import com.ai.entity.BatchHasExam;
 import com.ai.entity.Exam;
 import com.ai.entity.Module;
 import com.ai.entity.Schedule;
 import com.ai.entity.StudentHasExam;
 import com.ai.entity.User;
+import com.ai.entity.User.Role;
 import com.ai.repository.BatchHasExamRepository;
 import com.ai.repository.ScheduleRepository;
 import com.ai.service.*;
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -78,9 +81,20 @@ public class TeacherController {
 
     @Autowired
     private StudentHasExamService studentHasExamService;
+    
+    private static final DecimalFormat df = new DecimalFormat("0.00");
 
     @GetMapping("home")
-    public String home(){
+    public String home(ModelMap m){
+        var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
+        var user = userService.findByLoginId(loginId);
+        var attendanceChart = new ArrayList<StudentCountChart>();
+        for(var b : user.getBatches()){
+            var studentCount = batchService.findById(b.getId()).getUsers().stream().filter(u -> u.getRole().equals(Role.Student)).toList().size();
+            var chartData = new StudentCountChart(b.getName(), studentCount);
+            attendanceChart.add(chartData);
+        }
+        m.put("attendanceChart", attendanceChart);
         return "teacher/TCH-DB001";
     }
 
@@ -235,7 +249,12 @@ public class TeacherController {
     }
 
     @GetMapping("chat")
-    public String chat(){
+    public String chat(ModelMap m){
+        var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
+        var user = userService.findByLoginId(loginId);
+        m.put("batches", user.getBatches());
+        m.put("batch", user.getBatches().get(0));
+        m.put("user", user);
         return "teacher/TCH-CH007";
     }
 
