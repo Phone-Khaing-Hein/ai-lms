@@ -130,8 +130,12 @@
                 <span v-show="isLoaded">
 
                     <span v-if="isSubmitted">
-                        you already submitted
-                        Mark {{ studentScore  }} / {{ exam.fullmark }}
+                        <div class="d-flex flex-column align-items-center justify-content-between"
+                            style="height: 600px;">
+                            <h3>You already submitted this exam!
+                                Mark {{ studentScore }} / {{ exam.fullmark }}</h3>
+                            <img th:src="@{/resources/assets/logo/complete.svg}" alt="complete" height="500">
+                        </div>
                     </span>
                     <span v-else-if="isExamEnd">
                         exam has ended
@@ -185,10 +189,12 @@
 
                             <div class="col-12">
                                 <div class="d-flex justify-content-end">
-                                    <button v-if="studentAnswerList.length > 0" @click="handleSubmit()" class="btn btn-primary px-4 py-2 fw-bold">
+                                    <button v-if="studentAnswerList.length > 0" @click="handleSubmit()"
+                                        class="btn btn-primary px-4 py-2 fw-bold">
                                         Submit
                                     </button>
-                                    <button v-if="studentAnswerList.length == 0" class="btn btn-primary px-4 py-2 fw-bold disabled">
+                                    <button v-if="studentAnswerList.length == 0"
+                                        class="btn btn-primary px-4 py-2 fw-bold disabled">
                                         Submit
                                     </button>
                                 </div>

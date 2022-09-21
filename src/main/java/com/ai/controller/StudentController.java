@@ -62,6 +62,9 @@ public class StudentController {
     public String home(ModelMap m) {
         var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
         var user = userService.findByLoginId(loginId);
+        Integer batchId = user.getBatches().get(0).getId();
+        var batchCount = batchHasExamService.getBatchHasExamListByBatchId(batchId).size();
+        m.put("batchCount", batchCount);
         var teachers = userService.findAll().stream()
                 .filter(u -> u.getRole().equals(User.Role.Teacher))
                 .filter(t -> t.getBatches().contains(batchService.findById(user.getBatches().get(0).getId()))).toList();

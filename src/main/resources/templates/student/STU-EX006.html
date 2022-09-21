@@ -11,7 +11,7 @@
     <div layout:fragment="content">
         <section>
             <div class="container" style="padding-top: 100px;">
-                <nav aria-label="breadcrumb" class="d-flex justify-content-end">
+                <nav aria-label="breadcrumb" class="d-flex justify-content-start">
                     <ol class="breadcrumb text-capitalize">
                         <li class="breadcrumb-item"><a href="dashboard.html">dashboard</a></li>
                         <li class="breadcrumb-item active" aria-current="page">exam-list</li>
@@ -27,34 +27,21 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="text-capitalize">
-                            <td>
-                                <span>May Zwei•Jul 8</span>
-                            </td>
-                            <td class="align-middle">
-                                <span>Student Management System Assignment with SpringDataJPA</span>
-                            </td>
-                            <td class="align-middle">
-                                <h6 class="mb-0"><span class="badge bg-primary">Due Jul 7, 6:29 PM</span></h6>
-                            </td>
-                            <td class="align-middle">
-                                <a th:href="@{/student/exam-detail?examId=}" class="text-decoration-none">view
-                                    assignment</a>
-                            </td>
-                        </tr>
                         <tr th:each="bhe : ${bheList}">
                             <td>
-                                <span>May Zwei•Jul 8</span>
+                                <span>[[${#temporals.format(bhe?.start,
+                                    "yyyy-MM-dd hh:mm a")}]]</span>
                             </td>
                             <td class="align-middle">
                                 <span>[[${bhe?.exam?.title}]]</span>
                             </td>
                             <td class="align-middle">
-                                <h6 class="mb-0"><span class="badge bg-primary">Due [[${bhe?.end}]]</span></h6>
+                                <h6 class="mb-0"><span class="badge bg-primary">Due [[${#temporals.format(bhe?.end,
+                                        "yyyy-MM-dd hh:mm a")}]]</span></h6>
                             </td>
                             <td class="align-middle">
                                 <a th:href="@{/student/exam-detail/} + ${bhe?.id}" class="text-decoration-none">
-                                    view assignment
+                                    View Exam
                                 </a>
                             </td>
                         </tr>
