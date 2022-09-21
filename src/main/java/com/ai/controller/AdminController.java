@@ -201,6 +201,7 @@ public class AdminController {
             throws IOException {
         var m = moduleService.findById(moduleId);
         var courseId = m.getCourse().getId();
+        fileService.deleteFolder(m.getName());
         moduleService.deleteById(moduleId, m.getName(), courseId);
         attr.addFlashAttribute("message", "%s module deleted successfully!".formatted(m.getName()));
         return "redirect:/admin/course-detail?courseId=%d".formatted(courseId);

@@ -25,6 +25,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
@@ -349,6 +350,23 @@ public class TeacherController {
         batchHasExamRepository.save(scheduleExam);
         attributes.addFlashAttribute("message", "%s scheduled successfully!".formatted(exam.getTitle()));
         return "redirect:/teacher/batch-detail?batchId=%d#exam-tab".formatted(batchId);
+    }
+
+    @GetMapping("assignment-delete")
+    public String assignmentDelete(RedirectAttributes attributes, @RequestParam int id){
+        var assignment = assignmentService.findById(id);
+        if(assignment.getFile() != null){
+            var path = new File("src\\main\\resources\\static\\assignment\\%s\\%s".formatted(assignment.getBatch().getName()), assignment.getFile()).getAbsolutePath();
+            fileService.deleteFile(path);
+        }
+        
+        for(var a : assignment.getAssignmentAnswers()){
+            var assignmentAnswer = new File("src\\main\\resources\\static\\assignmentAnswer\\%s".formatted(a.getAnswer())).getAbsolutePath();
+            fileService.deleteFile(assignmentAnswer);
+        }
+        assignmentService.deleteById(id);
+        attributes.addFlashAttribute("message", "%s deleted successfully!".formatted(assignment.getTitle()));
+        return "redirect:/teacher/assignment-list";
     }
 
     @ModelAttribute("assignment")
