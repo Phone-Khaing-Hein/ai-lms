@@ -37,16 +37,105 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr th:each="a, row : ${assignments}">
+                            <tr th:each="a, row : ${assignments}" style="vertical-align: middle;">
                                 <td>[[${row.index} + 1]]</td>
                                 <td>[[${a.title}]]</td>
                                 <td>[[${#temporals.format(a.start, 'yyyy-MM-dd hh:mm a')}]]</td>
                                 <td>[[${#temporals.format(a.end, 'yyyy-MM-dd hh:mm a')}]]</td>
                                 <td>[[${a.batch.name}]]</td>
                                 <td>[[${a.mark}]]</td>
-                                <td><a href="" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                    <a href="" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></a>
+                                <td>
+                                    <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                                        th:data-bs-target="'#staticBackdropEdit'+${a.id}"><i
+                                            class="bi bi-pencil-square"></i></button>
+                                    <button class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
                                 </td>
+                                <div class="modal fade" data-bs-backdrop="static" th:id="'staticBackdropEdit'+${a.id}"
+                                    tabindex="-1" aria-labelledby="moduleCreateLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered  modal-xl">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="assignmentCreateLabel"><i
+                                                        class="fa-solid fa-chalkboard-user me-2"></i>Assignment Create
+                                                </h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <form th:action="@{/teacher/assignment-create}" method="post"
+                                                enctype="multipart/form-data">
+                                                <div class="modal-body">
+
+                                                    <div class="row">
+                                                        <div class="col-6" style="border-right: 1px solid gray;">
+                                                            <div class="mb-2">
+                                                                <div class="form-group mb-3">
+                                                                    <label for="title">Assignment Title</label>
+                                                                    <input type="text" th:value="${a.title}"
+                                                                        class="form-control mt-2"
+                                                                        placeholder="Enter Title" id="title"
+                                                                        th:required="true" />
+                                                                </div>
+                                                                <div class="row mb-3">
+                                                                    <div class="col-6">
+                                                                        <label for="batchId">Select Batch</label>
+                                                                        <select name="batchId" id="batchId"
+                                                                            class="form-control mt-2"
+                                                                            th:required="true">
+                                                                            <option value="">Select Batch</option>
+                                                                            <option th:each="batch : ${openBatches}"
+                                                                                th:value="${batch.id}"
+                                                                                th:selected="${a.batch.id == batch.id}">
+                                                                                [[${batch.name}]]
+                                                                            </option>
+                                                                        </select>
+                                                                    </div>
+
+                                                                    <div class="col-6">
+                                                                        <label for="mark">Full Mark</label>
+                                                                        <input type="number" th:value="${a.mark}"
+                                                                            class="form-control mt-2"
+                                                                            placeholder="Enter Full Mark" id="mark"
+                                                                            th:required="true" />
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="mb-3 row">
+                                                                    <div class="col-6">
+                                                                        <label for="start">Start Date</label>
+                                                                        <input type="datetime-local"
+                                                                            th:value="${a.start}"
+                                                                            class="form-control mt-2"
+                                                                            placeholder="Enter Teacher Name" id="start"
+                                                                            th:required="true" />
+                                                                    </div>
+                                                                    <div class="col-6">
+                                                                        <label for="end">End Date</label>
+                                                                        <input type="datetime-local" th:value="${a.end}"
+                                                                            class="form-control mt-2"
+                                                                            placeholder="Enter Teacher Name" id="end"
+                                                                            th:required="true" />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <p>Assignment File</p>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-light"
+                                                        data-bs-dismiss="modal">Cancel</button>
+                                                    <button type="submit" class="btn btn-outline-primary"
+                                                        form="assignmentCreateForm">
+                                                        Create
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
                             </tr>
                         </tbody>
                     </table>
