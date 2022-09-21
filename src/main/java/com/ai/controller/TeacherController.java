@@ -23,6 +23,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.File;
@@ -353,11 +354,12 @@ public class TeacherController {
     }
 
     @GetMapping("assignment-delete")
-    public String assignmentDelete(RedirectAttributes attributes, @RequestParam int id){
+    public String assignmentDelete(RedirectAttributes attributes, @RequestParam int id) throws IOException{
         var assignment = assignmentService.findById(id);
         if(assignment.getFile() != null){
-            var path = new File("src\\main\\resources\\static\\assignment\\%s\\%s".formatted(assignment.getBatch().getName()), assignment.getFile()).getAbsolutePath();
-            fileService.deleteFile(path);
+            fileService.deleteFolder(assignment.getBatch().getName());
+            // var path = new File("src\\main\\resources\\static\\assignment\\%s\\%s".formatted(assignment.getBatch().getName()), assignment.getFile()).getAbsolutePath();
+            // fileService.deleteFile(path);
         }
         
         for(var a : assignment.getAssignmentAnswers()){
@@ -366,6 +368,39 @@ public class TeacherController {
         }
         assignmentService.deleteById(id);
         attributes.addFlashAttribute("message", "%s deleted successfully!".formatted(assignment.getTitle()));
+        return "redirect:/teacher/assignment-list";
+    }
+
+    @PostMapping("assignment-edit")
+    public String assignmentEdit(
+        @RequestParam int assignmentId,
+        @RequestParam int batchId,
+        @RequestParam String title,
+        @RequestParam int mark,
+        @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime start,
+        @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime end,
+        @RequestParam MultipartFile file,
+        RedirectAttributes attributes
+    ) throws IllegalStateException, IOException{
+        var assignment = assignmentService.findById(assignmentId);
+        var batch = batchService.findById(batchId);
+        if(assignment.getBatch().getId() != batchId){
+            fileService.renameAssignmentFolder(assignment.getBatch().getName(), batch.getName());
+        }
+        assignment.setBatch(batch);
+        assignment.setTitle(title);
+        assignment.setMark(mark);
+        assignment.setStart(start);
+        assignment.setEnd(end);
+        
+        if(!file.isEmpty()){
+            fileService.deleteFolder(assignment.getBatch().getName());
+            fileService.createFolderForAssignment(batch.getName());
+            var fileName = fileService.createAssignmentFile(file, batch.getName());
+            assignment.setFile(fileName);
+        }
+        assignmentService.save(assignment);
+        attributes.addFlashAttribute("message", "%s updated successfully!".formatted(assignment.getTitle()));
         return "redirect:/teacher/assignment-list";
     }
 

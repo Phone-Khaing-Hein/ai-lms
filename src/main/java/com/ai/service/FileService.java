@@ -82,8 +82,18 @@ public class FileService {
         Files.move(data, data.resolveSibling(newFolder));
     }
 
+    public void renameAssignmentFolder(String oldFolder, String newFolder) throws IOException {
+        var data = Paths.get(assignmentFilePath, oldFolder);
+        Files.move(data, data.resolveSibling(newFolder));
+    }
+
     public void deleteFolder(String folderName) throws IOException {
         var folder = new File(courseFilePath.concat("\\").concat(folderName));
+        FileUtils.deleteDirectory(folder);
+    }
+
+    public void deleteAssignmentFolder(String folderName) throws IOException {
+        var folder = new File(assignmentFilePath.concat("\\").concat(folderName));
         FileUtils.deleteDirectory(folder);
     }
 
