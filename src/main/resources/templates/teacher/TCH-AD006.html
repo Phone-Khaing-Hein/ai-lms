@@ -25,8 +25,8 @@
                     </p>
                     <hr />
                     <a th:href="@{/resources/assignmentAnswer/}+${assignmentAnswer.answer}"
-                        class="border rounded-3 w-50 h-25 d-flex align-items-center py-5 px-3 shadow text-decoration-none text-black"
-                        style="cursor: pointer;">
+                        class="border rounded-3 w-50 d-flex align-items-center py-5 px-3 shadow text-decoration-none text-black"
+                        style="cursor: pointer;height: 100px;">
                         <h1><i class="bi bi-file-earmark-text me-3"></i></h1>
                         <p>[[${assignmentAnswer.answer}]]</p>
                     </a>
@@ -49,18 +49,19 @@
                         </div>
                     </div>
                     <div class="card shadow rounded mt-3" id="app" style="height: 350px;overflow: scroll;">
-                        <div class="card-body" style="border-bottom: 1px solid gray;">
+                        <div class="card-body" style="height: 200px;">
                             <p style="color: rgb(71, 68, 68)" class="ms-1">
                                 <i class="fas fa-user me-2"></i>Private Comments
                             </p>
                             <input class="d-none" type="hidden" id="assignmentId"
-                                th:value="${assignmentAnswer.assignment.id}"></input>
+                                th:value="${assignmentAnswer.id}"></input>
                             <textarea cols="30" rows="10" style="max-height: 100px; resize: none;"
                                 placeholder="Add private comment ..." class="form-control" id="textBox"></textarea>
                             <button class="btn btn-dark mt-2 btn-sm float float-end" @click="comment">
                                 Comment
                             </button>
                         </div>
+                        <hr>
                         <div class="p-2 d-flex align-items-center bg-light" v-for="m in messages"
                             style="border-bottom: 0.5px solid rgb(191, 189, 189);">
                             <img :src="'http://localhost:9090/resources/profile/'+m.user.photo" width="50px"
@@ -88,12 +89,13 @@
                             assignmentId: document.getElementById("assignmentId").value
                         }).then(function (response) {
                             that.messages = [response.data, ...that.messages]
+                            document.getElementById("textBox").value = ""
                         }).catch(function (error) {
                             console.log(error);
                         });
                     }
                 },
-                async mounted() {
+                async created() {
                     window.that = this;
                     await axios.get('http://localhost:9090/teacher/private-messages', {
                         params: {

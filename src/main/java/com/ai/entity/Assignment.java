@@ -72,9 +72,6 @@ public class Assignment implements Serializable {
     @OneToMany(mappedBy = "assignment", cascade = {CascadeType.MERGE, CascadeType.PERSIST},orphanRemoval = true)
     private List<AssignmentAnswer> assignmentAnswers;
 
-    @OneToMany(mappedBy = "assignment", cascade = {CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
-    private List<PrivateComment> privateComments;
-
     @Transient
     private int batchId;
 

@@ -26,7 +26,7 @@ public class PrivateComment {
 
     @ManyToOne
     @JsonIgnore
-    private Assignment assignment;
+    private AssignmentAnswer assignmentAnswer;
 
     @Transient
     private int assignmentId;
