@@ -20,20 +20,32 @@ const app = new Vue({
   },
   methods: {
     addQuestion(index) {
-      this.questionList = [
-        ...this.questionList,
-        {
-          contain: true,
-          question: "",
-          correctAnswer: "",
-          mark: "",
-          answers: [
-            {
-              answer: "",
-            },
-          ],
-        },
-      ];
+      if (
+        this.questionList[index].answers.filter(
+          (a) => a.answer == this.questionList[index].correctAnswer
+        ).length == 0
+      ) {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Correct Answer must contain in answer list!",
+        });
+      } else {
+        this.questionList = [
+          ...this.questionList,
+          {
+            contain: true,
+            question: "",
+            correctAnswer: "",
+            mark: "",
+            answers: [
+              {
+                answer: "",
+              },
+            ],
+          },
+        ];
+      }
     },
     deleteQuestion(index) {
       if (this.questionList.length > 1) {
