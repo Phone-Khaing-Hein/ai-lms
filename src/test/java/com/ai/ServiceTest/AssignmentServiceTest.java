@@ -114,20 +114,23 @@ public class AssignmentServiceTest {
         int serviceCount = assignmentService.count();
         int repositoryCount = (int) assignmentRepository.count();
         assertThat(assignment.getStart().isBefore(LocalDateTime.now()));
-//        assert(assignment.getStart().isBefore(LocalDateTime.now()));
         assertEquals(serviceCount, repositoryCount);
     }
 
     @Test
     public void findByIdTest(){
         Assignment assignment = assignmentObj();
-       Mockito.when(assignmentRepository.findById(1)).thenReturn(Optional.of(assignment));
-       Assignment getAssignment = assignmentService.findById(1);
-       assertEquals(1, getAssignment.getId());
-       assertEquals("Assignment Obj", getAssignment.getTitle());
-       assertEquals(LocalDateTime.of(2022, 1, 13, 8, 56), getAssignment.getStart());
-//       assertEquals(LocalDateTime.of(2022, 2, 13, 8, 56), getAssignment.getEnd());
-//       assertEquals(100, getAssignment.getMark());
+        Mockito.when(assignmentRepository.findById(1)).thenReturn(Optional.of(assignment));
+        Assignment getAssignment = assignmentService.findById(1);
+        assertEquals(1, getAssignment.getId());
+        assertEquals("Assignment Obj", getAssignment.getTitle());
+        assertEquals(LocalDateTime.of(2022, 1, 13, 8, 56), getAssignment.getStart());
+    }
+
+    @Test
+    public void deleteByIdTest(){
+		assignmentService.deleteById(1);
+		verify(assignmentRepository,times(1)).deleteById(1);
     }
     
 }
