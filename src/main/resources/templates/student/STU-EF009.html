@@ -126,10 +126,18 @@
                         </div>
                     </span>
                     <span v-else-if="isExamEnd">
-                        exam has ended
+                        <div class="d-flex flex-column align-items-center justify-content-between"
+                            style="height: 600px;">
+                            <h3>Exam has ended</h3>
+                            <img th:src="@{/resources/assets/logo/complete.svg}" alt="complete" height="500">
+                        </div>
                     </span>
                     <span v-else-if="!isStarted">
-                        exam will start at {{ examStartTime }}
+                        <div class="d-flex flex-column align-items-center justify-content-between"
+                            style="height: 600px;">
+                            <h3>Exam will start at {{ examStartTime }}</h3>
+                            <img th:src="@{/resources/assets/logo/waiting.svg}" alt="complete" height="500">
+                        </div>
                     </span>
                     <span v-else>
                         <nav aria-label="breadcrumb" class="d-flex justify-content-start">
