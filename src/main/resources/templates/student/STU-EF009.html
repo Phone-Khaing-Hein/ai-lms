@@ -8,6 +8,8 @@
     <meta charset="UTF-8">
     <title>Course</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500&display=swap');
+
         * {
             margin: 0;
             padding: 0;
@@ -40,31 +42,17 @@
             border: 1px solid #ddd
         }
 
-        #one:checked~label.first,
-        #two:checked~label.second,
-        #three:checked~label.third,
-        #four:checked~label.forth,
-        #five:checked~label.fifth,
-        #six:checked~label.sixth,
-        #seven:checked~label.seveth,
-        #eight:checked~label.eighth {
+        #one:checked~label.first {
             border-color: #8e498e
         }
 
-        #one:checked~label.first .circle,
-        #two:checked~label.second .circle,
-        #three:checked~label.third .circle,
-        #four:checked~label.forth .circle,
-        #five:checked~label.fifth .circle,
-        #six:checked~label.sixth .circle,
-        #seven:checked~label.seveth .circle,
-        #eight:checked~label.eighth .circle {
+        #one:checked~label.first .circle {
             border: 6px solid #8e498e;
             background-color: #fff
         }
 
         label.box:hover {
-            background: #d5bbf7
+            background: #7fb5ede8
         }
 
         label.box .course {
@@ -81,10 +69,6 @@
             border: 2px solid #ddd;
             display: inline-block
         }
-
-        /* input[type="radio"] {
-            display: none
-        } */
 
         .btn.btn-primary {
             border-radius: 25px;
@@ -111,6 +95,10 @@
 
         .alerts:hover {
             transform: translateY(3px);
+        }
+
+        input[type=radio] {
+            accent-color: #8e498e;
         }
 
         [v-cloak] {
@@ -144,7 +132,7 @@
                         exam will start at {{ examStartTime }}
                     </span>
                     <span v-else>
-                        <nav aria-label="breadcrumb" class="d-flex justify-content-end">
+                        <nav aria-label="breadcrumb" class="d-flex justify-content-start">
                             <ol class="breadcrumb text-capitalize">
                                 <li class="breadcrumb-item"><a href="dashboard.html">dashboard</a></li>
                                 <li class="breadcrumb-item"><a href="examlist.html">exam-list</a></li>
@@ -176,13 +164,20 @@
 
                         <div class="row">
                             <span v-for="(question, index) in exam.questions">
-                                <div class="col-12">
+                                <div class="col-12 mt-3">
                                     <p class="fw-bold">{{ question.question }}</p>
-                                    <div>
-                                        <span v-for="answer in question.answers">
+                                    <div v-for="answer in question.answers">
+                                        <label :for="answer.id" class="box first">
+                                            <div class="course">
+                                                <input type="radio" class="me-2 form-check-input" :id="answer.id"
+                                                    v-model="studentAnswerList[index]" :value="answer.answer">
+                                                <span class="subject">{{ answer.answer }}</span>
+                                            </div>
+                                        </label>
+                                        <!-- <span>
                                             <input class="ms-2 me-2" type="radio" v-model="studentAnswerList[index]"
                                                 :value="answer.answer">{{ answer.answer }}
-                                        </span>
+                                        </span> -->
                                     </div>
                                 </div>
                             </span>
