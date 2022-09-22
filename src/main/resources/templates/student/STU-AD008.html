@@ -52,16 +52,27 @@
                             </form>
                         </div>
                     </div>
-                    <div class="card shadow rounded mt-3">
-                        <div class="card-body p-4">
+                    <div class="card shadow rounded mt-3" id="app" style="height: 350px;overflow: scroll;">
+                        <div class="card-body" style="height: 200px;">
                             <p style="color: rgb(71, 68, 68)" class="ms-1">
                                 <i class="fas fa-user me-2"></i>Private Comments
                             </p>
-                            <textarea name="" cols="30" rows="10" style="max-height: 100px; height: 70px"
-                                placeholder="Add private comment ..." class="form-control"></textarea>
-                            <button class="btn btn-dark mt-2 btn-sm float float-end">
+                            <input class="d-none" type="hidden" id="assignmentId" th:value="${assignment.id}"></input>
+                            <textarea cols="30" rows="10" style="max-height: 100px; resize: none;"
+                                placeholder="Add private comment ..." class="form-control" id="textBox"></textarea>
+                            <button class="btn btn-dark mt-2 btn-sm float float-end" @click="comment">
                                 Comment
                             </button>
+                        </div>
+                        <hr>
+                        <div class="p-2 d-flex align-items-center bg-light" v-for="m in messages"
+                            style="border-bottom: 0.5px solid rgb(191, 189, 189);">
+                            <img :src="'http://localhost:9090/resources/profile/'+m.user.photo" width="50px"
+                                class="me-3" alt="">
+                            <div class="">
+                                <span style="font-size: 12px;">{{m.user.name}}</span>
+                                <p>{{m.comment}}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -78,6 +89,40 @@
                 document.querySelector(".filepond--credits").removeAttribute("class")
             })
         </script> -->
+
+        <script>
+            const app = new Vue({
+                el: '#app',
+                data: {
+                    messages: [],
+                    newMessage: {}
+                },
+                methods: {
+                    comment(assignmentId) {
+                        axios.post('http://localhost:9090/student/private-comment', {
+                            comment: document.getElementById("textBox").value,
+                            assignmentId: document.getElementById("assignmentId").value
+                        }).then(function (response) {
+                            that.messages = [response.data, ...that.messages]
+                            document.getElementById("textBox").value = ""
+                        }).catch(function (error) {
+                            console.log(error);
+                        });
+                    }
+                },
+                async created() {
+                    window.that = this;
+                    await axios.get('http://localhost:9090/student/private-messages', {
+                        params: {
+                            assignmentId: document.getElementById("assignmentId").value
+                        }
+                    }).then(function (response) {
+                        console.log(response.data);
+                        that.messages = response.data;
+                    });
+                },
+            })
+        </script>
     </div>
 
     </div>

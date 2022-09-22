@@ -19,7 +19,7 @@ public class PrivateCommentService {
     }
 
     public List<PrivateComment> findByAssignmentId(int assignmentId) {
-        return privateCommentRepository.findByAssignment_Id(assignmentId);
+        return privateCommentRepository.findByAssignmentAnswer_Id(assignmentId);
     }
     
 }
