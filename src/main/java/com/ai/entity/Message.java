@@ -37,4 +37,10 @@ public class Message implements Serializable {
     @ManyToOne
     private User user;
 
+    @OneToOne
+    private Batch batch;
+
+    @Transient
+    private int batchId;
+
 }

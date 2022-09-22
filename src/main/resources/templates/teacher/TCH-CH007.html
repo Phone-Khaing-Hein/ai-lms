@@ -77,12 +77,12 @@
                             <div class="card-body p-0 mt-1" style="height: 500px; overflow: auto;">
                                 <ul class="list-group list-group-none">
                                     <li th:each="b : ${batches}"
-                                        class="list-group-item d-flex justify-content-between align-items-start">
+                                        class="list-group-item d-flex justify-content-between align-items-start"
+                                        th:onclick="changeBatch([[${b.id}]])" style="cursor: pointer;">
                                         <div class="ms-2 me-auto">
                                             <div class="fw-bold">[[${b.name}]]</div>
                                             Content for list item
                                         </div>
-                                        <span class="badge bg-primary rounded-pill">14</span>
                                     </li>
                                 </ul>
                             </div>
@@ -183,7 +183,12 @@
             $(document).ready(() => {
                 $("#textBox").emojioneArea()
                 document.getElementById("autoscroll").click();
-            })
+            });
+
+            function changeBatch(id) {
+                that.getMessage(id);
+                that.batchId = id
+            }
 
             $("#textBox").emojioneArea({
                 events: {
@@ -208,14 +213,41 @@
                 data: {
                     messages: [],
                     user: {},
-                    newMessage: {}
+                    newMessage: {},
+                    batchId: ""
                 },
                 methods: {
-                    getMessage() {
-                        return fetch('http://localhost:9090/teacher/chat/messages')
+                    isToday(date) {
+                        let today = new Date();
+                        return today.toLocaleString().split(',')[0] == date.toLocaleString().split(',')[0] ? true : false;
+                    },
+                    isYesterday(date) {
+                        let today = new Date();
+                        let yesterday = new Date();
+                        yesterday.setDate(today.getDate() - 1);
+                        return yesterday.toLocaleString().split(',')[0] == date.toLocaleString().split(',')[0] ? true : false;
+                    },
+                    formatDate(date) {
+                        let time = date.toLocaleString().split(',')[1];
+                        if (this.isToday(date)) {
+                            return "Today at" + time.substring(0, time.length - 6) + " " + time.slice(-2);
+                        } else if (this.isYesterday(date)) {
+                            return "Yesterday at" + time.substring(0, time.length - 6) + " " + time.slice(-2);
+                        } else {
+                            return date.toLocaleString().split(',')[0];
+                        }
+                    },
+                    getMessage(id) {
+                        this.message = []
+                        return fetch(`http://localhost:9090/teacher/chat/messages/${id}`)
                             .then((res) => res.json())
                             .then((data) => {
-                                this.messages = data
+                                this.messages = data;
+                                this.messages = this.messages.map(message => {
+                                    let [year, month, day, hour, minute] = message.created;
+                                    let dateTime = this.formatDate(new Date(year, month - 1, day, hour, minute));
+                                    return { ...message, created: dateTime };
+                                })
                             })
                     },
                     getLoginUser() {
@@ -227,9 +259,10 @@
                     },
                     sendMessage() {
                         axios.post('http://localhost:9090/teacher/chat', {
-                            message: document.getElementById("textBox").value
+                            message: document.getElementById("textBox").value,
+                            batchId: this.batchId
                         }).then(function (response) {
-                            that.messages = [...that.messages, response.data]
+                            // that.messages = [...that.messages, response.data]
                             $(".emojionearea-editor").html('');
                         }).catch(function (error) {
                             console.log(error);
@@ -242,25 +275,24 @@
                 },
                 created() {
                     window.that = this;
-                    this.getMessage();
                     this.getLoginUser();
                 },
                 updated() {
-                    this.getMessage();
+                    this.getMessage(this.batchId);
                 },
-                async mounted() {
-                    await axios
-                        .get("http://localhost:9090/teacher/chat/messages")
-                        .then(function (response) {
-                            this.messages = response.data;
-                        });
+                // async mounted() {
+                //     await axios
+                //         .get("http://localhost:9090/teacher/chat/messages")
+                //         .then(function (response) {
+                //             this.messages = response.data;
+                //         });
 
-                    await axios
-                        .get("http://localhost:9090/teacher/chat/user")
-                        .then(function (response) {
-                            this.user = response.data;
-                        });
-                }
+                //     await axios
+                //         .get("http://localhost:9090/teacher/chat/user")
+                //         .then(function (response) {
+                //             this.user = response.data;
+                //         });
+                // }
             })
 
             window.onload = function () {

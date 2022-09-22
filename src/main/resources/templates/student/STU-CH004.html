@@ -203,7 +203,8 @@
                         }
                     },
                     getMessage() {
-                        return fetch('http://localhost:9090/student/chat/messages')
+                        let batchId = [[${ batch.id }]]
+                        return fetch(`http://localhost:9090/student/chat/messages/${batchId}`)
                             .then((res) => res.json())
                             .then((data) => {
                                 this.messages = data;
@@ -225,7 +226,8 @@
                         let message = document.getElementById("textBox").value;
                         if (message.replace(/\s/g, "").length != 0) {
                             axios.post('http://localhost:9090/student/chat', {
-                                message: document.getElementById("textBox").value
+                                message: document.getElementById("textBox").value,
+                                batchId: [[${ batch.id }]]
                             }).then(function (response) {
                                 let [year, month, day, hour, minute] = response.data.created;
                                 response.data.created = that.formatDate(new Date(year, month - 1, day, hour, minute));
@@ -246,22 +248,22 @@
                     this.getMessage();
                     this.getLoginUser();
                 },
-                // updated() {
-                //     this.getMessage();
-                // }
-                // async mounted() {
-                //     await axios
-                //         .get("http://localhost:9090/student/chat/messages")
-                //         .then(function (response) {
-                //             this.messages = response.data;
-                //         });
+                updated() {
+                    this.getMessage();
+                },
+                async mounted() {
+                    await axios
+                        .get("http://localhost:9090/student/chat/messages")
+                        .then(function (response) {
+                            this.messages = response.data;
+                        });
 
-                //     await axios
-                //         .get("http://localhost:9090/student/chat/user")
-                //         .then(function (response) {
-                //             this.user = response.data;
-                //         });
-                // },
+                    await axios
+                        .get("http://localhost:9090/student/chat/user")
+                        .then(function (response) {
+                            this.user = response.data;
+                        });
+                },
             })
 
             // document.getElementById("sendMessage").addEventListener("submit", (e)=>{
