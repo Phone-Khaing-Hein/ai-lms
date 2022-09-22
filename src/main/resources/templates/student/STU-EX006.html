@@ -17,7 +17,7 @@
                         <li class="breadcrumb-item active" aria-current="page">exam-list</li>
                     </ol>
                 </nav>
-                <table class="table mb-0">
+                <table class="table mb-0" th:if="${bheList.size() > 0}">
                     <thead>
                         <tr>
                             <th scope="col">Post Date</th>
