@@ -16,7 +16,7 @@
     <div layout:fragment="content">
         <section class="mb-5">
             <div class="container" style="padding-top: 80px;">
-                <div class="row gx-2">
+                <div class="row gx-2" th:if="${modules.size() > 0}">
                     <div class="col-md-9 col-sm-12">
                         <div class="row gx-2">
                             <video width="200" controls id="video">
@@ -165,7 +165,7 @@
                     </div>
                     <div class="col-md-3 col-sm-12 mb-2 d-sm-none d-md-block">
                         <!-- To Do Video -->
-                        <div class="accordion" id="accordionPanelsStayOpenExample" th:each="module : ${course.modules}">
+                        <div class="accordion" id="accordionPanelsStayOpenExample" th:each="module : ${modules}">
                             <div class="accordion-item">
                                 <h2 class="accordion-header" th:attr="id='panelsStayOpen-'+${module.id}">
                                     <button class="accordion-button p-3" type="button" data-bs-toggle="collapse"
@@ -186,6 +186,13 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div th:unless="${modules.size() > 0}">
+                    <div class="d-flex flex-column align-items-center justify-content-between mt-4"
+                        style="height: 600px;margin-bottom: -20px;">
+                        <h3>There is no course videos yet!</h3>
+                        <img th:src="@{/resources/assets/logo/404.svg}" alt="complete" height="400" class="mb-5">
                     </div>
                 </div>
             </div>

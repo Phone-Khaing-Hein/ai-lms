@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -63,14 +64,14 @@ public class StudentController {
         var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
         var user = userService.findByLoginId(loginId);
         Integer batchId = user.getBatches().get(0).getId();
-        var batchCount = batchHasExamService.getBatchHasExamListByBatchId(batchId).size();
+        var batchCount = batchHasExamService.getBatchHasExamListByBatchId(batchId).stream().filter(e -> e.getStart().isBefore(LocalDateTime.now())).toList().size();
         m.put("batchCount", batchCount);
         var teachers = userService.findAll().stream()
                 .filter(u -> u.getRole().equals(User.Role.Teacher))
                 .filter(t -> t.getBatches().contains(batchService.findById(user.getBatches().get(0).getId()))).toList();
         m.put("user", user);
         m.put("teachers", teachers);
-        m.put("assignmentCount", assignmentService.count());
+        m.put("assignmentCount", assignmentService.findAll().stream().filter(a -> a.getStart().isBefore(LocalDateTime.now())).toList().stream().filter(a -> a.getBatch().getId() == user.getBatches().get(0).getId()).toList().size());
         m.put("nav", "dashboard");
         return "student/STU-DB001";
     }
@@ -80,6 +81,7 @@ public class StudentController {
         var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
         var user = userService.findByLoginId(loginId);
         m.put("course", user.getBatches().get(0).getCourse());
+        m.put("modules", user.getBatches().get(0).getCourse().getModules().stream().filter(module -> module.getSchedule().getDate().isBefore(LocalDate.now())).toList());
         m.put("nav", "video");
         return "student/STU-VD002";
     }
@@ -171,7 +173,7 @@ public class StudentController {
         User student = userService.findByLoginId(loginId);
         Integer batchId = student.getBatches().get(0).getId();
         List<BatchHasExam> bheList = batchHasExamService.getBatchHasExamListByBatchId(batchId);
-        model.addAttribute("bheList", bheList);
+        model.addAttribute("bheList", bheList.stream().filter(e -> e.getStart().isBefore(LocalDateTime.now())).toList());
         return "student/STU-EX006";
     }
 

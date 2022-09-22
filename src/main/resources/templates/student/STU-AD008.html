@@ -52,7 +52,8 @@
                             </form>
                         </div>
                     </div>
-                    <div class="card shadow rounded mt-3" id="app" style="height: 350px;overflow: scroll;">
+                    <div class="card shadow rounded mt-3" id="app" style="height: 350px;overflow: scroll;"
+                        th:if="${assignment.assignmentAnswers.size() > 0}">
                         <div class="card-body" style="height: 200px;">
                             <p style="color: rgb(71, 68, 68)" class="ms-1">
                                 <i class="fas fa-user me-2"></i>Private Comments
