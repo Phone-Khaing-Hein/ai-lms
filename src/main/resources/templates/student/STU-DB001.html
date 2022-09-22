@@ -18,8 +18,8 @@
 
 <body class="bg-light overflow-hidden">
     <div layout:fragment="content">
-        <section>
-            <div class="container" style="padding-top: 100px;">
+        <section class="mt-5 pt-5">
+            <div class="container" style="padding-top: 160px;">
                 <h4 class="text-capitalize mb-3"><i class="bi bi-house-door me-2"></i>dashboard</h4>
                 <div class="row gx-3" style="height: 100vh;">
                     <div class="col-md-9">
@@ -27,7 +27,8 @@
                             <div class="row text-capitalize align-items-center">
                                 <div class="col-8">
                                     <h5>Welcome Back! [[${user.name}]]</h5>
-                                    <p class="text-muted m-0">you have completed 60% of your goal this week!</p>
+                                    <p class="text-muted m-0">you have completed [[${progress}]]% of your goal this
+                                        week!</p>
                                 </div>
                             </div>
                         </div>
@@ -56,9 +57,8 @@
                             <div class="col-md-4 mb-3">
                                 <a th:href="@{/student/chat#divider}" class="text-white text-decoration-none">
                                     <div class="card p-2 cardhovers" style="background: blue;">
-                                        <div class="card-body">
+                                        <div class="card-body" style="height: 110px;">
                                             <span class="h4"><i class="bi bi-chat-dots me-2"></i>Messages</span>
-                                            <p class="mt-2">messages : 0</p>
                                         </div>
                                     </div>
                                 </a>
