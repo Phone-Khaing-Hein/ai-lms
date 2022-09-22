@@ -31,5 +31,9 @@ public class AssignmentService {
     public Assignment findById(int id) {
         return assignmentRepository.findById(id).get();
     }
+
+    public void deleteById(int id) {
+        assignmentRepository.deleteById(id);
+    }
     
 }
