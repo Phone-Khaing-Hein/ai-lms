@@ -75,6 +75,8 @@
                                 <td th:each="batch : ${student.batches}" th:text="${batch.name}"></td>
                                 <td th:text="${student.active} ? 'Active' : 'Inactive'"></td>
                                 <td class="text-end">
+                                    <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
+                                        th:data-bs-target="'#staticBackdrop'+${student.loginId}">Reset Password</button>
                                     <a class="btn btn-warning"
                                         th:attr="href='#edit-student-button' + ${student.loginId}"
                                         data-bs-toggle="modal">
@@ -85,13 +87,39 @@
                                             class="bi bi-trash-fill me-2"></i>Delete
                                     </a>
                                 </td>
+                                <div class="modal fade" th:id="'staticBackdrop'+${student.loginId}"
+                                    data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                                    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="staticBackdropLabel">Reset Password for
+                                                    [[${student.name}]]</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <form th:action="@{/admin/reset-password}" method="post">
+                                                <input type="hidden" name="loginId" th:value="${student.loginId}">
+                                                <div class="modal-body">
+                                                    <label for="password">New Password</label>
+                                                    <input type="password" class="form-control" name="password">
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-primary">Update</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div th:if="${student.batches.size()} > 0">
                                     <div th:replace="fragments/COM-FG001 :: student-edit"></div>
                                 </div>
                             </tr>
                         </tbody>
                     </table>
-                    
+
                 </div>
             </div>
         </div>

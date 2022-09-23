@@ -271,9 +271,21 @@ public class TeacherController {
 
     @PostMapping("assignment-create")
     public String createAssignment(@Validated @ModelAttribute Assignment assignment, 
-                                    BindingResult bs, 
+                                    BindingResult bs, ModelMap m,
                                     RedirectAttributes attributes) throws IllegalStateException, IOException{
+
+        var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
+        var user = userService.findByLoginId(loginId);
         if(bs.hasErrors()){
+             m.put("assignments", assignmentService.findAll().stream().filter(a -> user.getBatches().contains(a.getBatch())).toList());
+             m.put("openBatches", user.getBatches().stream().filter(b -> b.isClose() == false).toList());
+            return "teacher/TCH-AL005";
+        }
+        
+        if(assignment.getStart().isAfter(assignment.getEnd())){
+             m.put("assignments", assignmentService.findAll().stream().filter(a -> user.getBatches().contains(a.getBatch())).toList());
+             m.put("openBatches", user.getBatches().stream().filter(b -> b.isClose() == false).toList());
+            m.put("dateError", "Start Date must be earlier than End Date!");
             return "teacher/TCH-AL005";
         }
         var batch = batchService.findById(assignment.getBatchId());

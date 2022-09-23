@@ -132,7 +132,7 @@
                                         </div>
                                         <div id="resource-tab">
                                             <div class="accordion" id="accordionPanelsStayOpenExample2"
-                                                th:each="module, row : ${course.modules}">
+                                                th:each="module, row : ${modules}">
                                                 <div class="accordion-item">
                                                     <h5 class="accordion-header"
                                                         th:attr="id='panelsStayOpen-'+${row.index * (-2)}">

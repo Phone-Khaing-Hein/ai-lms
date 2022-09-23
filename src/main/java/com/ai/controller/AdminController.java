@@ -502,7 +502,21 @@ public class AdminController {
 
     @GetMapping("attendance-list")
     public String attendanceList(ModelMap m){
-        m.put("attendance", attendanceService.findAllAttendance());
+        var count = 0;
+        var users = userService.findAll().stream().filter(u -> u.getRole().equals(Role.Student)).toList();
+        for(var u : users){
+            for(var a : u.getAttendances()){
+                if(a.getStatus().equals("Present")){
+                    count++;
+                }
+            }
+            
+            if(u.getAttendances().size() > 0){
+                u.setPercentage((int) Math.round((double)count/(double)u.getAttendances().size() * 100));
+            }
+            count = 0;
+        }
+        m.put("attendance", users);
         return "ADM-AT001";
     }
 
@@ -571,5 +585,14 @@ public class AdminController {
         userService.save(user);
         attributes.addFlashAttribute("message", "Changed Password successfully!");
         return "redirect:/admin/profile";
+    }
+
+    @PostMapping("reset-password")
+    public String resetPassword(@RequestParam String loginId, @RequestParam String password,RedirectAttributes attribute){
+        var user = userService.findByLoginId(loginId);
+        user.setPassword(passwordEncoder.encode(password));
+        userService.save(user);
+        attribute.addFlashAttribute("message", "%s password reset successfully!".formatted(user.getName()));
+        return "redirect:/admin/student-list";
     }
 }

@@ -23,19 +23,17 @@
                             <th>Id</th>
                             <th>Student Id</th>
                             <th>Student Name</th>
-                            <th>Date</th>
-                            <th>Attendance Status</th>
-                            <th>Batch</th>
+                            <th>Attendance percentage</th>
+                            <!-- <th>Batch</th> -->
                         </tr>
                     </thead>
                     <tbody>
-                        <tr th:each="a, row : ${attendance}">
+                        <tr th:each="u, row : ${attendance}">
                             <td>[[${row.index} + 1]]</td>
-                            <td>[[${a.user.loginId}]]</td>
-                            <td>[[${a.user.name}]]</td>
-                            <td>[[${a.date}]]</td>
-                            <td>[[${a.status}]]</td>
-                            <td>[[${a.batch.name}]]</td>
+                            <td>[[${u.loginId}]]</td>
+                            <td>[[${u.name}]]</td>
+                            <td>[[${u.percentage}]]%</td>
+
                         </tr>
                     </tbody>
                 </table>

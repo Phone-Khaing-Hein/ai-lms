@@ -1,5 +1,6 @@
 package com.ai.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.ai.entity.User;

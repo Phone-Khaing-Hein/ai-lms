@@ -21,7 +21,8 @@
                 </button>
                 <div th:replace="fragments/COM-FG001 :: assignment-create"></div>
             </div>
-            <p th:text="${message}" th:if="${message != null}" class="d-none" id="message"></p>
+            <p th:text="${message}" th:if="${message != null}" class="d-none alert alert-success" id="message"></p>
+            <p th:text="${dateError}" th:if="${dateError != null}" class="d-none alert alert-danger" id="dateError"></p>
             <div class="container bg-white shadow p-3 mt-4">
                 <div>
                     <table id="examTable" class="table">
@@ -170,6 +171,15 @@
                             'error'
                         )
                     }
+                })
+            }
+
+            let dateError = document.getElementById('dateError');
+            if (dateError !== null && dateError.innerText !== "") {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: dateError.innerText,
                 })
             }
 

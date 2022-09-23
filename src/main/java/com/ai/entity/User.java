@@ -65,6 +65,9 @@ public class User {
 	@Transient
     private Integer[] batchId;
 
+    @Transient
+    private int percentage;
+
     public enum Role{
         Admin,
         Teacher,
