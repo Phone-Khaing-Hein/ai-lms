@@ -7,7 +7,5 @@ import com.ai.service.FileService;
 
 @SpringBootTest
 public class FileServiceTest {
-    
-    @Mock
-    FileService fileService;
+
 }
