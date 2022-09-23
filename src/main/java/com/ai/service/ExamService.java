@@ -33,5 +33,9 @@ public class ExamService {
     public List<Exam> findByCourseId(int id) {
         return examRepository.findByCourse_Id(id);
     }
+
+    public int getCount() {
+        return (int) examRepository.count();
+    }
     
 }

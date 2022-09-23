@@ -1,5 +1,6 @@
 package com.ai.api;
 
+import com.ai.entity.Batch;
 import com.ai.entity.Message;
 import com.ai.entity.User;
 import com.ai.service.BatchService;
@@ -50,5 +51,10 @@ public class MessageApi {
         var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
         var user = userService.findByLoginId(loginId);
         return user;
+    }
+
+    @GetMapping("teacher/batch/{id}")
+    public Batch batch(@PathVariable int id){
+        return batchService.findById(id);
     }
 }

@@ -73,6 +73,7 @@ public class AdminController {
     public String home(ModelMap m){
         m.put("courseCount", courseService.getCount());
         m.put("batchCount", batchService.getCount());
+        m.put("examCount", examService.getCount());
         List<String> batchName = batchService.findAll().stream().map(batch -> batch.getName()).collect(Collectors.toList());
         List<Batch> batches = batchService.findAll().stream().filter(batch -> batch.isClose() == false).collect(Collectors.toList());
 

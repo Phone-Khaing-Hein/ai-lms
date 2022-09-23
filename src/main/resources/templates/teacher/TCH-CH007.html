@@ -107,7 +107,7 @@
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <p class="mt-2" style="margin-bottom: 0;">[[${batch.name}]]</p>
+                                            <p class="mt-2" style="margin-bottom: 0;">{{batch.name}}</p>
                                         </li>
                                     </ul>
                                 </div>
@@ -187,6 +187,7 @@
 
             function changeBatch(id) {
                 that.getMessage(id);
+                that.getBatch(id);
                 that.batchId = id
             }
 
@@ -214,7 +215,8 @@
                     messages: [],
                     user: {},
                     newMessage: {},
-                    batchId: ""
+                    batchId: "",
+                    batch: {}
                 },
                 methods: {
                     isToday(date) {
@@ -248,6 +250,14 @@
                                     let dateTime = this.formatDate(new Date(year, month - 1, day, hour, minute));
                                     return { ...message, created: dateTime };
                                 })
+                            })
+                    },
+                    getBatch(id) {
+                        this.message = []
+                        return fetch(`http://localhost:9090/teacher/batch/${id}`)
+                            .then((res) => res.json())
+                            .then((data) => {
+                                this.batch = data;
                             })
                     },
                     getLoginUser() {
