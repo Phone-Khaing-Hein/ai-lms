@@ -342,7 +342,7 @@ public class AdminController {
             m.put("batchError", "Batch is required!");
             return "ADM-ST001";
         }
-        var students = userService.findAll().stream().filter(a -> a.getRole().equals(User.Role.Student)).toList();
+        var students = userService.findAll();
         for(var s : students){
             if(s.getLoginId().equals(user.getLoginId())){
                 m.put("error" , "Student Login ID has already existed!");
