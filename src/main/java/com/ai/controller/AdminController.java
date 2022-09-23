@@ -593,6 +593,10 @@ public class AdminController {
         user.setPassword(passwordEncoder.encode(password));
         userService.save(user);
         attribute.addFlashAttribute("message", "%s password reset successfully!".formatted(user.getName()));
-        return "redirect:/admin/student-list";
+        if(user.getRole().equals(Role.Student)){
+            return "redirect:/admin/student-list";
+        }else{
+            return "redirect:/admin/teacher-list";
+        }
     }
 }
