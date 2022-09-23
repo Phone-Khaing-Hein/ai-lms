@@ -70,52 +70,67 @@ const app = new Vue({
       }
     },
     createExam() {
-      this.isEmpty = false;
-      this.questionList.forEach((question) => {
-        question.answers.forEach((answer) => {
-          if (answer.answer.replace(/\s/g, "").length == 0) {
+      if (
+        this.questionList[this.questionList.length - 1].answers.filter(
+          (a) =>
+            a.answer ==
+            this.questionList[this.questionList.length - 1].correctAnswer
+        ).length == 0
+      ) {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Correct Answer must contain in answer list!",
+        });
+      } else {
+        this.isEmpty = false;
+        this.questionList.forEach((question) => {
+          question.answers.forEach((answer) => {
+            if (answer.answer.replace(/\s/g, "").length == 0) {
+              this.isEmpty = true;
+              Swal.fire("Please Fill All Radio Options!", "", "info");
+            }
+          });
+
+          if (
+            question.question.replace(/\s/g, "").length == 0 ||
+            question.correctAnswer.replace(/\s/g, "").length == 0 ||
+            question.mark.length == 0
+          ) {
             this.isEmpty = true;
-            Swal.fire("Please Fill All Radio Options!", "", "info");
+            Swal.fire("Please Fill All Question Forms!", "", "info");
+          } else if (
+            this.courseId.replace(/\s/g, "").length == 0 ||
+            this.examTile.replace(/\s/g, "").length == 0
+          ) {
+            this.isEmpty = true;
+            Swal.fire("Please Fill All Input Forms!", "", "info");
           }
         });
 
-        if (
-          question.question.replace(/\s/g, "").length == 0 ||
-          question.correctAnswer.replace(/\s/g, "").length == 0 ||
-          question.mark.length == 0
-        ) {
-          this.isEmpty = true;
-          Swal.fire("Please Fill All Question Forms!", "", "info");
-        } else if (
-          this.courseId.replace(/\s/g, "").length == 0 ||
-          this.examTile.replace(/\s/g, "").length == 0
-        ) {
-          this.isEmpty = true;
-          Swal.fire("Please Fill All Input Forms!", "", "info");
+        if (!this.isEmpty) {
+          let fullMark = 0;
+          this.questionList.forEach((question) => {
+            fullMark = fullMark + question.mark;
+            this.fullmark = fullMark;
+          });
+          let data = {
+            courseId: this.courseId,
+            title: this.examTile,
+            fullmark: this.fullmark,
+            questions: this.questionList,
+          };
+          console.log(data);
+          axios
+            .post("http://localhost:9090/admin/exam-create", data)
+            .then(() => {
+              Swal.fire("Successfully Created!", "", "success").then(
+                () =>
+                  (window.location = "http://localhost:9090/admin/exam-list")
+              );
+            })
+            .catch((error) => console.log(error));
         }
-      });
-
-      if (!this.isEmpty) {
-        let fullMark = 0;
-        this.questionList.forEach((question) => {
-          fullMark = fullMark + question.mark;
-          this.fullmark = fullMark;
-        });
-        let data = {
-          courseId: this.courseId,
-          title: this.examTile,
-          fullmark: this.fullmark,
-          questions: this.questionList,
-        };
-        console.log(data);
-        axios
-          .post("http://localhost:9090/admin/exam-create", data)
-          .then(() => {
-            Swal.fire("Successfully Created!", "", "success").then(
-              () => (window.location = "http://localhost:9090/admin/exam-list")
-            );
-          })
-          .catch((error) => console.log(error));
       }
     },
   },
