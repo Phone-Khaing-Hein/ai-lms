@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+    layout:decorate="~{layouts/AUTHENTICATED.html}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Exam Create Form</title>
+    <style>
+        div.dataTables_wrapper {
+            width: 90vw;
+            margin: 0 auto;
+        }
+
+        input {
+            width: 40%;
+            outline: none;
+            border: none;
+            border-bottom: 1px solid black;
+        }
+    </style>
+    <link rel="stylesheet" href="http://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/4.1.0/css/fixedColumns.dataTables.min.css">
+</head>
+
+<body class="bg-light">
+    <div layout:fragment="content">
+        <div class="container">
+            <table id="example" class="stripe row-border order-column w-100 overflow-scroll">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th th:each="e : ${exam}">[[${e.exam.title}]]</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="s : ${students}">
+                        <td>[[${s.name}]]</td>
+                        <td th:each="e : ${s.studentHasExams}" th:if="${s.studentHasExams.size() > 0}">
+                            [[${e.mark}]]
+                        </td>
+                        <td th:each="e : ${exam}" th:if="${s.studentHasExams.size() == 0}">
+                            0
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+        <script src="./libs/jquery-3.6.0.min.js"></script>
+        <script src="http://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/fixedcolumns/4.1.0/js/dataTables.fixedColumns.min.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                var table = $('#example').DataTable({
+                    fixedHeader: true,
+                    scrollY: "300px",
+                    scrollX: true,
+                    scrollCollapse: true,
+                    paging: false,
+                    fixedColumns: {
+                        left: 1
+                    }
+                });
+            });
+        </script>
+    </div>
+
+</body>
+
+</html>

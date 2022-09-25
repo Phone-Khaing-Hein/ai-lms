@@ -62,6 +62,9 @@ public class AdminController {
     @Autowired
     private AnswerService answerService;
 
+    @Autowired
+    private StudentHasExamService studentHasExamService;
+
     @ModelAttribute("admin")
     public void admin(ModelMap m){
         var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -598,5 +601,12 @@ public class AdminController {
         }else{
             return "redirect:/admin/teacher-list";
         }
+    }
+
+    @GetMapping("exam-grades")
+    public String grades(ModelMap m){
+        m.put("students", userService.findAll().stream().filter(u -> u.getRole().equals(Role.Student)).toList());
+        m.put("exam", studentHasExamService.findAll());
+        return "ADM-ET003";
     }
 }

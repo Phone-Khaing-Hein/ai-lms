@@ -62,6 +62,10 @@ public class User {
     @JsonIgnore
     private List<PrivateComment> privateComments;
 
+    @OneToMany(mappedBy = "student", cascade = {CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
+    @JsonIgnore
+    private List<StudentHasExam> studentHasExams;
+
 	@Transient
     private Integer[] batchId;
 
