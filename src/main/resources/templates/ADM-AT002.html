@@ -30,10 +30,10 @@
                     Assignment Mark List
                 </h2>
             </div>
-            <table id="example" class="stripe row-border order-column w-100 overflow-scroll">
+            <table id="example" class="stripe row-border order-column overflow-scroll">
                 <thead>
                     <tr>
-                        <th></th>
+                        <th>Student Name</th>
                         <th th:each="a : ${assignment}">[[${a.assignment.title}]]</th>
                     </tr>
                 </thead>
@@ -57,10 +57,7 @@
             $(document).ready(function () {
                 var table = $('#example').DataTable({
                     fixedHeader: true,
-                    scrollY: "300px",
-                    scrollX: true,
                     scrollCollapse: true,
-                    paging: false,
                     fixedColumns: {
                         left: 1
                     }
