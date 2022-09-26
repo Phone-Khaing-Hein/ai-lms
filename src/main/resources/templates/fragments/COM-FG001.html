@@ -23,14 +23,22 @@
                             <li class="nav-item">
                                 <a th:href="@{/admin/teacher-list}" class="nav-link"
                                     th:classappend="${#strings.equals(nav, 'teacher')} ? 'active' : ''"><i
-                                        class="bi bi-person-video3 me-2"></i>Teacher
-                                    Management</a>
+                                        class="bi bi-person-video3 me-2"></i>Teachers</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" th:href="@{/admin/student-list}"
                                     th:classappend="${#strings.equals(nav, 'student')} ? 'active' : ''"><i
-                                        class="bi bi-people-fill me-2"></i>Student
-                                    Management</a>
+                                        class="bi bi-people-fill me-2"></i>Students</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/admin/exam-grades}"
+                                    th:classappend="${#strings.equals(nav, 'exam')} ? 'active' : ''"><i
+                                        class="bi bi-people-fill me-2"></i>Exam Marks</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/admin/assignment-grades}"
+                                    th:classappend="${#strings.equals(nav, 'assignment')} ? 'active' : ''"><i
+                                        class="bi bi-people-fill me-2"></i>Assignment Marks</a>
                             </li>
                         </ul>
                     </div>

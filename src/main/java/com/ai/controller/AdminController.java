@@ -62,6 +62,12 @@ public class AdminController {
     @Autowired
     private AnswerService answerService;
 
+    @Autowired
+    private StudentHasExamService studentHasExamService;
+
+    @Autowired
+    private AssignmentAnswerService assignmentAnswerService;
+
     @ModelAttribute("admin")
     public void admin(ModelMap m){
         var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -598,5 +604,21 @@ public class AdminController {
         }else{
             return "redirect:/admin/teacher-list";
         }
+    }
+
+    @GetMapping("exam-grades")
+    public String grades(ModelMap m){
+        m.put("students", userService.findAll().stream().filter(u -> u.getRole().equals(Role.Student)).toList());
+        m.put("exam", studentHasExamService.findAll());
+        m.put("nav", "exam");
+        return "ADM-ET003";
+    }
+
+    @GetMapping("assignment-grades")
+    public String assGrades(ModelMap m){
+        m.put("students", userService.findAll().stream().filter(u -> u.getRole().equals(Role.Student)).toList());
+        m.put("assignment", assignmentAnswerService.findAll());
+        m.put("nav", "assignment");
+        return "ADM-AT002";
     }
 }
