@@ -14,4 +14,6 @@ public interface CommentRepository extends JpaRepository<Comment, Integer>{
 
     List<Comment> findByVideo_Id(Integer videoId);
     
+    Comment findById(int id);
+    
 }
