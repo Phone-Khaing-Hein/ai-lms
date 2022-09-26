@@ -27,23 +27,23 @@
         <div class="container">
             <div class="text-center mb-4">
                 <h2 class="mb-3"><i class="fas fa-user-friends me-2"></i>
-                    Exam Mark List
+                    Assignment Mark List
                 </h2>
             </div>
             <table id="example" class="stripe row-border order-column w-100 overflow-scroll">
                 <thead>
                     <tr>
                         <th></th>
-                        <th th:each="e : ${exam}">[[${e.exam.title}]]</th>
+                        <th th:each="a : ${assignment}">[[${a.assignment.title}]]</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr th:each="s : ${students}">
                         <td>[[${s.name}]]</td>
-                        <td th:each="e : ${s.studentHasExams}" th:if="${s.studentHasExams.size() > 0}">
-                            [[${e.mark}]]
+                        <td th:if="${s.assignmentAnswer != null}">
+                            [[${s.assignmentAnswer.mark}]]
                         </td>
-                        <td th:each="e : ${exam}" th:if="${s.studentHasExams.size() == 0}">
+                        <td th:if="${s.assignmentAnswer == null}">
                             0
                         </td>
                     </tr>
@@ -51,8 +51,6 @@
             </table>
         </div>
 
-
-        <script src="./libs/jquery-3.6.0.min.js"></script>
         <script src="http://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
         <script src="https://cdn.datatables.net/fixedcolumns/4.1.0/js/dataTables.fixedColumns.min.js"></script>
         <script type="text/javascript">
