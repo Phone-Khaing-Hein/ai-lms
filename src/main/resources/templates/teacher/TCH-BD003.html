@@ -226,27 +226,25 @@
                                             <form th:action="@{/teacher/schedule-create}" method="post">
                                                 <td>
                                                     <input type="date" class="form-control" name="date"
-                                                        th:classappend="${m.schedule} != null ? 'd-none disabled' : ''"
-                                                        th:required="true">
-                                                    <span th:if="${m.schedule} != null">[[${m.schedule.date}]]</span>
+                                                        th:required="true" th:if="${m.schedule == null}">
+                                                    <span th:if="${m.schedule != null}">[[${m.schedule.date}]]</span>
                                                     <span class="text-danger"
                                                         th:if="${dateError} != null">[[${dateError}]]</span>
                                                 </td>
                                                 <td>
                                                     <input type="hidden" name="moduleId" th:value="${m.id}">
                                                     <input type="hidden" name="batchId" th:value="${batch.id}">
-                                                    <input th:if="${m.schedule} == null" type="submit"
-                                                        class="btn btn-primary" value="Save" />
-                                                    <button th:if="${m.schedule} != null" type="button"
-                                                        class="btn btn-warning" data-bs-toggle="modal"
-                                                        th:data-bs-target="'#staticBackdrop'+${m.schedule.id}">
+                                                    <input type="submit" class="btn btn-primary" value="Save"
+                                                        th:if="${m.schedule == null}" />
+                                                    <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                                                        th:data-bs-target="'#staticBackdrop'+${m.schedule.id}"
+                                                        th:if="${m.schedule != null}">
                                                         Edit
                                                     </button>
-
                                                 </td>
                                             </form>
-                                            <div th:if="${m.schedule} != null" class="modal fade"
-                                                th:id="'staticBackdrop'+${m.schedule.id}" data-bs-backdrop="static"
+                                            <div class="modal fade" th:id="'staticBackdrop'+${m.schedule.id}"
+                                                th:if="${m.schedule != null}" data-bs-backdrop="static"
                                                 data-bs-keyboard="false" tabindex="-1"
                                                 aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                                 <div class="modal-dialog modal-dialog-centered">
@@ -271,7 +269,7 @@
                                                                     th:value="${m.schedule.id}">
 
                                                             </div>
-                                                            <div class="modal-footer">
+                                                            <div class=" modal-footer">
                                                                 <button type="button" class="btn btn-secondary"
                                                                     data-bs-dismiss="modal">Close</button>
                                                                 <button type="submit"

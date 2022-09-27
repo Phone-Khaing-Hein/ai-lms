@@ -32,7 +32,7 @@ public class Schedule {
     @ManyToOne
     private Batch batch;
 
-    @OneToOne
+    @ManyToOne
     private Module module;
 
     @Transient

@@ -68,19 +68,19 @@ public class AdminControllerTest {
         return course;
     }
 
-    public Module moduleObj(){
-        Module module = Module.builder()
-        .id(1)
-        .name("Module Name")
-        .course(new Course())
-        .resources(new ArrayList<Resource>())
-        .videos(new ArrayList<Video>())
-        .schedule(new Schedule())
-        .resourceCount(1)
-        .videoCount(1)
-        .build();
-        return module;
-    }
+    // public Module moduleObj(){
+    //     Module module = Module.builder()
+    //     .id(1)
+    //     .name("Module Name")
+    //     .course(new Course())
+    //     .resources(new ArrayList<Resource>())
+    //     .videos(new ArrayList<Video>())
+    //     .schedule(new Schedule())
+    //     .resourceCount(1)
+    //     .videoCount(1)
+    //     .build();
+    //     return module;
+    // }
     
     @Test
     public void homeTest() throws Exception {
@@ -156,13 +156,13 @@ public class AdminControllerTest {
             .andExpect(redirectedUrl("/admin/course-list"));
     }
 
-    @Test
-    public void moduleCreateTest() throws Exception {
-        Module module = moduleObj();
-        this.mockMvc.perform(post("/admin/module-create").param("courseId", "1").flashAttr("module", module))
-            .andExpect(status().isOk())
-            .andExpect(view().name("ADM-MT001"));
-    }
+    // @Test
+    // public void moduleCreateTest() throws Exception {
+    //     Module module = moduleObj();
+    //     this.mockMvc.perform(post("/admin/module-create").param("courseId", "1").flashAttr("module", module))
+    //         .andExpect(status().isOk())
+    //         .andExpect(view().name("ADM-MT001"));
+    // }
 
     @Test
     public void moduleNotNullTest() throws Exception {
