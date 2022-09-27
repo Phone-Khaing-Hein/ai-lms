@@ -30,10 +30,10 @@
                     Exam Mark List
                 </h2>
             </div>
-            <table id="example" class="stripe row-border order-column w-100 overflow-scroll">
+            <table id="example" class="stripe row-border order-column table-responsive overflow-scroll">
                 <thead>
                     <tr>
-                        <th></th>
+                        <th>Student Name</th>
                         <th th:each="e : ${exam}">[[${e.exam.title}]]</th>
                     </tr>
                 </thead>
@@ -51,18 +51,13 @@
             </table>
         </div>
 
-
-        <script src="./libs/jquery-3.6.0.min.js"></script>
         <script src="http://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
         <script src="https://cdn.datatables.net/fixedcolumns/4.1.0/js/dataTables.fixedColumns.min.js"></script>
         <script type="text/javascript">
             $(document).ready(function () {
                 var table = $('#example').DataTable({
                     fixedHeader: true,
-                    scrollY: "300px",
-                    scrollX: true,
                     scrollCollapse: true,
-                    paging: false,
                     fixedColumns: {
                         left: 1
                     }
