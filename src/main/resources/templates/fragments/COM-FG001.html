@@ -146,9 +146,9 @@
                     </li>
                 </ul>
                 <div>
-                    <a href="javascript: document.logoutForm.submit()" class="btn btn-outline-danger me-3">Log Out</a>
-                    <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
-                        <input hidden type="submit" class="" value="Sign Out">
+                    <button type="button" id="logout" class="btn btn-outline-danger me-3">Log Out</button>
+                    <form id="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+                        <input type="submit" class="d-none" value="Sign Out">
                     </form>
                 </div>
         </nav>

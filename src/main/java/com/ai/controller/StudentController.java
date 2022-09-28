@@ -189,8 +189,10 @@ public class StudentController {
 
     @GetMapping("assignment-list")
     public String assignments(ModelMap m) {
+        var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
+        User student = userService.findByLoginId(loginId);
         m.put("assignments",
-                assignmentService.findAll().stream().filter(a -> a.getStart().isBefore(LocalDateTime.now())).toList());
+                assignmentService.findAll().stream().filter(a -> a.getStart().isBefore(LocalDateTime.now())).filter(a -> a.getBatch().getId() == student.getBatches().get(0).getId()).toList());
         return "student/STU-AS007";
     }
 
