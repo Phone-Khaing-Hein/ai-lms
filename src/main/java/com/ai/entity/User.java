@@ -31,6 +31,8 @@ public class User {
     private String email;
     @Column(nullable = false)
     private String password;
+    @Column(name = "rsp_token")
+    private String resetPasswordToken;
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
