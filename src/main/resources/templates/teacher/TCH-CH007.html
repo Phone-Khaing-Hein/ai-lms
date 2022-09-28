@@ -118,8 +118,8 @@
                                     <div class="d-flex align-items-baseline mb-2"
                                         v-if="user.loginId !== m.user.loginId">
                                         <div class="position-relative avatar">
-                                            <img src="https://nextbootstrap.netlify.app/assets/images/profiles/1.jpg"
-                                                class="img-fluid rounded-circle" alt="">
+                                            <img :src="'http://localhost:9090/resources/profile/'+m.user.photo"
+                                                class="rounded-circle" alt="" width="40" height="40px">
                                             <span
                                                 class="position-absolute bottom-0 start-100 translate-middle p-1 bg-success border border-light rounded-circle">
                                                 <span class="visually-hidden">New alerts</span>
@@ -149,8 +149,8 @@
                                             </div>
                                         </div>
                                         <div class="position-relative avatar">
-                                            <img src="https://nextbootstrap.netlify.app/assets/images/profiles/2.jpg"
-                                                class="img-fluid rounded-circle" alt="">
+                                            <img :src="'http://localhost:9090/resources/profile/'+user.photo"
+                                                class="rounded-circle" alt="" width="40" height="40px">
                                             <span
                                                 class="position-absolute bottom-0 start-100 translate-middle p-1 bg-success border border-light rounded-circle">
                                                 <span class="visually-hidden">New alerts</span>

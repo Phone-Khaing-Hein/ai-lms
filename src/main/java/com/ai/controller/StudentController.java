@@ -3,6 +3,7 @@ package com.ai.controller;
 import com.ai.entity.AssignmentAnswer;
 import com.ai.entity.BatchHasExam;
 import com.ai.entity.User;
+import com.ai.repository.ScheduleRepository;
 import com.ai.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -59,6 +60,9 @@ public class StudentController {
     @Autowired
     private BatchHasExamService batchHasExamService;
 
+    @Autowired
+    private ScheduleRepository scheduleRepository;
+
     @GetMapping("home")
     public String home(ModelMap m) {
         var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -80,8 +84,15 @@ public class StudentController {
     public String course(ModelMap m) {
         var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
         var user = userService.findByLoginId(loginId);
-        m.put("course", user.getBatches().get(0).getCourse());
+        var course = user.getBatches().get(0).getCourse();
+        m.put("course", course);
         m.put("nav", "video");
+        var modules = moduleService.findByCourseId(course.getId());
+        for(var mo : modules){
+            mo.setSchedule(scheduleRepository.findByBatch_IdAndModule_Id(user.getBatches().get(0).getId(), mo.getId()));
+        }
+        m.put("modules", modules.stream().filter(mo -> mo.getSchedule() != null ? mo.getSchedule().getDate().isBefore(LocalDate.now()) || mo.getSchedule().getDate().isEqual(LocalDate.now()) : mo.getId() == -5).toList());
+        System.out.println("module count : " + modules.stream().filter(mo -> mo.getSchedule() != null ? mo.getSchedule().getDate().isAfter(LocalDate.now()) || mo.getSchedule().getDate().isEqual(LocalDate.now()) : mo.getId() == -5).toList().size());
         return "student/STU-VD002";
     }
 
