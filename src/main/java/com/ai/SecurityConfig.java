@@ -32,6 +32,8 @@ public class SecurityConfig {
         http.exceptionHandling().accessDeniedPage("/denied-page");
         http.authorizeHttpRequests(auth -> auth
                 .mvcMatchers("/login", "/resources/**").permitAll()
+                .mvcMatchers("/forget-password", "/resources/**").permitAll()
+                .mvcMatchers("/reset_password", "/resources/**").permitAll()
                 .mvcMatchers("/admin/**").hasAuthority(Role.Admin.name())
                 .mvcMatchers("/teacher/**").hasAuthority(Role.Teacher.name())
                 .mvcMatchers("/student/**").hasAuthority(Role.Student.name()).anyRequest().authenticated());
