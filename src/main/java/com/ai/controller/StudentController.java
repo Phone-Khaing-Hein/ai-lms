@@ -73,7 +73,6 @@ public class StudentController {
         m.put("teachers", teachers);
         m.put("assignmentCount", assignmentService.findAll().stream().filter(a -> a.getStart().isBefore(LocalDateTime.now())).toList().stream().filter(a -> a.getBatch().getId() == user.getBatches().get(0).getId()).toList().size());
         m.put("nav", "dashboard");
-        m.put("progress", (double)user.getBatches().get(0).getCourse().getModules().stream().filter(module -> module.getSchedule() != null ? module.getSchedule().getDate().isBefore(LocalDate.now()) || module.getSchedule().getDate().isEqual(LocalDate.now()) : module.getId() == -5).toList().size() / (double)user.getBatches().get(0).getCourse().getModules().size() * 100);
         return "student/STU-DB001";
     }
 
@@ -82,7 +81,6 @@ public class StudentController {
         var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
         var user = userService.findByLoginId(loginId);
         m.put("course", user.getBatches().get(0).getCourse());
-        m.put("modules", user.getBatches().get(0).getCourse().getModules().stream().filter(module -> module.getSchedule() != null ? module.getSchedule().getDate().isBefore(LocalDate.now()) || module.getSchedule().getDate().isEqual(LocalDate.now()) : module.getId() == -5).toList());
         m.put("nav", "video");
         return "student/STU-VD002";
     }

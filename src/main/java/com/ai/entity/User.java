@@ -68,6 +68,10 @@ public class User {
     @JsonIgnore
     private List<StudentHasExam> studentHasExams;
 
+    @OneToOne(mappedBy = "user", cascade = {CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
+    @JsonIgnore
+    private AssignmentAnswer assignmentAnswer;
+
 	@Transient
     private Integer[] batchId;
 

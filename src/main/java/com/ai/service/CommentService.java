@@ -33,4 +33,8 @@ public class CommentService {
     public List<Comment> findByVideoId(Integer videoId) {
         return commentRepository.findByVideo_Id(videoId);
     }
+
+    public Comment findById(int i) {
+        return commentRepository.findById(i);
+    }
 }

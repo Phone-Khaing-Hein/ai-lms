@@ -9,7 +9,7 @@
 
 <body class="bg-light">
     <div layout:fragment="content">
-        <div class="container p-3 mt-5">
+        <div class="container p-3">
             <div class="mb-4">
                 <h3 class="text-decoration-none text-center">
                     <i class="bi bi-file-earmark-text me-2"></i>Exams
@@ -22,7 +22,7 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Course</th>
+                                <th>Batch</th>
                                 <th>Title</th>
                                 <th>Student</th>
                                 <th>Points</th>
@@ -31,7 +31,7 @@
                         <tbody id="app">
                             <tr th:each="e, row : ${exam}" style="vertical-align: middle;">
                                 <td>[[${row.index} + 1]]</td>
-                                <td>[[${e.exam.course.name}]]</td>
+                                <td>[[${e.student.batches.get(0).name}]]</td>
                                 <td>[[${e.exam.title}]]</td>
                                 <td>[[${e.student.name}]]</td>
                                 <td>[[${e.mark}]]</td>

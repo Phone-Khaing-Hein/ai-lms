@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ScheduleRepository extends JpaRepository<Schedule,Integer> {
+
+    Schedule findByBatch_IdAndModule_Id(Integer batchId, Integer moduleId);
 }

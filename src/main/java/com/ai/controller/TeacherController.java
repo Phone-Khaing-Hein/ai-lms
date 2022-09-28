@@ -112,9 +112,12 @@ public class TeacherController {
     public String batchDetail(@RequestParam int batchId, ModelMap m){
         var batch = batchService.findById(batchId);
         m.put("batch", batch);
+        var modules = batch.getCourse().getModules();
+        for(var module : modules){
+            module.setSchedule(scheduleRepository.findByBatch_IdAndModule_Id(batch.getId(), module.getId()));
+        }
         m.put("students", batch.getUsers().stream().filter(u -> u.getRole().equals(User.Role.Student)).toList());
-        m.put("modules", batch.getCourse().getModules());
-        m.put("schedule", scheduleRepository.findAll().stream().filter(s -> s.getBatch().getId() == batchId).toList());
+        m.put("modules", modules);
         m.put("attendance", attendanceService.findAllAttendanceByBatchId(batchId));
         m.put("batchHasExam", batchHasExamRepository.findByBatchId(batchId));
         m.put("assignmentAnswers", assignmentAnswerService.findAll().stream().filter(a -> a.getUser().getBatches().get(0).getId() == batch.getId()).toList());

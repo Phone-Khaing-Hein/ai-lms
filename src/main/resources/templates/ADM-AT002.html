@@ -26,24 +26,24 @@
     <div layout:fragment="content">
         <div class="container p-3">
             <div class="text-center mb-4">
-                <h2 class="mb-3"><i class="bi bi-file-earmark-text me-2"></i>
-                    Exam Mark List
+                <h2 class="mb-3"><i class="bi bi-journal-text me-2"></i>
+                    Assignment Mark List
                 </h2>
             </div>
-            <table id="example" class="stripe row-border order-column table-responsive overflow-scroll">
+            <table id="example" class="stripe row-border order-column overflow-scroll">
                 <thead>
                     <tr>
                         <th>Student Name</th>
-                        <th th:each="e : ${exam}">[[${e.exam.title}]]</th>
+                        <th th:each="a : ${assignment}">[[${a.assignment.title}]]</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr th:each="s : ${students}">
                         <td>[[${s.name}]]</td>
-                        <td th:each="e : ${s.studentHasExams}" th:if="${s.studentHasExams.size() > 0}">
-                            [[${e.mark}]]
+                        <td th:if="${s.assignmentAnswer != null}">
+                            [[${s.assignmentAnswer.mark}]]
                         </td>
-                        <td th:each="e : ${exam}" th:if="${s.studentHasExams.size() == 0}">
+                        <td th:if="${s.assignmentAnswer == null}">
                             0
                         </td>
                     </tr>
