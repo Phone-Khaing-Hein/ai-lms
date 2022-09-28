@@ -6,13 +6,15 @@
 
 <body>
     <header th:fragment="admin-header" style="margin-bottom: 100px">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow">
+        <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow">
             <div class="container-fluid">
                 <a class="navbar-brand" th:href="@{/admin/home}"><img
                         src="https://aceinspiration.com/wp-content/themes/acinspiration/images/logo.PNG" alt=""
                         width="160px"></a>
                 <h5 class="role" style="color: lightslategray;margin-bottom: 0;">ADMIN</h5>
-                <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarSupportedContent">
+                <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#admin-nav"><i
+                        class="navbar-toggler-icon"></i></button>
+                <div class="navbar-collapse collapse justify-content-end" id="admin-nav">
                     <div class="menu">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                             <li class="nav-item">
@@ -67,18 +69,15 @@
     </header>
 
     <header th:fragment="teacher-header" style="margin-bottom: 100px">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow">
+        <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow">
             <div class="container-fluid">
                 <a class="navbar-brand" th:href="@{/teacher/home}"><img
                         src="https://aceinspiration.com/wp-content/themes/acinspiration/images/logo.PNG" alt=""
                         width="160px"></a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
                 <h5 class="role" style="color: lightslategray;margin-bottom: 0;">INSTRUCTOR</h5>
-                <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarSupportedContent">
+                <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#teach-nav"><i
+                        class="navbar-toggler-icon"></i></button>
+                <div class="navbar-collapse collapse justify-content-end" id="teach-nav">
                     <div class="menu">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                             <li class="nav-item">
@@ -146,8 +145,8 @@
                     </li>
                 </ul>
                 <div>
-                    <a href="javascript: document.logoutForm.submit()" class="btn btn-outline-danger me-3">Log Out</a>
-                    <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+                    <a href="javascript: document.logoutForm.submit()" id="logout" class="btn btn-outline-danger me-3 btn-sm">Log Out<i class="bi bi-box-arrow-right ms-2"></i></a>
+                    <form id="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
                         <input hidden type="submit" class="" value="Sign Out">
                     </form>
                 </div>
