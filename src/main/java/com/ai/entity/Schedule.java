@@ -1,12 +1,13 @@
 package com.ai.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import org.springframework.format.annotation.DateTimeFormat;
-
-import groovy.transform.builder.Builder;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -14,7 +15,8 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Entity
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
