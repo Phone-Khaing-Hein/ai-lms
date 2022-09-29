@@ -63,6 +63,9 @@ public class StudentController {
     @Autowired
     private ScheduleRepository scheduleRepository;
 
+    @Autowired
+    private PrivateCommentService privateCommentService;
+
     @GetMapping("home")
     public String home(ModelMap m) {
         var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -222,6 +225,14 @@ public class StudentController {
         commentService.delete(commentId);
         attributes.addFlashAttribute("message", "Your comment deleted successfully!");
         return "redirect:/student/course";
+    }
+
+    @GetMapping("delete-private-comment")
+    public String deleteprivateComment(@RequestParam int commentId, RedirectAttributes attributes) {
+        var comment = privateCommentService.findById(commentId);
+        privateCommentService.delete(commentId);
+        attributes.addFlashAttribute("message", "Your comment deleted successfully!");
+        return "redirect:/student/assignment-detail?id=%s".formatted(comment.getAssignmentAnswer().getAssignment().getId());
     }
 
     @PostMapping("assignment-submit")

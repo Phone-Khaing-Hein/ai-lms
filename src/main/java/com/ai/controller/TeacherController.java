@@ -83,6 +83,9 @@ public class TeacherController {
 
     @Autowired
     private StudentHasExamService studentHasExamService;
+
+    @Autowired
+    private PrivateCommentService privateCommentService;
     
     private static final DecimalFormat df = new DecimalFormat("0.00");
 
@@ -341,8 +344,13 @@ public class TeacherController {
     }
 
     @PostMapping("assignment-check")
-    public String check(@RequestParam int id, @RequestParam int mark){
+    public String check(@RequestParam int id, @RequestParam int mark, ModelMap m){
         var assignmentAnswer = assignmentAnswerService.findById(id);
+        if(mark > assignmentAnswer.getAssignment().getMark()){
+            m.put("markError", "Pay mark should lower than full mark!");
+            m.put("assignmentAnswer", assignmentAnswer);
+            return "teacher/TCH-AD006";
+        }
         assignmentAnswer.setMark(mark);
         assignmentAnswerService.save(assignmentAnswer);
         return "redirect:/teacher/batch-detail?batchId=%d".formatted(assignmentAnswer.getAssignment().getBatch().getId());
@@ -455,6 +463,14 @@ public class TeacherController {
         assignmentService.save(assignment);
         attributes.addFlashAttribute("message", "%s updated successfully!".formatted(assignment.getTitle()));
         return "redirect:/teacher/assignment-list";
+    }
+
+    @GetMapping("delete-private-comment")
+    public String deleteComment(@RequestParam int commentId, RedirectAttributes attributes) {
+        var comment = privateCommentService.findById(commentId);
+        privateCommentService.delete(commentId);
+        attributes.addFlashAttribute("message", "Your comment deleted successfully!");
+        return "redirect:/teacher/assignment-detail?id=%s".formatted(comment.getAssignmentAnswer().getId());
     }
 
     @ModelAttribute("assignment")

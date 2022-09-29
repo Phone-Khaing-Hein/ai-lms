@@ -44,6 +44,7 @@
                                 <label for="mark">Give mark</label>
                                 <input type="number" class="form-control mb-2" name="mark" id="mark"
                                     placeholder="100" />
+                                <span th:if="${markError}" class="text-danger">[[${markError}]]</span>
                                 <button class="btn btn-dark w-100" type="submit">Mark As Done</button>
                             </form>
                         </div>
@@ -53,21 +54,24 @@
                             <p style="color: rgb(71, 68, 68)" class="ms-1">
                                 <i class="fas fa-user me-2"></i>Private Comments
                             </p>
+                            <span class="d-none alert alert-success" id="successMessage">[[${message}]]</span>
                             <input class="d-none" type="hidden" id="assignmentId"
                                 th:value="${assignmentAnswer.id}"></input>
                             <textarea cols="30" rows="10" style="max-height: 100px; resize: none;"
-                                placeholder="Add private comment ..." class="form-control" id="textBox"></textarea>
-                            <button class="btn btn-dark mt-2 btn-sm float float-end" @click="comment">
-                                Comment
-                            </button>
+                                placeholder="Add private comment ..." class="form-control" id="textBox"
+                                v-model="privateComment"></textarea>
+                            <button type="button" class="btn btn-dark mt-2 btn-sm float float-end" @click="comment"
+                                :disabled="privateComment.trim().length === 0">comment</button>
                         </div>
                         <hr>
                         <div class="p-2 d-flex align-items-center bg-light" v-for="m in messages"
                             style="border-bottom: 0.5px solid rgb(191, 189, 189);">
-                            <img :src="'http://localhost:9090/resources/profile/'+m.user.photo" width="50px"
-                                class="me-3" alt="">
+                            <img :src="'http://localhost:9090/resources/profile/'+m.user.photo" width="40" height="40"
+                                class="me-3 rounded-circle" alt="">
                             <div class="">
-                                <span style="font-size: 12px;">{{m.user.name}}</span>
+                                <span style="font-size: 12px;" class="me-2">{{m.user.name}}</span><span
+                                    class="text-danger" v-if="m.user.loginId == user.loginId" style="cursor: pointer;"
+                                    @click="deleteComment(m.id)"><i class="bi bi-trash-fill"></i></span>
                                 <p>{{m.comment}}</p>
                             </div>
                         </div>
@@ -76,11 +80,33 @@
             </div>
         </div>
         <script>
+            let message = document.getElementById('successMessage');
+            if (message !== null && message.innerText !== "") {
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 2000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                })
+
+                Toast.fire({
+                    icon: 'success',
+                    title: message.innerText
+                })
+            }
+
             const app = new Vue({
                 el: '#app',
                 data: {
                     messages: [],
-                    newMessage: {}
+                    newMessage: {},
+                    user: {},
+                    privateComment: ""
                 },
                 methods: {
                     comment(assignmentId) {
@@ -93,10 +119,33 @@
                         }).catch(function (error) {
                             console.log(error);
                         });
-                    }
+                    },
+                    getLoginUser() {
+                        return fetch('http://localhost:9090/teacher/chat/user')
+                            .then((res) => res.json())
+                            .then((data) => {
+                                this.user = data
+                            })
+                    },
+                    deleteComment(commentId) {
+                        Swal.fire({
+                            title: 'Are you sure?',
+                            text: "You won't be able to revert this!",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#d33',
+                            cancelButtonColor: '#3085d6',
+                            confirmButtonText: 'Yes, delete it!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location = `http://localhost:9090/teacher/delete-private-comment?commentId=${commentId}`
+                            }
+                        })
+                    },
                 },
                 async created() {
                     window.that = this;
+                    this.getLoginUser();
                     await axios.get('http://localhost:9090/teacher/private-messages', {
                         params: {
                             assignmentId: document.getElementById("assignmentId").value

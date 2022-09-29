@@ -21,5 +21,13 @@ public class PrivateCommentService {
     public List<PrivateComment> findByAssignmentId(int assignmentId) {
         return privateCommentRepository.findByAssignmentAnswer_Id(assignmentId);
     }
+
+    public void delete(int commentId) {
+        privateCommentRepository.deleteById(commentId);
+    }
+
+    public PrivateComment findById(int commentId) {
+        return privateCommentRepository.findById(commentId).get();
+    }
     
 }
