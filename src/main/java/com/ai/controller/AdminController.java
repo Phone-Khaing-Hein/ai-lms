@@ -297,6 +297,13 @@ public class AdminController {
     @PostMapping("batch-edit")
     public String batchEdit(@ModelAttribute Batch batch, RedirectAttributes attributes) throws IOException {
         var b = batchService.findById(batch.getId());
+        var ba = batchService.findByName(batch.getName());
+        if(ba != null){
+            if(ba.getId() != batch.getId()){
+                attributes.addFlashAttribute("error", "Batch Name has already existed!");
+                return "redirect:/admin/batch-list";
+            }
+        }
         b.setCourse(courseService.findById(batch.getCourse().getId()));
         b.setName(batch.getName());
         b.setStartDate(batch.getStartDate());
