@@ -10,7 +10,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-import org.hibernate.validator.internal.constraintvalidators.hv.ModCheckValidator;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -800,7 +799,7 @@ public class AdminControllerTest {
         .attendances(new ArrayList<Attendance>())
         .privateComments(new ArrayList<>())
         .studentHasExams(new ArrayList<>())
-        .assignmentAnswer(new AssignmentAnswer())
+        .assignmentAnswer(List.of(new AssignmentAnswer()))
         .batchId(id)
         .percentage(20)
         .build();

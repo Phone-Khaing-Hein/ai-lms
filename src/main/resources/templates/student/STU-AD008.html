@@ -17,7 +17,7 @@
                     <li class="breadcrumb-item active" aria-current="page">assignment-view</li>
                 </ol>
             </nav>
-            <div class="row" th:if="${answer == null}">
+            <div class="row" th:if="${answer == null || answer?.mark == 0}">
                 <div class="col-sm-12 col-md-9">
                     <h3 class="fw-bolder">
                         <i class="bi bi-journal-text me-2"></i>[[${assignment.title}]]
@@ -80,7 +80,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row" th:if="${answer != null}">
+            <div class="row" th:if="${answer != null && answer?.mark != 0}">
                 <div class="d-flex flex-column align-items-center justify-content-between" style="height: 400px;">
                     <h3>You already submitted this exam!
                         Mark [[${answer.mark}]] / [[${assignment.mark }]]</h3>
