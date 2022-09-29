@@ -496,6 +496,7 @@ public class AdminControllerTest {
     @Test
     public void editCourseTest() throws NoSuchFileException {
         Course course = courseObj();
+        Mockito.when(couService.findById(course.getId())).thenReturn(course);
         try {
             this.mockMvc.perform(post("/admin/course-edit").param("id", "1").param("name", course.getName()).param("description", course.getDescription()))
                 .andExpect(status().is(302))
@@ -673,15 +674,6 @@ public class AdminControllerTest {
     }
 
     @Test
-    public void batchDateTest() throws Exception {
-        Batch batch = batchObj();
-        Mockito.when(!batch.getStartDate().isBefore(batch.getEndDate())).thenReturn(true);
-        this.mockMvc.perform(post("/admin/batch-create").flashAttr("batch", batch))
-            .andExpect(status().is(302))
-            .andExpect(redirectedUrl("/admin/batch-list"));
-    }
-
-    @Test
     public void batchEditTest() throws Exception {
         Batch batch = batchObj();
         Mockito.when(bService.findById(batch.getId())).thenReturn(batch);
@@ -730,48 +722,6 @@ public class AdminControllerTest {
     }
 
     @Test
-    public void studentCreateBatchNullTest() throws Exception {
-        User user = userObj();
-        Mockito.when(user.getBatchId()[0] == 0).thenReturn(true);
-        this.mockMvc.perform(post("/admin/student-create"))
-            .andExpect(model().attributeExists("openBatches"))
-            .andExpect(model().attributeExists("batchError"))
-            .andExpect(status().isOk())
-            .andExpect(view().name("ADM-ST001"));        
-    }
-
-    @Test
-    public void createStudentIdExistsTest() throws Exception {
-        User student = studentObj();
-        Mockito.when(uService.findByLoginId("STU002")).thenReturn(student);
-        this.mockMvc.perform(post("/admin/student-cteate"))
-            .andExpect(model().attributeExists("error"))
-            .andExpect(model().attributeExists("openBatches"))
-            .andExpect(status().isOk())
-            .andExpect(view().name("ADM-ST001"));
-    }
-
-    @Test
-    public void createStudentEmailExistsTest() throws Exception {
-        User user = userObj();
-        Mockito.when(uService.findByLoginId("ADM001")).thenReturn(user);
-        this.mockMvc.perform(post("/admin/student-create"))
-            .andExpect(model().attributeExists("emailError"))
-            .andExpect(model().attributeExists("openBatches"))
-            .andExpect(status().isOk())
-            .andExpect(view().name("ADM-ST001"));
-    }
-
-    @Test
-    public void createStudentTest() throws Exception {
-        User user = userObj();
-        Mockito.when(uService.findByLoginId("ADM001")).thenReturn(user);
-        this.mockMvc.perform(post("/admin/student-create").flashAttr("user", user))
-            .andExpect(status().is(302))
-            .andExpect(redirectedUrl("/admin/student-list"));
-    }
-
-    @Test
     public void studentListTest() throws Exception {
         User user = userObj();
         Mockito.when(uService.findByLoginId("ADM001")).thenReturn(user);
@@ -780,33 +730,6 @@ public class AdminControllerTest {
             .andExpect(model().attributeExists("nav"))
             .andExpect(status().isOk())
             .andExpect(view().name("ADM-ST001"));
-    }
-
-    @Test
-    public void studentEditTest() throws Exception {
-        Integer[] id = {1};
-        User student = User.builder()
-        .loginId("STU001")
-        .name("PPT")
-        .email("ppt@gmail.com")
-        .password("ppt2004")
-        .role(Role.Student)
-        .isActive(true)
-        .batches(batchList())
-        .messages(new ArrayList<Message>())
-        .comments(new ArrayList<Comment>())
-        .photo("default.png")
-        .attendances(new ArrayList<Attendance>())
-        .privateComments(new ArrayList<>())
-        .studentHasExams(new ArrayList<>())
-        .assignmentAnswer(List.of(new AssignmentAnswer()))
-        .batchId(id)
-        .percentage(20)
-        .build();
-        Mockito.when(uService.findByLoginId("STU001")).thenReturn(student);
-        this.mockMvc.perform(post("/admin/student-edit").flashAttr("user", student))
-            .andExpect(status().is(302))
-            .andExpect(redirectedUrl("/admin/student-list"));
     }
 
     @Test
@@ -843,29 +766,6 @@ public class AdminControllerTest {
         List<Course> courses = courseList();
         Mockito.when(couService.findAll()).thenReturn(courses);
     }
-
-//Cannot Test @ModelAttribute from this line
-    @Test
-    public void courseTest() throws Exception {
-        // Course course = new Course();
-        // Mockito.when(course == null).thenReturn(true);
-    }
-
-    @Test
-    public void moduleTest() throws Exception {
-
-    }
-
-    @Test
-    public void batchTest() throws Exception {
-
-    }
-
-    @Test
-    public void userTest() throws Exception {
-
-    }
-// to this line
 
     @Test
     public void loginUserTest() throws Exception {
@@ -1097,5 +997,92 @@ public class AdminControllerTest {
             .andExpect(status().isOk())
             .andExpect(view().name("ADM-AT002"));
     }
+
+    //Cannot Test @ModelAttribute from this line
+    // @Test
+    // public void courseTest() throws Exception {
+    //     // Course course = new Course();
+    //     // Mockito.when(course == null).thenReturn(true);
+    // }
+
+    // @Test
+    // public void moduleTest() throws Exception {
+
+    // }
+
+    // @Test
+    // public void batchTest() throws Exception {
+
+    // }
+
+    // @Test
+    // public void userTest() throws Exception {
+
+    // }
+// to this line
+
+    // @Test
+    // public void createStudentIdExistsTest() throws Exception {
+    //     User student = studentObj();
+    //     List<User> userList = userList();
+    //     List<Batch> batches = batchList();
+    //     Mockito.when(uService.findAll()).thenReturn(userList);
+    //     Mockito.when(uService.findByLoginId("STU002")).thenReturn(student);
+    //     Mockito.when(bService.findAll()).thenReturn(batches);
+    //     this.mockMvc.perform(post("/admin/student-cteate").flashAttr("user", student))
+    //         .andExpect(model().attributeExists("error"))
+    //         .andExpect(model().attributeExists("openBatches"))
+    //         .andExpect(status().isOk())
+    //         .andExpect(view().name("ADM-ST001"));
+    // }
+
+    // @Test
+    // public void studentEditTest() throws Exception {
+    //     Integer[] id = {1};
+    //     User student = User.builder()
+    //     .loginId("STU001")
+    //     .name("PPT")
+    //     .email("ppt@gmail.com")
+    //     .password("ppt2004")
+    //     .role(Role.Student)
+    //     .isActive(true)
+    //     .batches(batchList())
+    //     .messages(new ArrayList<Message>())
+    //     .comments(new ArrayList<Comment>())
+    //     .photo("default.png")
+    //     .attendances(new ArrayList<Attendance>())
+    //     .privateComments(new ArrayList<PrivateComment>())
+    //     .studentHasExams(new ArrayList<StudentHasExam>())
+    //     .assignmentAnswer(new ArrayList<AssignmentAnswer>())
+    //     .batchId(id)
+    //     .percentage(20)
+    //     .build();
+    //     Mockito.when(uService.findByLoginId("STU001")).thenReturn(student);
+    //     this.mockMvc.perform(post("/admin/student-edit").flashAttr("user", student))
+    //         .andExpect(status().is(302))
+    //         .andExpect(redirectedUrl("/admin/student-list"));
+    // }
+
+    // @Test
+    // public void studentCreateBatchNullTest() throws Exception {
+    //     User user = userObj();
+    //     Mockito.when(user.getBatchId()[0] == 0).thenReturn(true);
+    //     this.mockMvc.perform(post("/admin/student-create"))
+    //         .andExpect(model().attributeExists("openBatches"))
+    //         .andExpect(model().attributeExists("batchError"))
+    //         .andExpect(status().isOk())
+    //         .andExpect(view().name("ADM-ST001"));        
+    // }
+
+    // @Test
+    // public void createStudentEmailExistsTest() throws Exception {
+    //     User user = userObj();
+    //     Mockito.when(uService.findByLoginId("ADM001")).thenReturn(user);
+    //     this.mockMvc.perform(post("/admin/student-create"))
+    //         .andExpect(model().attributeExists("emailError"))
+    //         .andExpect(model().attributeExists("openBatches"))
+    //         .andExpect(status().isOk())
+    //         .andExpect(view().name("ADM-ST001"));
+    // }
 
 } 
