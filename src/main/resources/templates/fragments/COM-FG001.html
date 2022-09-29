@@ -218,6 +218,7 @@
                             <input type="text" name="name" class="form-control mb-3" required maxlength="100"
                                 minlength="1" id="name" th:value="${course?.name}"
                                 placeholder="Example: Java Foundation, Web Development with Java">
+                            <span th:if="${error}" class="text-danger d-none" id="duplicateError">[[${error}]]</span>
                         </div>
 
                         <div class="form-group">

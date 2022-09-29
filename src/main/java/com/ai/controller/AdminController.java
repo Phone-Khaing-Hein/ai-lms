@@ -142,7 +142,13 @@ public class AdminController {
                              RedirectAttributes redirectAttrs) throws IllegalStateException, IOException {
 
         var course = courseService.findById(id);
-
+        var c = courseService.findByName(name);
+        if(c != null) {
+            if(c.getId() != course.getId()){
+                redirectAttrs.addFlashAttribute("error", "%s course has already existed!".formatted(name));
+                return "redirect:/admin/course-list";
+            }
+        }
         fileService.renameFolder(course.getName(), name);
 
         course.setName(name);
