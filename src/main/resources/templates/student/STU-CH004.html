@@ -32,7 +32,6 @@
             width: 50px;
             height: 50px;
             border-radius: 50%;
-            border: 2px solid #e84118;
             padding: 2px;
             flex: none;
         }
@@ -90,11 +89,7 @@
 
                                         <div class="position-relative avatar">
                                             <img :src="'http://localhost:9090/resources/profile/'+m.user.photo"
-                                                class="img-fluid rounded-circle" alt="">
-                                            <span
-                                                class="position-absolute bottom-0 start-100 translate-middle p-1 bg-success border border-light rounded-circle">
-                                                <span class="visually-hidden">New alerts</span>
-                                            </span>
+                                                class="rounded-circle" alt="" width="40" height="40">
                                         </div>
                                         <div class="pe-2">
                                             <div>
@@ -121,11 +116,8 @@
                                         </div>
                                         <div class="position-relative avatar">
                                             <img :src="'http://localhost:9090/resources/profile/'+user.photo"
-                                                class="img-fluid rounded-circle" alt="">
-                                            <span
-                                                class="position-absolute bottom-0 start-100 translate-middle p-1 bg-success border border-light rounded-circle">
-                                                <span class="visually-hidden">New alerts</span>
-                                            </span>
+                                                class="rounded-circle" alt="" width="40" height="40">
+
                                         </div>
                                     </div>
                                 </div>

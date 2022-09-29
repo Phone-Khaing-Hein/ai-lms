@@ -96,7 +96,21 @@ public class TeacherController {
             var chartData = new StudentCountChart(b.getName(), studentCount);
             attendanceChart.add(chartData);
         }
+
+        var batches = user.getBatches();
+        var examAnswers = new ArrayList<StudentHasExam>();
+        for(var b: batches){
+            for(var e: b.getBatchHasExams()){
+                for(var s: e.getExam().getStudentHasExams()){
+                    examAnswers.add(s);
+                }
+            }
+        }
+        m.put("batches", batches.stream().filter(b -> !b.isClose()).toList());
+        m.put("assignmentCount", assignmentService.findAll().stream().filter(a -> user.getBatches().contains(a.getBatch())).toList().size());
+        m.put("examCount", examAnswers.size());
         m.put("attendanceChart", attendanceChart);
+        m.put("batchCount", userService.findByLoginId(loginId).getBatches().size());
         return "teacher/TCH-DB001";
     }
 
@@ -106,6 +120,23 @@ public class TeacherController {
         var batches = userService.findByLoginId(loginId).getBatches();
         m.put("batches", batches);
         return "teacher/TCH-BT002";
+    }
+
+    @GetMapping("/batch")
+    public String batch(ModelMap m, @RequestParam int batchId){
+        var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
+        var user = userService.findByLoginId(loginId);
+        var batch = batchService.findById(batchId);
+        var course = batch.getCourse();
+        m.put("course", course);
+        m.put("nav", "video");
+        var modules = moduleService.findByCourseId(course.getId());
+        for(var mo : modules){
+            mo.setSchedule(scheduleRepository.findByBatch_IdAndModule_Id(batch.getId(), mo.getId()));
+        }
+        m.put("modules", modules.stream().filter(mo -> mo.getSchedule() != null ? mo.getSchedule().getDate().isBefore(LocalDate.now()) || mo.getSchedule().getDate().isEqual(LocalDate.now()) : mo.getId() == -5).toList());
+        m.put("user", user);
+        return "teacher/TCH-VD009";
     }
 
     @GetMapping("batch-detail")

@@ -73,7 +73,7 @@
                                 <td th:text="${student.name}"></td>
                                 <td th:text="${student.email}"></td>
                                 <td th:each="batch : ${student.batches}" th:text="${batch.name}"></td>
-                                <td th:text="${student.active} ? 'Active' : 'Inactive'"></td>
+                                <td th:text="${student.active} ? 'Active' : 'Suspend'"></td>
                                 <td class="text-end">
                                     <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
                                         th:data-bs-target="'#staticBackdrop'+${student.loginId}">Reset Password</button>

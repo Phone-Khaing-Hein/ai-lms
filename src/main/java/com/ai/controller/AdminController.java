@@ -386,7 +386,7 @@ public class AdminController {
     }
 
     @PostMapping("student-edit")
-    public String studentEdit(@ModelAttribute User user, RedirectAttributes attributes){
+    public String studentEdit(@ModelAttribute User user, RedirectAttributes attributes, ModelMap m){
         var student = userService.findByLoginId(user.getLoginId());
         student.setEmail(user.getEmail());
         var batch = List.of(batchService.findById(user.getBatchId()[0]));
@@ -394,6 +394,7 @@ public class AdminController {
         student.setActive(!batch.get(0).isClose());
         student.setName(user.getName());
         userService.save(student);
+        m.put("openBatches", batchService.findAll().stream().filter(b -> b.isClose() == false).toList());
         attributes.addFlashAttribute("message", "%s updated successfully!".formatted(student.getName()));
         return "redirect:/admin/student-list";
     }

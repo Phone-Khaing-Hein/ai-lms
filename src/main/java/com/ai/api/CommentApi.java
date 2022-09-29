@@ -28,7 +28,7 @@ public class CommentApi {
     @Autowired
     private VideoService videoService;
     
-    @PostMapping("student/comment")
+    @PostMapping({"student/comment", "teacher/comment"})
     public Comment comment(@RequestBody Comment comment){
         var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
         var user = userService.findByLoginId(loginId);
@@ -39,12 +39,12 @@ public class CommentApi {
         return commentService.save(comment);
     }
 
-    @GetMapping("student/comments/{videoId}")
+    @GetMapping({"student/comments/{videoId}", "teacher/comments/{videoId}"})
     public List<Comment> comments(@PathVariable("videoId") int videoId){
         return commentService.findByVideoId(videoId);
     }
 
-    @GetMapping("student/final-comment")
+    @GetMapping({"student/final-comment", "teacher/final-comment"})
     public Comment finalComment(){
         return commentService.findAllByOrderByIdDesc().stream().findFirst().get();
     }

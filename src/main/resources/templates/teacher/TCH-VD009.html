@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
-    layout:decorate="~{/layouts/STU-AUTH.html}">
+    layout:decorate="~{/layouts/AUTHENTICATED-TEACHER.html}">
 
 <head>
     <meta charset="UTF-8">
@@ -15,7 +15,7 @@
 <body class="bg-light">
     <div layout:fragment="content">
         <section class="mb-5">
-            <div class="container" style="padding-top: 80px;">
+            <div class="container">
                 <div class="row gx-2" th:if="${modules.size() > 0}">
                     <div class="col-md-9 col-sm-12">
                         <div class="row gx-2">
@@ -258,7 +258,7 @@
                     async getComments() {
                         try {
                             let videoId = document.getElementById("courseVideo").getAttribute("video-id")
-                            let response = await axios.get(`http://localhost:9090/student/comments/${videoId}`);
+                            let response = await axios.get(`http://localhost:9090/teacher/comments/${videoId}`);
                             console.log(response.data);
                             this.comments = response.data
                             console.log(this.comments);
@@ -268,7 +268,7 @@
                         return;
                     },
                     async commentSend() {
-                        await axios.post('http://localhost:9090/student/comment', {
+                        await axios.post('http://localhost:9090/teacher/comment', {
                             comment: this.newComment,
                             videoId: document.getElementById("courseVideo").getAttribute("video-id")
                         }).then(function (response) {
@@ -291,7 +291,7 @@
                     //     return;
                     // },
                     getLoginUser() {
-                        return fetch('http://localhost:9090/student/chat/user')
+                        return fetch('http://localhost:9090/teacher/chat/user')
                             .then((res) => res.json())
                             .then((data) => {
                                 this.user = data
@@ -303,12 +303,12 @@
                             text: "You won't be able to revert this!",
                             icon: 'warning',
                             showCancelButton: true,
-                            confirmButtonColor: '#d33',
-                            cancelButtonColor: '#3085d6',
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
                             confirmButtonText: 'Yes, delete it!'
                         }).then((result) => {
                             if (result.isConfirmed) {
-                                window.location = `http://localhost:9090/student/delete-comment?commentId=${commentId}`
+                                window.location = `http://localhost:9090/teacher/delete-comment?commentId=${commentId}`
                             }
                         })
                     },

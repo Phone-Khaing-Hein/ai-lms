@@ -68,11 +68,17 @@ public class StudentController {
         var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
         var user = userService.findByLoginId(loginId);
         Integer batchId = user.getBatches().get(0).getId();
-        var batchCount = batchHasExamService.getBatchHasExamListByBatchId(batchId).stream().filter(e -> e. getStart() != null ? e.getStart().isBefore(LocalDateTime.now()) : e.getId() == -5).toList().size();
-        m.put("batchCount", batchCount);
+        var batches = batchHasExamService.getBatchHasExamListByBatchId(batchId).stream().filter(e -> e. getStart() != null ? e.getStart().isBefore(LocalDateTime.now()) : e.getId() == -5).toList();
+        m.put("batchCount", batches.size());
         var teachers = userService.findAll().stream()
                 .filter(u -> u.getRole().equals(User.Role.Teacher))
                 .filter(t -> t.getBatches().contains(batchService.findById(user.getBatches().get(0).getId()))).toList();
+        
+        var modules = moduleService.findByCourseId(batchService.findById(batchId).getCourse().getId());
+        for(var mo : modules){
+            mo.setSchedule(scheduleRepository.findByBatch_IdAndModule_Id(user.getBatches().get(0).getId(), mo.getId()));
+        }
+        m.put("progress",  (double)modules.stream().filter(mo -> mo.getSchedule() != null ? mo.getSchedule().getDate().isBefore(LocalDate.now()) || mo.getSchedule().getDate().isEqual(LocalDate.now()) : mo.getId() == -5).toList().size() / (double)modules.size() * 100);
         m.put("user", user);
         m.put("teachers", teachers);
         m.put("assignmentCount", assignmentService.findAll().stream().filter(a -> a.getStart().isBefore(LocalDateTime.now())).toList().stream().filter(a -> a.getBatch().getId() == user.getBatches().get(0).getId()).toList().size());
@@ -92,7 +98,6 @@ public class StudentController {
             mo.setSchedule(scheduleRepository.findByBatch_IdAndModule_Id(user.getBatches().get(0).getId(), mo.getId()));
         }
         m.put("modules", modules.stream().filter(mo -> mo.getSchedule() != null ? mo.getSchedule().getDate().isBefore(LocalDate.now()) || mo.getSchedule().getDate().isEqual(LocalDate.now()) : mo.getId() == -5).toList());
-        System.out.println("module count : " + modules.stream().filter(mo -> mo.getSchedule() != null ? mo.getSchedule().getDate().isAfter(LocalDate.now()) || mo.getSchedule().getDate().isEqual(LocalDate.now()) : mo.getId() == -5).toList().size());
         return "student/STU-VD002";
     }
 

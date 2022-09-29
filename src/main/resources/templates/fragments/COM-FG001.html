@@ -156,10 +156,10 @@
     </header>
 
     <!-- start footer section -->
-    <div th:fragment="all-footer" class="py-3" style="background: #0d6efd;margin-top: auto;">
+    <div th:fragment="all-footer" class="py-3" style="background: #324DA0;margin-top: auto;">
         <div class="container-fluid">
             <div class="col-12 text-center">
-                <p class="text-light m-0">&copy; Copyright <span id="autoyear"></span> - Made by Ace Inspiration Co.,Ltd
+                <p class="text-light m-0">&copy; Copyright <span id="autoyear"></span> - Ace Inspiration Co.,Ltd
                 </p>
             </div>
         </div>
@@ -445,7 +445,7 @@
                             <select class="form-select" th:required="true" name="batchId">
                                 <option value="">Select Batch</option>
                                 <option th:selected="${#strings.equals(batch.name, student?.batches?.get(0)?.name)}"
-                                    th:each="batch : ${batches}" th:value="${batch.id}" th:text="${batch.name}">
+                                    th:each="batch : ${openBatches}" th:value="${batch.id}" th:text="${batch.name}">
                                 </option>
                             </select>
                             <span class="text-danger" th:if="${batchError}" th:text="${batchError}"
@@ -574,21 +574,22 @@
                                 <input type="text" th:field="*{loginId}" class="form-control mt-2"
                                     placeholder="Enter ID" id="id" th:required="true" />
                                 <span th:errors="*{loginId}" class="text-danger"></span>
-                                <span th:text="${error}" class="text-danger" th:if="${error != null}" id="error"></span>
+                                <span th:text="${error}" class="text-danger" th:if="${error != null}"
+                                    id="duplicateError"></span>
                             </div>
                             <div class="form-group mb-3">
                                 <label for="name">Teacher Name</label>
                                 <input type="text" th:field="*{name}" class="form-control mt-2"
                                     placeholder="Enter Teacher Name" id="teacher" th:required="true" />
                                 <span th:errors="*{name}" class="text-danger"></span>
-                                <span th:text="${error}" class="text-danger" th:if="${error != null}" id="error"></span>
+
                             </div>
                             <div class="form-group mb-3">
                                 <label for="email">Email</label>
                                 <input type="email" th:field="*{email}" class="form-control mt-2"
                                     placeholder="Enter Email" id="email" th:required="true" />
                                 <span th:errors="*{email}" class="text-danger"></span>
-                                <span th:text="${error}" class="text-danger" th:if="${error != null}" id="error"></span>
+
                             </div>
                             <div class="form-group mb-3">
                                 <label for="batchId">Select Batch</label>
