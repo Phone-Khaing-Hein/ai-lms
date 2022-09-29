@@ -25,5 +25,9 @@ public class AssignmentAnswerService {
     public AssignmentAnswer findById(int id) {
         return assignmentAnswerRepository.findById(id).get();
     }
+
+    public AssignmentAnswer findByAssignment_IdAndUser_LoginId(int id, String loginId) {
+        return assignmentAnswerRepository.findByAssignment_IdAndUser_LoginId(id, loginId);
+    }
     
 }

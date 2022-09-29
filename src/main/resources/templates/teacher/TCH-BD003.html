@@ -107,12 +107,18 @@
                                                         th:classappend="${e.start} != null ? 'd-none disabled' : ''"
                                                         class="form-control">
                                                     <span th:if="${e.start} != null">[[${e.start}]]</span>
+                                                    <span class="text-danger"
+                                                        th:if="${startDateError} != null">[[${startDateError}]]</span>
                                                 </td>
                                                 <td>
                                                     <input type="datetime-local"
                                                         th:classappend="${e.end} != null ? 'd-none disabled' : ''"
                                                         class="form-control" name="end">
                                                     <span th:if="${e.end} != null">[[${e.end}]]</span>
+                                                    <span class="text-danger"
+                                                        th:if="${endDateError} != null">[[${endDateError}]]</span>
+                                                    <span class="text-danger"
+                                                        th:if="${dateError} != null">[[${dateError}]]</span>
                                                 </td>
                                                 <input type="hidden" name="batchId" th:value="${batch.id}">
                                                 <input type="hidden" name="examId" th:value="${e.exam.id}">

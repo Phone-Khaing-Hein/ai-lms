@@ -343,13 +343,20 @@ public class TeacherController {
                                 RedirectAttributes attributes){
 
         if(start == null){
+             attributes.addFlashAttribute("startDateError", "Start date is required!");
             if(end == null){
-
+                attributes.addFlashAttribute("endDateError", "End date is required!");
             }
             return "redirect:/teacher/batch-detail?batchId=%d#exam-tab".formatted(batchId);
         }
 
         if(end == null){
+            attributes.addFlashAttribute("endDateError", "End date is required!");
+            return "redirect:/teacher/batch-detail?batchId=%d#exam-tab".formatted(batchId);
+        }
+
+        if(start.isAfter(end)){
+            attributes.addFlashAttribute("dateError", "Start date must earlier than end date!");
             return "redirect:/teacher/batch-detail?batchId=%d#exam-tab".formatted(batchId);
         }
 

@@ -35,7 +35,7 @@ public class AssignmentAnswer {
 
     private String answer;
 
-    @OneToOne
+    @ManyToOne
     private User user;
 
     @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", nullable = false)

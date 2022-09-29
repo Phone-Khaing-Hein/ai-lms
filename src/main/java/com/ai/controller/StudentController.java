@@ -198,7 +198,17 @@ public class StudentController {
 
     @GetMapping("assignment-detail")
     public String assignmentDetail(@RequestParam int id, ModelMap m) {
-        m.put("assignment", assignmentService.findById(id));
+        var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
+        var student = userService.findByLoginId(loginId);
+        var assignmentAnswer = assignmentAnswerService.findByAssignment_IdAndUser_LoginId(id, student.getLoginId());
+        if(assignmentAnswer == null){
+            m.put("assignment", assignmentService.findById(id));
+        }else{
+            m.put("assignment", assignmentAnswer.getAssignment());
+            System.out.println(assignmentAnswer.getId());
+            m.put("answer", assignmentAnswer);
+        }
+        
         return "student/STU-AD008";
     }
 
@@ -216,6 +226,11 @@ public class StudentController {
         var loginId = SecurityContextHolder.getContext().getAuthentication().getName();
         var user = userService.findByLoginId(loginId);
         var answer = new AssignmentAnswer();
+        var assignmentAnswer = assignmentAnswerService.findByAssignment_IdAndUser_LoginId(id, user.getLoginId());
+        if(assignmentAnswer != null){
+            answer = assignmentAnswer;
+        }
+        
         answer.setUser(user);
         answer.setAssignment(assignment);
         fileService.createFolderForAssignmentAnswer();

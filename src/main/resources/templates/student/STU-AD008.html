@@ -17,14 +17,16 @@
                     <li class="breadcrumb-item active" aria-current="page">assignment-view</li>
                 </ol>
             </nav>
-            <div class="row">
+            <div class="row" th:if="${answer == null}">
                 <div class="col-sm-12 col-md-9">
                     <h3 class="fw-bolder">
-                        <i class="fas fa-file-alt me-3"></i>[[${assignment.title}]]
+                        <i class="bi bi-journal-text me-2"></i>[[${assignment.title}]]
                     </h3>
                     <span class="text-muted">[[${#temporals.format(assignment.start, 'yyyy-MM-dd hh:mm a')}]]</span>
                     <p style="color: rgb(71, 68, 68)" class="d-flex justify-content-between align-items-center mt-2">
-                        <span>[[${assignment.mark}]] points</span><span>Due [[${#temporals.format(assignment.end,
+                        <span>[[${assignment.mark}]]
+                            points</span><span>Due
+                            [[${#temporals.format(assignment.end,
                             'yyyy-MM-dd hh:mm
                             a')}]]</span>
                     </p>
@@ -76,6 +78,13 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="row" th:if="${answer != null}">
+                <div class="d-flex flex-column align-items-center justify-content-between" style="height: 400px;">
+                    <h3>You already submitted this exam!
+                        Mark [[${answer.mark}]] / [[${assignment.mark }]]</h3>
+                    <img th:src="@{/resources/assets/logo/complete.svg}" alt="complete" height="400">
                 </div>
             </div>
 
